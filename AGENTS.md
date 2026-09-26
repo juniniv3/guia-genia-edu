@@ -30,6 +30,7 @@ src/
 - Default to `.astro` components; use React only for interactive islands.
 - Hydrate React components explicitly with a `client:*` directive (`client:load`, `client:visible`, `client:idle`); prefer the laziest one that works.
 - React components are default-exported, PascalCase, one per file.
+- Deployed to GitHub Pages under `base: '/guia-genia-edu'`. Never hardcode root-absolute URLs (`/foo`); prefix internal links and `public/` assets with `import.meta.env.BASE_URL`.
 - Tests are colocated next to the source: `Component.test.tsx`, `util.test.ts`. Use Testing Library, querying by role/label.
 
 ## Conventions
