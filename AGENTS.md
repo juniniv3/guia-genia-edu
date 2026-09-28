@@ -38,6 +38,7 @@ src/
 - Conventional commits (feat:, fix:, chore:)
 - Never edit files in `legacy/`
 - TypeScript is pinned to 6.x: `typescript-eslint` and `astro check` don't support TS 7 yet. Don't upgrade it.
+- `ajv@^8` is a direct devDependency on purpose: it satisfies a peer dep of `@astrojs/check`'s YAML server, which otherwise resolves to eslint's `ajv@6` and breaks `npm ci` in CI. Don't remove it.
 
 ## Development
 
