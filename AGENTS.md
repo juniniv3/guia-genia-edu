@@ -30,6 +30,7 @@ src/
 - Default to `.astro` components; use React only for interactive islands.
 - Hydrate React components explicitly with a `client:*` directive (`client:load`, `client:visible`, `client:idle`); prefer the laziest one that works.
 - React components are default-exported, PascalCase, one per file.
+- Deployed to GitHub Pages under `base: '/guia-genia-edu'`. Never hardcode root-absolute URLs (`/foo`); prefix internal links and `public/` assets with `import.meta.env.BASE_URL`.
 - Tests are colocated next to the source: `Component.test.tsx`, `util.test.ts`. Use Testing Library, querying by role/label.
 
 ## Conventions
@@ -37,6 +38,7 @@ src/
 - Conventional commits (feat:, fix:, chore:)
 - Never edit files in `legacy/`
 - TypeScript is pinned to 6.x: `typescript-eslint` and `astro check` don't support TS 7 yet. Don't upgrade it.
+- `ajv@^8` is a direct devDependency on purpose: it satisfies a peer dep of `@astrojs/check`'s YAML server, which otherwise resolves to eslint's `ajv@6` and breaks `npm ci` in CI. Don't remove it.
 
 ## Development
 
