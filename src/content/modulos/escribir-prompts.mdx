@@ -1,0 +1,146 @@
+---
+title: 'Cómo pedirle a la IA: escribir buenos prompts'
+navTitle: Escribir buenos prompts
+description: Los seis ingredientes de un buen prompt educativo, ejemplos de antes y después, y estrategias para mejorar las respuestas.
+summary: Los seis ingredientes de un buen prompt y cómo mejorarlo.
+order: 4
+section: ruta
+readingMinutes: 10
+sources:
+  - White et al. (2023). Catálogo de patrones de prompts
+  - Lo (2023). Marco CLEAR
+  - Federiakin et al. (2024)
+  - Lee y Palmer (2025)
+  - UNESCO (2024). Guía para el uso de IA generativa en educación e investigación
+---
+
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import Callout from '../../components/Callout.astro';
+import PromptExample from '../../components/PromptExample.astro';
+import Resumen from '../../components/Resumen.astro';
+
+## ¿Qué es un prompt?
+
+Un **prompt** es la instrucción que le das a la IA. No es solo una pregunta: es una **instrucción pensada** que orienta lo que la herramienta va a producir.
+
+La **ingeniería de prompts** es la habilidad de diseñar, ajustar y mejorar esas instrucciones. Pequeños cambios en cómo pides algo producen grandes diferencias en el resultado. No es una habilidad innata: se aprende con práctica y con criterios claros.
+
+<Callout type="idea">
+La IA no conoce tu clase. **Todo lo que no le digas, lo va a suponer.**
+</Callout>
+
+## Los 6 ingredientes de un buen prompt educativo
+
+| # | Ingrediente | Pregunta que responde | Ejemplo |
+| --- | --- | --- | --- |
+| 1 | **Rol** | ¿Quién quiero que sea la IA? | "Actúa como docente de matemáticas de primaria con experiencia en educación inclusiva." |
+| 2 | **Contexto de tus estudiantes** | ¿Para quién es el material? | "Grado 5, 28 estudiantes de 10 y 11 años de un colegio público de Bucaramanga. Varios aún confunden numerador y denominador." |
+| 3 | **Objetivo de aprendizaje** | ¿Qué deben lograr? | "Que reconozcan fracciones equivalentes." |
+| 4 | **Tarea** | ¿Qué material necesito? | "Crea una guía de ejercicios en tres niveles de dificultad." |
+| 5 | **Formato** | ¿Cómo lo quiero recibir? | "Una tabla con las columnas nivel, ejercicio y pista. Máximo una página por nivel." |
+| 6 | **Criterios y restricciones** | ¿Qué debe cumplir o evitar? | "Lenguaje sencillo, ejemplos de la vida cotidiana en Colombia, sin incluir las respuestas." |
+
+<Callout type="consejo">
+No siempre necesitas los seis. Para una pregunta rápida basta con la tarea. Pero para crear un material de clase, **mientras más ingredientes incluyas, menos tendrás que corregir**.
+</Callout>
+
+<Callout type="cuidado">
+El "contexto de tus estudiantes" es una **descripción del grupo**, nunca datos personales. No escribas nombres, notas ni diagnósticos (ver Paso 7).
+</Callout>
+
+## Antes y después
+
+### Ejemplo 1: matemáticas, primaria
+
+<BeforeAfter>
+<PromptExample variant="weak">
+Hazme un taller de fracciones.
+</PromptExample>
+<PromptExample variant="strong">
+Actúa como docente de matemáticas de primaria con experiencia en educación inclusiva.
+Mis estudiantes son de grado 5 (10 y 11 años), en un colegio público de Bucaramanga. Varios aún confunden numerador y denominador.
+Objetivo: que reconozcan fracciones equivalentes.
+Crea una guía de ejercicios en tres niveles:
+- Nivel 1: con dibujos y un ejemplo resuelto.
+- Nivel 2: ejercicios con la recta numérica.
+- Nivel 3: un problema abierto de la vida cotidiana.
+
+Preséntalo en una tabla con las columnas nivel, ejercicio y pista. Usa lenguaje sencillo y ejemplos de Colombia (arepas, pesos, la tienda del barrio). No incluyas las respuestas.
+</PromptExample>
+</BeforeAfter>
+
+**¿Qué cambió?** El segundo prompt dice *para quién* es, *para qué* sirve y *cómo* debe verse. El resultado sale mucho más cerca de lo que necesitas y solo requiere ajustes menores.
+
+### Ejemplo 2: lenguaje, secundaria
+
+<BeforeAfter>
+<PromptExample variant="weak">
+Haz preguntas sobre un cuento.
+</PromptExample>
+<PromptExample variant="strong">
+Eres docente de lenguaje de grado 8.
+Mis estudiantes leyeron el cuento que pego abajo. Algunos tienen dificultades para hacer inferencias.
+Objetivo: desarrollar la comprensión inferencial.
+Crea 9 preguntas sobre el cuento: 3 literales, 3 inferenciales y 3 críticas. Para cada pregunta inferencial, agrega una pista que ayude a encontrar la respuesta en el texto.
+Formato: lista numerada, agrupada por tipo de pregunta.
+Básate solo en el texto que te doy.
+[Pega aquí el cuento]
+</PromptExample>
+</BeforeAfter>
+
+Fíjate en la última instrucción: **"básate solo en el texto que te doy"**. Cuando le das a la IA el material original, se reduce el riesgo de que invente detalles.
+
+## El marco CLEAR: cinco cualidades de un buen prompt
+
+Lo (2023) propone revisar tus prompts con cinco cualidades:
+
+- **C**onciso: claro y directo, sin palabras de relleno.
+- **L**ógico: ordenado. Primero el contexto, luego la tarea y al final el formato.
+- **E**xplícito: dice exactamente qué quieres (extensión, nivel, formato).
+- **A**daptativo: lo ajustas según la respuesta que recibes.
+- **R**eflexivo: evalúas críticamente el resultado y aprendes para la próxima vez.
+
+## Conversa: el primer resultado es un borrador
+
+Rara vez el primer resultado es el definitivo. La gran ventaja de estas herramientas es que puedes **seguir conversando** para mejorar el material sin empezar de cero. Por ejemplo:
+
+<PromptExample label="Mensajes de ajuste">
+"El nivel 1 está muy difícil. Agrega un ejemplo resuelto y una pista en cada ejercicio."
+"Cambia los ejemplos para que hablen de fútbol y de la tienda del barrio."
+"Convierte la explicación en una tabla de dos columnas."
+"Revisa tu respuesta: ¿hay algún error matemático?"
+"Hazlo más corto: máximo 150 palabras."
+</PromptExample>
+
+## Estrategias que funcionan
+
+Los investigadores han identificado "patrones" de prompts que resuelven problemas frecuentes (White et al., 2023). Estos son los más útiles para docentes:
+
+| Estrategia | Para qué sirve | Cómo pedirlo |
+| --- | --- | --- |
+| **Rol** | Que responda desde una experticia. | "Actúa como orientadora escolar experta en educación inclusiva…" |
+| **Audiencia** | Ajustar el lenguaje al destinatario. | "Explícalo para un niño de 8 años." / "Redáctalo para enviar a las familias." |
+| **Que te pregunte primero** | Que reúna la información que necesita antes de crear. | "Antes de crear el material, hazme las preguntas que necesites sobre mis estudiantes, una por una." |
+| **Plantilla** | Recibir siempre la misma estructura. | "Usa exactamente esta estructura: título, objetivo, actividad, cierre." |
+| **Lista de verificación** | Saber qué datos revisar. | "Al final, haz una lista de los datos y afirmaciones que debo verificar." |
+| **Reflexión** | Entender sus decisiones. | "Explica por qué organizaste la actividad así y qué supusiste sobre mis estudiantes." |
+
+<Callout type="consejo" title="Si no sabes por dónde empezar">
+Usa la estrategia **"que te pregunte primero"**. Escribe: *"Quiero crear un material para mi clase. Antes de hacerlo, hazme todas las preguntas que necesites, una por una"*. La IA te guiará y tú solo respondes.
+</Callout>
+
+## Errores comunes
+
+- **Pedir todo en un solo mensaje enorme y confuso.** Mejor divide la tarea en pasos.
+- **No decir el grado ni la edad.** El nivel del lenguaje y de los ejemplos quedará al azar.
+- **No decir el objetivo.** Obtendrás un material bonito, pero sin propósito claro.
+- **Aceptar la primera respuesta sin revisarla.** Siempre es un borrador.
+- **Incluir datos personales de estudiantes.** Describe necesidades, no personas.
+- **Pedir "algo creativo" sin criterios.** Di qué entiendes por creativo: un juego, una historia, un reto.
+
+<Resumen>
+- Un buen prompt educativo tiene **6 ingredientes**: rol, contexto de tus estudiantes, objetivo, tarea, formato y criterios.
+- Revisa tus prompts con **CLEAR**: conciso, lógico, explícito, adaptativo y reflexivo.
+- **Conversa y ajusta**: el primer resultado es un borrador.
+- Si no sabes por dónde empezar, pídele a la IA que **te pregunte primero**.
+</Resumen>

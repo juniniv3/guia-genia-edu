@@ -1,0 +1,344 @@
+/* ---------- Design tokens ---------- */
+:root {
+  color-scheme: light;
+
+  --bg: #fbf7f0;
+  --surface: #ffffff;
+  --surface-2: #f3ece1;
+  --text: #1e2a2b;
+  --text-muted: #4d5b5c;
+  --border: #e0d5c3;
+
+  --primary: #0f6b66;
+  --primary-strong: #0a4e4a;
+  --primary-soft: #e2f1ee;
+  --on-primary: #ffffff;
+  --accent: #a8520b;
+  --accent-soft: #fdefdc;
+  --focus: #d97706;
+
+  --idea: #0f6b66;
+  --idea-bg: #e4f2ef;
+  --consejo: #2f6f3a;
+  --consejo-bg: #e8f4e8;
+  --cuidado: #a3410d;
+  --cuidado-bg: #fdeee0;
+  --ejemplo: #4a4ca8;
+  --ejemplo-bg: #eeeefa;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 2px rgb(30 42 43 / 6%), 0 4px 16px rgb(30 42 43 / 6%);
+
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --measure: 70ch;
+  --gutter: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --bg: #121a1b;
+    --surface: #1a2425;
+    --surface-2: #223031;
+    --text: #e8eeec;
+    --text-muted: #a8b6b3;
+    --border: #33423f;
+
+    --primary: #5ec5ba;
+    --primary-strong: #8adbd1;
+    --primary-soft: #1b3533;
+    --on-primary: #0b1e1c;
+    --accent: #f2b45c;
+    --accent-soft: #3a2c17;
+    --focus: #f2b45c;
+
+    --idea: #5ec5ba;
+    --idea-bg: #17302e;
+    --consejo: #7fcf8a;
+    --consejo-bg: #1a2e1d;
+    --cuidado: #f4a06a;
+    --cuidado-bg: #3a2416;
+    --ejemplo: #a9abf2;
+    --ejemplo-bg: #23244a;
+
+    --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 4px 16px rgb(0 0 0 / 25%);
+  }
+}
+
+@media (min-width: 720px) {
+  :root {
+    --gutter: 1.5rem;
+  }
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 112.5%; /* 18px: comfortable for long reading */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+a {
+  color: var(--primary);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  color: var(--primary-strong);
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 10;
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: var(--on-primary);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 0.5rem;
+  color: var(--on-primary);
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.3rem;
+  border: 2px solid var(--primary);
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: var(--primary-strong);
+  border-color: var(--primary-strong);
+  color: var(--on-primary);
+}
+
+.button--ghost {
+  background: transparent;
+  color: var(--primary);
+}
+
+.button--ghost:hover {
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+/* ---------- Long-form content rendered from MDX ---------- */
+.prose {
+  max-width: var(--measure);
+}
+
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose h2 {
+  margin: 2.6rem 0 0.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--border);
+  font-size: 1.6rem;
+  scroll-margin-top: 1rem;
+}
+
+.prose h3 {
+  margin: 2rem 0 0.5rem;
+  font-size: 1.22rem;
+  scroll-margin-top: 1rem;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+  margin: 0 0 1rem;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4rem;
+}
+
+.prose li {
+  margin-bottom: 0.4rem;
+}
+
+.prose li::marker {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.prose strong {
+  font-weight: 700;
+}
+
+.prose blockquote {
+  margin: 1.5rem 0;
+  padding: 0.25rem 0 0.25rem 1.2rem;
+  border-left: 4px solid var(--accent);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.prose hr {
+  margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.prose code {
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--surface-2);
+  font-size: 0.9em;
+}
+
+/* Tables scroll sideways on narrow screens instead of widening the page. */
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.prose th,
+.prose td {
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--surface-2);
+  font-weight: 700;
+}
+
+.prose td {
+  background: var(--surface);
+}
+
+/* GFM task lists work as a printable, read-only checklist. */
+.prose li:has(> input[type='checkbox']) {
+  list-style: none;
+  margin-left: -1.4rem;
+  padding-left: 1.9rem;
+  text-indent: -1.9rem;
+}
+
+.prose input[type='checkbox'] {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin: 0 0.75rem 0 0;
+  vertical-align: -0.15em;
+  accent-color: var(--primary);
+}
+
+/* ---------- Print: a module should print as a clean handout ---------- */
+@media print {
+  :root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #f2f2f2;
+    --text: #000000;
+    --text-muted: #333333;
+  }
+
+  html {
+    font-size: 11pt;
+  }
+
+  .no-print,
+  .skip-link {
+    display: none !important;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  .prose h2,
+  .prose h3 {
+    break-after: avoid;
+  }
+
+  .prose table,
+  .prose li {
+    break-inside: avoid;
+  }
+}

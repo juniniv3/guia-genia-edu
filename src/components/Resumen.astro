@@ -1,0 +1,37 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = 'En resumen' } = Astro.props;
+---
+
+<section class="resumen" aria-label={title}>
+  <p class="resumen__title">{title}</p>
+  <slot />
+</section>
+
+<style>
+  .resumen {
+    margin: 2.5rem 0 1rem;
+    padding: 1.2rem 1.4rem;
+    border: 2px solid var(--primary);
+    border-radius: var(--radius);
+    background: var(--primary-soft);
+  }
+
+  .resumen__title {
+    margin: 0 0 0.5rem;
+    color: var(--primary-strong);
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+
+  .resumen :global(ul) {
+    margin-bottom: 0;
+  }
+
+  .resumen > :global(:last-child) {
+    margin-bottom: 0;
+  }
+</style>

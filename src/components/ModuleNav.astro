@@ -1,0 +1,111 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getResourceModules, getRouteModules, moduleHref } from '../lib/modules';
+
+interface Props {
+  modules: CollectionEntry<'modulos'>[];
+  currentId: string;
+}
+
+const { modules, currentId } = Astro.props;
+const route = getRouteModules(modules);
+const resources = getResourceModules(modules);
+const label = (m: CollectionEntry<'modulos'>) => m.data.navTitle ?? m.data.title;
+---
+
+<nav class="module-nav" aria-label="Pasos de la guía">
+  <p class="module-nav__heading">La ruta</p>
+  <ol class="module-nav__list">
+    {
+      route.map((m, i) => (
+        <li>
+          <a href={moduleHref(m.id)} aria-current={m.id === currentId ? 'page' : undefined}>
+            <span class="module-nav__num" aria-hidden="true">
+              {i + 1}
+            </span>
+            <span>
+              <span class="visually-hidden">Paso {i + 1}: </span>
+              {label(m)}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+  <p class="module-nav__heading">Recursos</p>
+  <ul class="module-nav__list">
+    {
+      resources.map((m) => (
+        <li>
+          <a href={moduleHref(m.id)} aria-current={m.id === currentId ? 'page' : undefined}>
+            {label(m)}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .module-nav {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .module-nav__heading {
+    margin: 1.25rem 0 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .module-nav__heading:first-child {
+    margin-top: 0;
+  }
+
+  .module-nav__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .module-nav a {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .module-nav a:hover {
+    background: var(--surface-2);
+  }
+
+  .module-nav a[aria-current='page'] {
+    background: var(--primary-soft);
+    color: var(--primary-strong);
+    font-weight: 700;
+  }
+
+  .module-nav__num {
+    display: inline-grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1.5px solid var(--primary);
+    border-radius: 50%;
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  a[aria-current='page'] .module-nav__num {
+    background: var(--primary);
+    color: var(--on-primary);
+  }
+</style>

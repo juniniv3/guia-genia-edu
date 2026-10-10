@@ -1,0 +1,71 @@
+---
+import { moduleHref } from '../lib/modules';
+import { SITE_NAME } from '../lib/site';
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div>
+      <p class="site-footer__name">{SITE_NAME} · versión base</p>
+      <p>
+        Producto de investigación de la Maestría en Educación, Universidad Autónoma de Bucaramanga (UNAB). Autor:
+        Luis Jesús Flórez Moreno. Dirección: PhD Laura Milena Palacios Mora.
+      </p>
+      <p class="site-footer__note">
+        Recuerda: todo contenido generado con IA debe ser revisado por el docente antes de llevarlo al aula.
+      </p>
+    </div>
+    <nav class="no-print" aria-label="Pie de página">
+      <ul>
+        <li><a href={moduleHref('glosario')}>Glosario</a></li>
+        <li><a href={moduleHref('referencias')}>Referencias</a></li>
+        <li><a href={moduleHref('acerca')}>Acerca de la guía</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 4rem;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  .site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem 3rem;
+    padding-block: 2rem;
+  }
+
+  .site-footer__inner > div {
+    max-width: 60ch;
+  }
+
+  .site-footer p {
+    margin: 0 0 0.5rem;
+  }
+
+  .site-footer__name {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .site-footer__note {
+    font-style: italic;
+  }
+
+  .site-footer ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer li + li {
+    margin-top: 0.3rem;
+  }
+</style>

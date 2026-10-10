@@ -1,0 +1,86 @@
+---
+type CalloutType = 'idea' | 'consejo' | 'cuidado' | 'ejemplo';
+
+interface Props {
+  type?: CalloutType;
+  title?: string;
+}
+
+const defaultTitles: Record<CalloutType, string> = {
+  idea: 'Idea clave',
+  consejo: 'Consejo',
+  cuidado: 'Cuidado',
+  ejemplo: 'Ejemplo',
+};
+
+const { type = 'idea', title } = Astro.props;
+---
+
+<aside class:list={['callout', `callout--${type}`]}>
+  <p class="callout__title">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+      {type === 'idea' && <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3Z" />}
+      {type === 'consejo' && <path d="M20 6 9 17l-5-5" />}
+      {type === 'cuidado' && <path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />}
+      {type === 'ejemplo' && <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z" />}
+    </svg>
+    {title ?? defaultTitles[type]}
+  </p>
+  <div class="callout__body"><slot /></div>
+</aside>
+
+<style>
+  .callout {
+    --tone: var(--idea);
+    --tone-bg: var(--idea-bg);
+
+    margin: 1.5rem 0;
+    padding: 1rem 1.2rem;
+    border-left: 5px solid var(--tone);
+    border-radius: var(--radius-sm);
+    background: var(--tone-bg);
+  }
+
+  .callout--consejo {
+    --tone: var(--consejo);
+    --tone-bg: var(--consejo-bg);
+  }
+
+  .callout--cuidado {
+    --tone: var(--cuidado);
+    --tone-bg: var(--cuidado-bg);
+  }
+
+  .callout--ejemplo {
+    --tone: var(--ejemplo);
+    --tone-bg: var(--ejemplo-bg);
+  }
+
+  .callout__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.35rem;
+    color: var(--tone);
+    font-weight: 800;
+  }
+
+  .callout__title svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .callout__body > :global(:last-child) {
+    margin-bottom: 0;
+  }
+
+  @media print {
+    .callout {
+      border: 1px solid #999;
+      border-left-width: 5px;
+    }
+  }
+</style>
