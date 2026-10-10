@@ -1,0 +1,206 @@
+---
+title: Biblioteca de prompts
+navTitle: Biblioteca de prompts
+description: Plantillas listas para adaptar a tu clase. Cambia lo que está entre corchetes, ajusta según tus estudiantes y revisa siempre el resultado.
+summary: Plantillas listas para adaptar a tu clase.
+order: 8
+section: ruta
+readingMinutes: 10
+sources:
+  - Tomlinson (2014)
+  - CAST (2024)
+  - White et al. (2023)
+  - Lo (2023)
+---
+
+import Callout from '../../components/Callout.astro';
+import PromptExample from '../../components/PromptExample.astro';
+import Resumen from '../../components/Resumen.astro';
+
+## Cómo usar esta biblioteca
+
+1. **Elige** la plantilla que se parece a lo que necesitas.
+2. **Copia** el texto y **reemplaza** todo lo que está entre `[corchetes]` con los datos de tu clase.
+3. **Revisa** el resultado con la lista de verificación del Paso 6 y **ajusta** conversando con la IA.
+
+Cada plantilla indica **qué adapta** (contenido, proceso o producto) y **según qué** (preparación, intereses o perfil), para que relaciones cada ejemplo con lo que viste en el Paso 2.
+
+<Callout type="cuidado">
+Recuerda: en los corchetes describe al **grupo** o sus **necesidades**, nunca datos personales de un estudiante.
+</Callout>
+
+## Para empezar: que la IA te pregunte
+
+**Qué adapta:** cualquier material · **Ideal para:** cuando no sabes por dónde empezar.
+
+<PromptExample label="Plantilla">
+Actúa como asesor pedagógico experto en enseñanza diferenciada.
+Quiero crear un material de [área] para estudiantes de grado [grado] sobre [tema].
+Antes de crearlo, hazme una por una las preguntas que necesites sobre mis estudiantes, mi objetivo y mi contexto. Cuando tengas suficiente información, propón el material y explica brevemente por qué lo diseñaste así.
+</PromptExample>
+
+## 1. Lectura en tres niveles
+
+**Qué adapta:** contenido · **Según:** preparación · **Ideal para:** cualquier área.
+
+<PromptExample label="Plantilla">
+Actúa como docente de [área] con experiencia en enseñanza diferenciada.
+Mis estudiantes son de grado [grado] ([edad] años) y tienen distintos niveles de lectura.
+Objetivo de aprendizaje: [objetivo].
+Escribe un texto sobre [tema] en tres versiones que enseñen las mismas ideas clave:
+- Nivel 1 (más apoyo): frases cortas, vocabulario sencillo y un glosario de 5 palabras.
+- Nivel 2 (esperado): unas [número] palabras, con el vocabulario propio del grado.
+- Nivel 3 (reto): mayor profundidad, un dato curioso y una pregunta de reflexión.
+
+Al final de cada versión, incluye 3 preguntas de comprensión. Usa ejemplos del contexto colombiano.
+</PromptExample>
+
+**Ejemplo de uso:** ciencias sociales, grado 6, "las regiones naturales de Colombia".
+
+## 2. Ejercicios graduados con pistas
+
+**Qué adapta:** proceso · **Según:** preparación · **Ideal para:** matemáticas y ciencias.
+
+<PromptExample label="Plantilla">
+Eres docente de [área] de grado [grado].
+Objetivo: [objetivo].
+Crea [número] ejercicios sobre [tema], ordenados de menor a mayor dificultad, en tres bloques:
+- Bloque A: con un ejemplo resuelto paso a paso antes de empezar.
+- Bloque B: ejercicios similares, cada uno con una pista opcional.
+- Bloque C: un problema de la vida cotidiana que requiera explicar el razonamiento.
+
+Presenta las pistas al final, separadas de los ejercicios, para que el estudiante decida si las usa. Incluye las respuestas en una sección aparte para el docente.
+</PromptExample>
+
+**Ejemplo de uso:** matemáticas, grado 7, "operaciones con números enteros".
+
+## 3. Explicación a partir de los intereses
+
+**Qué adapta:** contenido · **Según:** intereses · **Ideal para:** temas abstractos o poco motivadores.
+
+<PromptExample label="Plantilla">
+Explica [tema] a estudiantes de grado [grado] usando ejemplos de [interés 1], [interés 2] y [interés 3].
+Crea una explicación breve (máximo [número] palabras) para cada interés. Las tres deben enseñar exactamente el mismo concepto y terminar con la misma pregunta de verificación.
+</PromptExample>
+
+**Ejemplo de uso:** física, grado 9, "la velocidad", con ejemplos de fútbol, ciclismo y videojuegos.
+
+## 4. Organizador gráfico
+
+**Qué adapta:** contenido · **Según:** perfil de aprendizaje · **Ideal para:** síntesis y repaso.
+
+<PromptExample label="Plantilla">
+A partir del siguiente texto, crea un [mapa conceptual / cuadro comparativo / línea de tiempo] para estudiantes de grado [grado].
+Usa máximo [número] conceptos, con palabras de enlace claras. Preséntalo primero como una lista jerárquica que yo pueda pasar a un dibujo y, después, como una descripción en palabras para quien no pueda ver el esquema.
+Básate solo en el texto:
+[pega aquí el texto]
+</PromptExample>
+
+**Ejemplo de uso:** ciencias naturales, grado 8, "la célula animal y la célula vegetal" en un cuadro comparativo.
+
+## 5. Cuestionario con retroalimentación
+
+**Qué adapta:** proceso · **Según:** preparación · **Ideal para:** evaluación formativa.
+
+<PromptExample label="Plantilla">
+Crea un cuestionario de [número] preguntas de selección múltiple sobre [tema] para grado [grado].
+Objetivo que evalúa: [objetivo].
+Para cada pregunta incluye cuatro opciones, la respuesta correcta y una retroalimentación breve para cada opción incorrecta que explique el error más probable del estudiante.
+Ordena las preguntas de la más sencilla a la más compleja.
+</PromptExample>
+
+**Ejemplo de uso:** lenguaje, grado 4, "sustantivos, adjetivos y verbos".
+
+## 6. Rúbrica de evaluación
+
+**Qué adapta:** producto · **Ideal para:** proyectos, exposiciones y escritos.
+
+<PromptExample label="Plantilla">
+Crea una rúbrica para evaluar [producto] de estudiantes de grado [grado].
+Objetivo de aprendizaje: [objetivo].
+Usa [número] criterios y cuatro niveles de desempeño: superior, alto, básico y bajo.
+Redacta cada descriptor en lenguaje que los estudiantes puedan entender, en positivo, describiendo lo que el estudiante logra. Preséntala en una tabla.
+</PromptExample>
+
+**Ejemplo de uso:** ciencias sociales, grado 10, "exposición oral sobre un problema ambiental del barrio".
+
+<Callout type="consejo">
+Revisa que los niveles de desempeño coincidan con la escala de evaluación de tu institución (por ejemplo, la escala nacional: superior, alto, básico y bajo).
+</Callout>
+
+## 7. Versión con múltiples formatos (DUA)
+
+**Qué adapta:** contenido y producto · **Según:** perfil de aprendizaje · **Ideal para:** grupos diversos.
+
+<PromptExample label="Plantilla">
+Tengo este material para grado [grado] sobre [tema]:
+[pega aquí el material]
+
+Siguiendo el Diseño Universal para el Aprendizaje, crea:
+1. Una versión en lectura fácil, con frases cortas y una idea por párrafo.
+2. Un guion de audio de máximo 2 minutos que explique lo mismo.
+3. Una propuesta de esquema visual descrita en palabras.
+4. Tres opciones para que el estudiante demuestre lo que aprendió (por ejemplo: escrito, oral o gráfico).
+</PromptExample>
+
+**Ejemplo de uso:** cualquier guía que ya tengas y quieras volver más accesible.
+
+## 8. Actividad para preescolar
+
+**Qué adapta:** proceso · **Según:** perfil · **Ideal para:** educación inicial.
+
+<PromptExample label="Plantilla">
+Actúa como docente de educación inicial.
+Diseña una actividad de [duración] minutos para niños y niñas de [edad] años sobre [tema].
+Debe incluir: un momento de juego, una canción o rima corta, una actividad con material concreto que se consiga fácilmente en Colombia y una pregunta de cierre para conversar.
+Usa instrucciones que yo pueda leer en voz alta. Ten en cuenta que los niños aún no leen.
+</PromptExample>
+
+**Ejemplo de uso:** transición, 5 años, "los colores y las frutas de mi región".
+
+## 9. Dilema ético para discusión
+
+**Qué adapta:** proceso · **Según:** intereses · **Ideal para:** filosofía, ética y ciencias sociales.
+
+<PromptExample label="Plantilla">
+Crea un dilema ético breve (máximo 150 palabras) para estudiantes de grado [grado] sobre [tema], ambientado en una situación cotidiana de jóvenes colombianos.
+Incluye: la situación, dos posibles decisiones con argumentos a favor de cada una, y cinco preguntas para un debate en grupo que vayan de lo concreto a lo filosófico.
+No indiques cuál es la respuesta correcta.
+</PromptExample>
+
+**Ejemplo de uso:** filosofía, grado 11, "la honestidad y el uso de la IA en las tareas".
+
+## 10. Apoyo para dificultades lectoras
+
+**Qué adapta:** contenido · **Según:** perfil de aprendizaje · **Ideal para:** estudiantes que necesitan apoyos de lectura.
+
+<PromptExample label="Plantilla">
+Adapta el siguiente texto para un estudiante de grado [grado] que necesita apoyos en la lectura.
+- Usa frases cortas (máximo 15 palabras) y vocabulario frecuente.
+- Divide el texto en bloques breves con un subtítulo cada uno.
+- Resalta en negrita las palabras clave y explícalas al final.
+- Conserva todas las ideas importantes del texto original.
+
+Texto:
+[pega aquí el texto]
+</PromptExample>
+
+**Ejemplo de uso:** cualquier lectura de clase que un estudiante necesite en formato de lectura fácil.
+
+## 11. Menú de opciones para el producto final
+
+**Qué adapta:** producto · **Según:** intereses y perfil · **Ideal para:** cierre de unidad.
+
+<PromptExample label="Plantilla">
+Para cerrar una unidad sobre [tema] en grado [grado], propón un menú de 6 opciones de producto final con las que los estudiantes puedan demostrar el mismo aprendizaje: [objetivo].
+Incluye opciones escritas, orales, visuales y prácticas. Para cada opción indica: descripción, materiales necesarios (de bajo costo) y tiempo estimado.
+Agrega 3 criterios de evaluación comunes a todas las opciones.
+</PromptExample>
+
+**Ejemplo de uso:** ciencias naturales, grado 5, "los ecosistemas de mi región".
+
+<Resumen>
+- Las plantillas son un **punto de partida**: cámbialas, combínalas y mejóralas.
+- Reemplaza los corchetes con descripciones de tu **grupo**, nunca con datos personales.
+- Guarda las versiones que te funcionen en tu **banco de prompts** y revisa siempre el resultado.
+</Resumen>

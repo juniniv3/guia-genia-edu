@@ -1,0 +1,21 @@
+---
+/** Lays out two PromptExample blocks side by side (stacked on narrow screens). */
+---
+
+<div class="before-after"><slot /></div>
+
+<style>
+  .before-after {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 1rem;
+    margin: 1.25rem 0;
+  }
+
+  @media (min-width: 900px) {
+    .before-after {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      align-items: start;
+    }
+  }
+</style>

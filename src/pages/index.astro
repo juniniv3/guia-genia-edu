@@ -1,18 +1,267 @@
 ---
-import Counter from '../components/Counter';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ModuleCard from '../components/ModuleCard.astro';
+import { getResourceModules, getRouteModules, moduleHref } from '../lib/modules';
+import { SITE_NAME } from '../lib/site';
+
+const modules = await getCollection('modulos');
+const route = getRouteModules(modules);
+const resources = getResourceModules(modules);
+const totalMinutes = route.reduce((sum, m) => sum + m.data.readingMinutes, 0);
+const first = route[0];
+const library = route.at(-1);
+
+const audiences = [
+  {
+    title: 'Docentes de cualquier nivel y área',
+    text: 'Desde preescolar hasta educación superior: los ejemplos cubren matemáticas, lenguaje, ciencias, educación infantil y filosofía.',
+  },
+  {
+    title: 'Sin conocimientos técnicos',
+    text: 'No necesitas saber programar. Todo se explica con palabras sencillas y ejemplos de aula.',
+  },
+  {
+    title: 'Quienes ya usan IA y quieren hacerlo mejor',
+    text: 'Encontrarás criterios para pedir, revisar y adaptar con intención pedagógica, no solo “probar a ver qué sale”.',
+  },
+];
+
+const outcomes = [
+  'Entender qué es la IA generativa, qué puede hacer por ti y cuáles son sus límites.',
+  'Reconocer cuándo un material es realmente adaptativo y qué puedes adaptar.',
+  'Escribir prompts claros con seis ingredientes básicos.',
+  'Seguir un ciclo de creación: planear, pedir, revisar, ajustar, aplicar y reflexionar.',
+  'Revisar la calidad de lo que genera la IA antes de llevarlo al aula.',
+  'Usar la IA de forma ética: proteger datos, ser transparente y cuidar la equidad.',
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`} />
-		<link rel="icon" href={`${import.meta.env.BASE_URL}/favicon.ico`} />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Guia Genia Edu</title>
-	</head>
-	<body>
-		<h1>Guia Genia Edu</h1>
-		<Counter client:load />
-	</body>
-</html>
+<BaseLayout
+  title={SITE_NAME}
+  description="Guía pedagógica para docentes: cómo usar la inteligencia artificial generativa para crear material didáctico adaptativo con criterio pedagógico, ético y responsable."
+>
+  <section class="hero">
+    <div class="container hero__inner">
+      <p class="eyebrow">Guía pedagógica para docentes</p>
+      <h1>Crea material didáctico adaptativo con inteligencia artificial generativa</h1>
+      <p class="hero__lead">
+        Una ruta práctica de {route.length} pasos para usar herramientas como ChatGPT, Gemini, Copilot o Claude con
+        criterio pedagógico, ético y responsable, y así responder mejor a la diversidad de tu aula.
+      </p>
+      <div class="hero__actions">
+        {first && <a class="button" href={moduleHref(first.id)}>Empezar la guía →</a>}
+        {
+          library && (
+            <a class="button button--ghost" href={moduleHref(library.id)}>
+              Ver ejemplos de prompts
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="principle">
+      <p class="principle__quote">“Tú decides, la IA asiste.”</p>
+      <p>
+        La IA generativa puede producir borradores en segundos, pero no conoce a tus estudiantes. Qué enseñar, para
+        quién, cómo y por qué sigue siendo una decisión tuya. Esta guía sigue el enfoque centrado en el ser humano que
+        propone la UNESCO: la tecnología al servicio de los fines educativos, con el docente al mando.
+      </p>
+    </div>
+  </section>
+
+  <section class="container section" aria-labelledby="para-quien">
+    <h2 id="para-quien">¿Para quién es esta guía?</h2>
+    <ul class="audience">
+      {
+        audiences.map((a) => (
+          <li>
+            <h3>{a.title}</h3>
+            <p>{a.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="container section" aria-labelledby="ruta">
+    <h2 id="ruta">La ruta en {route.length} pasos</h2>
+    <p class="section__intro">
+      Unos {totalMinutes} minutos de lectura en total. Puedes seguirla en orden o ir directo al paso que necesites.
+    </p>
+    <ol class="route">
+      {
+        route.map((entry, i) => (
+          <li>
+            <ModuleCard entry={entry} step={i + 1} />
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="container section two-cols">
+    <div>
+      <h2>Al terminar podrás…</h2>
+      <ul class="outcomes">
+        {outcomes.map((o) => <li>{o}</li>)}
+      </ul>
+    </div>
+    <div>
+      <h2>Recursos</h2>
+      <ul class="resources">
+        {
+          resources.map((m) => (
+            <li>
+              <a href={moduleHref(m.id)}>{m.data.navTitle ?? m.data.title}</a>
+              <span>{m.data.summary}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    border-bottom: 1px solid var(--border);
+    background:
+      radial-gradient(circle at 85% 20%, var(--accent-soft), transparent 45%),
+      radial-gradient(circle at 10% 90%, var(--primary-soft), transparent 50%);
+  }
+
+  .hero__inner {
+    padding-block: 3.5rem 3rem;
+  }
+
+  .hero h1 {
+    max-width: 22ch;
+    margin: 0 0 1rem;
+    font-size: clamp(2rem, 1.3rem + 3vw, 3.2rem);
+  }
+
+  .hero__lead {
+    max-width: 60ch;
+    margin: 0 0 1.75rem;
+    color: var(--text-muted);
+    font-size: 1.15rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .section {
+    padding-top: 3rem;
+  }
+
+  .section h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.7rem;
+  }
+
+  .section__intro {
+    margin: 0 0 1.5rem;
+    color: var(--text-muted);
+  }
+
+  .principle {
+    max-width: 60rem;
+    padding: 1.5rem 1.75rem;
+    border-left: 6px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .principle p {
+    margin: 0;
+  }
+
+  .principle__quote {
+    margin-bottom: 0.5rem !important;
+    color: var(--accent);
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+
+  .audience,
+  .route {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .audience li {
+    padding: 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .audience h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+  }
+
+  .audience p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .two-cols {
+    display: grid;
+    gap: 2rem 3rem;
+  }
+
+  @media (min-width: 860px) {
+    .two-cols {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+
+  .outcomes {
+    margin: 0;
+    padding-left: 1.4rem;
+  }
+
+  .outcomes li {
+    margin-bottom: 0.5rem;
+  }
+
+  .outcomes li::marker {
+    color: var(--primary);
+  }
+
+  .resources {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .resources li {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .resources a {
+    font-weight: 700;
+  }
+
+  .resources span {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+</style>

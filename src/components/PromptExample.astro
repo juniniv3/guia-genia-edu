@@ -1,0 +1,90 @@
+---
+type Variant = 'neutral' | 'weak' | 'strong';
+
+interface Props {
+  /** Heading above the prompt, e.g. "Prompt mejorado" or "Plantilla". */
+  label?: string;
+  variant?: Variant;
+}
+
+const defaultLabels: Record<Variant, string> = {
+  neutral: 'Prompt',
+  weak: 'Prompt débil',
+  strong: 'Prompt mejorado',
+};
+
+const { variant = 'neutral', label } = Astro.props;
+---
+
+<figure class:list={['prompt', `prompt--${variant}`]}>
+  <figcaption class="prompt__label">
+    {variant === 'weak' && <span aria-hidden="true">✗</span>}
+    {variant === 'strong' && <span aria-hidden="true">✓</span>}
+    {label ?? defaultLabels[variant]}
+  </figcaption>
+  <div class="prompt__body"><slot /></div>
+</figure>
+
+<style>
+  .prompt {
+    --tone: var(--primary);
+
+    margin: 1.25rem 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--tone);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .prompt--weak {
+    --tone: var(--cuidado);
+  }
+
+  .prompt--strong {
+    --tone: var(--consejo);
+  }
+
+  .prompt__label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--tone);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .prompt__body {
+    padding: 0.9rem 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* Keep the line breaks the author typed inside the prompt. */
+  .prompt__body :global(p) {
+    margin: 0 0 0.7rem;
+    white-space: pre-line;
+  }
+
+  .prompt__body :global(ul),
+  .prompt__body :global(ol) {
+    margin: 0 0 0.7rem;
+  }
+
+  .prompt__body > :global(:last-child) {
+    margin-bottom: 0;
+  }
+
+  @media print {
+    .prompt {
+      box-shadow: none;
+      break-inside: avoid;
+    }
+  }
+</style>

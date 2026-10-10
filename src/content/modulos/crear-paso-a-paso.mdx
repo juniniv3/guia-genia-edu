@@ -1,0 +1,116 @@
+---
+title: Crear un material paso a paso
+navTitle: Crear paso a paso
+description: Un ciclo de seis pasos para pasar de una idea a un material adaptativo listo para clase, con un ejemplo completo.
+summary: El ciclo de creación, con un ejemplo completo.
+order: 5
+section: ruta
+readingMinutes: 9
+sources:
+  - Dourvas, Kokkonis y Kontogiannis (2026)
+  - Kemmis y McTaggart (1988); Latorre (2005)
+  - Tomlinson (2014)
+  - CAST (2024)
+---
+
+import Callout from '../../components/Callout.astro';
+import PromptExample from '../../components/PromptExample.astro';
+import Resumen from '../../components/Resumen.astro';
+
+## El ciclo de creación
+
+Crear un buen material con IA no es "escribir una instrucción y copiar el resultado". Es un ciclo de seis pasos:
+
+1. **Planear.** Define el objetivo de aprendizaje, describe a tus estudiantes (en general, sin datos personales) y decide qué vas a adaptar y según qué.
+2. **Pedir.** Escribe el prompt con los seis ingredientes del Paso 4.
+3. **Revisar.** Lee el resultado con ojo crítico: ¿es correcto, pertinente y adecuado? (Paso 6).
+4. **Ajustar.** Pide cambios a la IA o edita tú directamente.
+5. **Aplicar.** Usa el material en clase y observa cómo responden tus estudiantes.
+6. **Reflexionar.** ¿Qué funcionó? ¿Qué cambiarías? Guarda los prompts que dieron buenos resultados.
+
+<Callout type="idea">
+Este ciclo es una forma de **práctica reflexiva**: formular, evaluar y reformular, igual que haces al planear una clase. También sigue la lógica de la investigación-acción: **planificar, actuar, observar y reflexionar**, para volver a empezar con un material mejor.
+</Callout>
+
+## Ejemplo completo: el ciclo del agua
+
+**Situación:** una docente de ciencias naturales de grado 7, en un colegio público, con 32 estudiantes. Tras una actividad diagnóstica identificó tres grupos:
+
+- un grupo que aún confunde la evaporación con la condensación;
+- un grupo que domina lo básico;
+- un grupo que ya relaciona el ciclo con fenómenos del clima.
+
+Además, en el curso hay **una estudiante con baja visión**.
+
+### 1. Planear
+
+- **Objetivo:** explicar las etapas del ciclo del agua y relacionarlas con fenómenos cotidianos.
+- **Qué adapta:** el contenido y el proceso.
+- **Según qué:** la preparación (tres niveles) y el perfil (accesibilidad para baja visión, siguiendo el DUA).
+- **Producto común:** al final, todos explicarán el ciclo con un esquema propio.
+
+### 2. Pedir
+
+<PromptExample label="Prompt inicial">
+Actúa como docente de ciencias naturales de secundaria con experiencia en Diseño Universal para el Aprendizaje.
+
+Contexto: grado 7, estudiantes de 12 y 13 años de un colegio público de Bucaramanga. El grupo tiene tres niveles de preparación sobre el tema: algunos confunden evaporación y condensación, otros dominan lo básico y otros ya relacionan el ciclo con el clima. Hay una estudiante con baja visión.
+
+Objetivo de aprendizaje: explicar las etapas del ciclo del agua y relacionarlas con fenómenos cotidianos.
+
+Tarea: crea una guía de trabajo en tres versiones con el mismo objetivo:
+- Versión 1: con más apoyo, frases cortas, un glosario de 5 palabras y ejemplos de la casa (la olla hirviendo, el vaso frío que "suda").
+- Versión 2: nivel esperado, con una lectura breve y 5 preguntas.
+- Versión 3: reto, que relacione el ciclo del agua con las lluvias en Santander.
+
+Además, crea una versión accesible de la versión 2 para la estudiante con baja visión: sin depender de imágenes, con descripciones en palabras y apta para leerse en voz alta.
+
+Formato: para cada versión, incluye título, lectura, actividades y una pregunta de cierre. Usa lenguaje claro y ejemplos del contexto colombiano.
+</PromptExample>
+
+### 3. Revisar
+
+La docente leyó el resultado y anotó:
+
+- Las etapas estaban bien explicadas, pero la versión 3 mencionaba la **sublimación** sin explicarla. ¿Es necesaria para este grado? Decidió que sí, pero con una definición.
+- La versión 1 usaba la palabra **"precipitación"** sin explicarla.
+- Un dato sobre "el porcentaje de agua dulce del planeta" no traía fuente. Lo **verificó** en una fuente confiable antes de dejarlo.
+- Los ejemplos de la casa funcionaban muy bien para su contexto.
+
+### 4. Ajustar
+
+<PromptExample label="Mensajes de ajuste">
+"En la versión 1, explica 'precipitación' con palabras sencillas y agrega un ejemplo de la vida diaria."
+"En la versión 3, agrega una definición breve de 'sublimación'."
+"En la versión accesible, describe con palabras cada etapa del ciclo, como si se lo contaras a alguien por teléfono."
+</PromptExample>
+
+Después de estos ajustes, la docente editó a mano algunos detalles: cambió nombres de lugares por otros cercanos al colegio y aumentó el tamaño de letra de la versión impresa.
+
+### 5. Aplicar
+
+Entregó las versiones sin etiquetas como "nivel bajo" o "nivel alto". En su lugar usó nombres neutrales: **ruta nube, ruta río y ruta océano**. Durante la clase observó quiénes necesitaban más apoyo y quiénes terminaban rápido.
+
+<Callout type="consejo">
+Evita etiquetas que comparen a los estudiantes. Usa nombres neutrales o colores para las versiones. Lo importante es que cada estudiante reciba el apoyo que necesita, sin sentirse señalado.
+</Callout>
+
+### 6. Reflexionar
+
+Al terminar, la docente se preguntó:
+
+- ¿Lograron todos el objetivo? ¿Cómo lo sé?
+- ¿Alguna versión resultó demasiado fácil o demasiado difícil?
+- ¿Qué le cambiaría al prompt la próxima vez?
+
+Guardó el prompt final, con sus notas, en su **banco de prompts**.
+
+<Callout type="consejo" title="Crea tu banco de prompts">
+Abre un documento y guarda los prompts que te funcionaron, organizados por tema y grado, con una nota sobre qué ajustarías. La próxima vez solo tendrás que cambiar los datos entre corchetes. En el Paso 8 encontrarás plantillas para empezar.
+</Callout>
+
+<Resumen>
+- Crear con IA es un **ciclo**: planear, pedir, revisar, ajustar, aplicar y reflexionar.
+- La IA participa en dos de los seis pasos (pedir y ajustar); **los demás dependen de tu criterio**.
+- Guarda tus mejores prompts en un **banco** para reutilizarlos y mejorarlos.
+</Resumen>
