@@ -1,0 +1,62 @@
+---
+import { LOCALE_INFO, LOCALES, toLocale } from '../i18n/locales';
+import { translatePathname } from '../i18n/paths';
+import { getTranslations } from '../i18n/ui';
+
+const locale = toLocale(Astro.currentLocale);
+const t = getTranslations(locale);
+---
+
+<nav class="lang-picker no-print" aria-label={t.languagePicker.label}>
+  <ul>
+    {
+      LOCALES.map((l) => (
+        <li>
+          <a
+            href={translatePathname(Astro.url.pathname, l)}
+            hreflang={l}
+            lang={l}
+            aria-current={l === locale ? 'true' : undefined}
+          >
+            <span aria-hidden="true">{LOCALE_INFO[l].short}</span>
+            <span class="visually-hidden">{LOCALE_INFO[l].name}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .lang-picker ul {
+    display: flex;
+    margin: 0;
+    padding: 0.2rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    list-style: none;
+  }
+
+  .lang-picker a {
+    display: block;
+    min-width: 2.6rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .lang-picker a:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+
+  .lang-picker a[aria-current='true'] {
+    background: var(--primary);
+    color: var(--on-primary);
+  }
+</style>

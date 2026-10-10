@@ -1,25 +1,25 @@
 ---
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
 import { moduleHref } from '../lib/modules';
 import { SITE_NAME } from '../lib/site';
+
+const locale = toLocale(Astro.currentLocale);
+const t = getTranslations(locale).footer;
 ---
 
 <footer class="site-footer">
   <div class="container site-footer__inner">
     <div>
-      <p class="site-footer__name">{SITE_NAME} · versión base</p>
-      <p>
-        Producto de investigación de la Maestría en Educación, Universidad Autónoma de Bucaramanga (UNAB). Autor:
-        Luis Jesús Flórez Moreno. Dirección: PhD Laura Milena Palacios Mora.
-      </p>
-      <p class="site-footer__note">
-        Recuerda: todo contenido generado con IA debe ser revisado por el docente antes de llevarlo al aula.
-      </p>
+      <p class="site-footer__name">{SITE_NAME} · {t.edition}</p>
+      <p>{t.credits}</p>
+      <p class="site-footer__note">{t.reminder}</p>
     </div>
-    <nav class="no-print" aria-label="Pie de página">
+    <nav class="no-print" aria-label={t.navLabel}>
       <ul>
-        <li><a href={moduleHref('glosario')}>Glosario</a></li>
-        <li><a href={moduleHref('referencias')}>Referencias</a></li>
-        <li><a href={moduleHref('acerca')}>Acerca de la guía</a></li>
+        <li><a href={moduleHref('glosario', locale)}>{t.glossary}</a></li>
+        <li><a href={moduleHref('referencias', locale)}>{t.references}</a></li>
+        <li><a href={moduleHref('acerca', locale)}>{t.about}</a></li>
       </ul>
     </nav>
   </div>

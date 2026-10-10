@@ -1,60 +1,39 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ModuleCard from '../components/ModuleCard.astro';
-import { getResourceModules, getRouteModules, moduleHref } from '../lib/modules';
-import { SITE_NAME } from '../lib/site';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ModuleCard from '../../components/ModuleCard.astro';
+import { LOCALES, toLocale } from '../../i18n/locales';
+import { localeParam } from '../../i18n/paths';
+import { getTranslations } from '../../i18n/ui';
+import { getModules } from '../../lib/content';
+import { getResourceModules, getRouteModules, moduleHref } from '../../lib/modules';
+import { SITE_NAME } from '../../lib/site';
 
-const modules = await getCollection('modulos');
+export const getStaticPaths = (() =>
+  LOCALES.map((locale) => ({ params: { locale: localeParam(locale) } }))) satisfies GetStaticPaths;
+
+const locale = toLocale(Astro.currentLocale);
+const t = getTranslations(locale).home;
+const modules = await getModules(locale);
 const route = getRouteModules(modules);
 const resources = getResourceModules(modules);
 const totalMinutes = route.reduce((sum, m) => sum + m.data.readingMinutes, 0);
 const first = route[0];
 const library = route.at(-1);
-
-const audiences = [
-  {
-    title: 'Docentes de cualquier nivel y área',
-    text: 'Desde preescolar hasta educación superior: los ejemplos cubren matemáticas, lenguaje, ciencias, educación infantil y filosofía.',
-  },
-  {
-    title: 'Sin conocimientos técnicos',
-    text: 'No necesitas saber programar. Todo se explica con palabras sencillas y ejemplos de aula.',
-  },
-  {
-    title: 'Quienes ya usan IA y quieren hacerlo mejor',
-    text: 'Encontrarás criterios para pedir, revisar y adaptar con intención pedagógica, no solo “probar a ver qué sale”.',
-  },
-];
-
-const outcomes = [
-  'Entender qué es la IA generativa, qué puede hacer por ti y cuáles son sus límites.',
-  'Reconocer cuándo un material es realmente adaptativo y qué puedes adaptar.',
-  'Escribir prompts claros con seis ingredientes básicos.',
-  'Seguir un ciclo de creación: planear, pedir, revisar, ajustar, aplicar y reflexionar.',
-  'Revisar la calidad de lo que genera la IA antes de llevarlo al aula.',
-  'Usar la IA de forma ética: proteger datos, ser transparente y cuidar la equidad.',
-];
 ---
 
-<BaseLayout
-  title={SITE_NAME}
-  description="Guía pedagógica para docentes: cómo usar la inteligencia artificial generativa para crear material didáctico adaptativo con criterio pedagógico, ético y responsable."
->
+<BaseLayout title={SITE_NAME} description={t.description}>
   <section class="hero">
     <div class="container hero__inner">
-      <p class="eyebrow">Guía pedagógica para docentes</p>
-      <h1>Crea material didáctico adaptativo con inteligencia artificial generativa</h1>
-      <p class="hero__lead">
-        Una ruta práctica de {route.length} pasos para usar herramientas como ChatGPT, Gemini, Copilot o Claude con
-        criterio pedagógico, ético y responsable, y así responder mejor a la diversidad de tu aula.
-      </p>
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h1>{t.title}</h1>
+      <p class="hero__lead">{t.lead(route.length)}</p>
       <div class="hero__actions">
-        {first && <a class="button" href={moduleHref(first.id)}>Empezar la guía →</a>}
+        {first && <a class="button" href={moduleHref(first.id, locale)}>{t.start}</a>}
         {
           library && (
-            <a class="button button--ghost" href={moduleHref(library.id)}>
-              Ver ejemplos de prompts
+            <a class="button button--ghost" href={moduleHref(library.id, locale)}>
+              {t.seePrompts}
             </a>
           )
         }
@@ -64,20 +43,16 @@ const outcomes = [
 
   <section class="container section">
     <div class="principle">
-      <p class="principle__quote">“Tú decides, la IA asiste.”</p>
-      <p>
-        La IA generativa puede producir borradores en segundos, pero no conoce a tus estudiantes. Qué enseñar, para
-        quién, cómo y por qué sigue siendo una decisión tuya. Esta guía sigue el enfoque centrado en el ser humano que
-        propone la UNESCO: la tecnología al servicio de los fines educativos, con el docente al mando.
-      </p>
+      <p class="principle__quote">{t.principleQuote}</p>
+      <p>{t.principle}</p>
     </div>
   </section>
 
   <section class="container section" aria-labelledby="para-quien">
-    <h2 id="para-quien">¿Para quién es esta guía?</h2>
+    <h2 id="para-quien">{t.audienceTitle}</h2>
     <ul class="audience">
       {
-        audiences.map((a) => (
+        t.audiences.map((a) => (
           <li>
             <h3>{a.title}</h3>
             <p>{a.text}</p>
@@ -88,15 +63,13 @@ const outcomes = [
   </section>
 
   <section class="container section" aria-labelledby="ruta">
-    <h2 id="ruta">La ruta en {route.length} pasos</h2>
-    <p class="section__intro">
-      Unos {totalMinutes} minutos de lectura en total. Puedes seguirla en orden o ir directo al paso que necesites.
-    </p>
+    <h2 id="ruta">{t.routeTitle(route.length)}</h2>
+    <p class="section__intro">{t.routeIntro(totalMinutes)}</p>
     <ol class="route">
       {
-        route.map((entry, i) => (
+        route.map((module, i) => (
           <li>
-            <ModuleCard entry={entry} step={i + 1} />
+            <ModuleCard module={module} step={i + 1} />
           </li>
         ))
       }
@@ -105,18 +78,18 @@ const outcomes = [
 
   <section class="container section two-cols">
     <div>
-      <h2>Al terminar podrás…</h2>
+      <h2>{t.outcomesTitle}</h2>
       <ul class="outcomes">
-        {outcomes.map((o) => <li>{o}</li>)}
+        {t.outcomes.map((o) => <li>{o}</li>)}
       </ul>
     </div>
     <div>
-      <h2>Recursos</h2>
+      <h2>{t.resourcesTitle}</h2>
       <ul class="resources">
         {
           resources.map((m) => (
-            <li>
-              <a href={moduleHref(m.id)}>{m.data.navTitle ?? m.data.title}</a>
+            <li lang={m.lang === locale ? undefined : m.lang}>
+              <a href={moduleHref(m.id, locale)}>{m.data.navTitle ?? m.data.title}</a>
               <span>{m.data.summary}</span>
             </li>
           ))

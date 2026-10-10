@@ -1,4 +1,7 @@
 ---
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+
 type CalloutType = 'idea' | 'consejo' | 'cuidado' | 'ejemplo';
 
 interface Props {
@@ -6,13 +9,7 @@ interface Props {
   title?: string;
 }
 
-const defaultTitles: Record<CalloutType, string> = {
-  idea: 'Idea clave',
-  consejo: 'Consejo',
-  cuidado: 'Cuidado',
-  ejemplo: 'Ejemplo',
-};
-
+const defaultTitles = getTranslations(toLocale(Astro.currentLocale)).callout;
 const { type = 'idea', title } = Astro.props;
 ---
 

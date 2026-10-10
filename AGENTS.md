@@ -1,8 +1,8 @@
 # Project rules
 
-**Guía GenIA Edu**: a Spanish-language website that teaches *teachers* how to use generative AI to create adaptive teaching material. It is the product of a Master's in Education thesis at UNAB (Universidad Autónoma de Bucaramanga, Colombia). The guide is evaluated in teacher interviews and revised in action-research cycles, so **content edits are the most common task: use the `guide-content` skill for them.**
+**Guía GenIA Edu**: a Spanish-language website, with an English translation, that teaches *teachers* how to use generative AI to create adaptive teaching material. It is the product of a Master's in Education thesis at UNAB (Universidad Autónoma de Bucaramanga, Colombia). The guide is evaluated in teacher interviews and revised in action-research cycles, so **content edits are the most common task: use the `guide-content` skill for them.**
 
-The site's readers are non-technical teachers: content is plain Spanish. Code, comments and these docs are in English.
+The site's readers are non-technical teachers: content is plain Spanish (the original) and plain English (a translation). Code, comments and these docs are in English.
 
 Astro 7 + MDX + React 19. The site is fully static. React is installed but there are no islands: the guide is intentionally content-only for now, so don't add interactive widgets unless asked. Node ≥ 22.12 is required; the version is pinned in `.nvmrc` (run `nvm use` first).
 
@@ -21,26 +21,39 @@ Before finishing a change, run `npm run lint`, `npm run typecheck`, `npm test` a
 public/                  Static assets (favicon.svg)
 src/
   content.config.ts      Schema of the `modulos` collection
-  content/modulos/*.mdx  ALL guide text, one file per page; the file name is the URL slug
-  pages/
+  content/modulos/
+    es/*.mdx             ALL guide text, one file per page; the file name is the URL slug
+    en/*.mdx             English translations, same file names
+  i18n/
+    locales.ts           LOCALES, DEFAULT_LOCALE ('es'), toLocale(); read by astro.config.mjs
+    paths.ts             localizePath(), localeHref(), translatePathname() (language switcher, hreflang)
+    ui/es.ts, ui/en.ts   UI strings (chrome + home page copy); es.ts defines the Dictionary type
+    ui/index.ts          getTranslations(locale)
+  pages/[...locale]/     `locale` is undefined for Spanish (unprefixed) and 'en' for /en/
     index.astro          Home: hero, audience, route cards, outcomes, resources
-    guia/[slug].astro    Renders every module at /guia/<slug>/
+    guia/[slug].astro    Renders every module at /guia/<slug>/ and /en/guia/<slug>/
   layouts/
     BaseLayout.astro     <html>, <head>, header, footer
     ModuleLayout.astro   Sidebar nav, "Paso X de N", TOC from the ## headings, sources, prev/next
   components/
     SiteHeader, SiteFooter, ModuleNav, PrevNext, ModuleCard, Logo   Site chrome
+    LanguagePicker       ES/EN toggle in the header, links to the same page in the other language
+    Trans                Renders a translated string whose {placeholders} are links/markup
     Callout, PromptExample, BeforeAfter, Resumen                    Used inside MDX
   lib/
-    url.ts               withBase(): prefixes paths with the deploy base
-    modules.ts           Module ordering, route vs. resources, prev/next, step number, moduleHref()
-    site.ts              Site name and tagline
+    url.ts               withBase() / stripBase(): add or remove the deploy base
+    modules.ts           localizeModules(), ordering, route vs. resources, prev/next, step number, moduleHref()
+    content.ts           getModules(locale): the collection in one language (GuideModule)
+    site.ts              Site name
   styles/global.css      Design tokens (light/dark), prose, task-list and print styles
 ```
 
+- **i18n.** Astro's built-in i18n routing: Spanish is the default locale, served unprefixed (existing URLs never change); English lives under `/en/`. Both languages share slugs, so the language switch only adds or removes the prefix.
+  - Get the page language with `toLocale(Astro.currentLocale)` and UI text with `getTranslations(locale)`. Never hardcode user-facing text in components: add it to `src/i18n/ui/es.ts` and `en.ts` (the typecheck fails if a locale misses a key). Use functions for numbers (`position(step, total)`) and `{name}` placeholders with `<Trans>` for embedded links.
+  - Spanish is the source of truth. `getModules(locale)` returns one module per `es/` file, using its `en/` translation when it exists and the Spanish original otherwise (marked `lang="es"`, with a "not translated yet" notice), so a new Spanish page never breaks the English build. `order` and `section` always come from the Spanish file.
 - Modules with `section: ruta` are the numbered steps, ordered by `order`; `section: recursos` are the glossary, references and about pages. The sidebar, home cards, step labels and prev/next all derive from the collection, so adding a module never needs nav code changes.
 - Default to `.astro` components; use React only for interactive islands. Hydrate React components explicitly with the laziest `client:*` directive that works. React components are default-exported, PascalCase, one per file.
-- Deployed to GitHub Pages under `base: '/guia-genia-edu'`. Never hardcode root-absolute URLs (`/foo`): build internal links with `moduleHref(slug)` or `withBase(path)`.
+- Deployed to GitHub Pages under `base: '/guia-genia-edu'`. Never hardcode root-absolute URLs (`/foo`): build internal links with `moduleHref(slug, locale)` or `localeHref(path, locale)` (`withBase(path)` only for locale-independent assets).
 - Styling is plain CSS: use the custom properties from `global.css` and scope component styles inside the `.astro` file. No CSS frameworks. Keep AA contrast in both light and dark themes. Mark site chrome with the `no-print` class so modules print as clean handouts.
 - Tests are colocated next to the source (`util.test.ts`, `Component.test.tsx`). Pure helpers live in `src/lib` and are unit-tested; use Testing Library, querying by role/label, for React components.
 

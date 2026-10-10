@@ -1,0 +1,146 @@
+---
+title: 'How to ask AI: writing good prompts'
+navTitle: Writing good prompts
+description: The six ingredients of a good educational prompt, before-and-after examples, and strategies for improving the answers.
+summary: The six ingredients of a good prompt and how to improve it.
+order: 4
+section: ruta
+readingMinutes: 10
+sources:
+  - White et al. (2023). A prompt pattern catalog
+  - Lo (2023). The CLEAR path
+  - Federiakin et al. (2024)
+  - Lee and Palmer (2025)
+  - UNESCO (2024). Guidance for generative AI in education and research (Spanish edition)
+---
+
+import BeforeAfter from '../../../components/BeforeAfter.astro';
+import Callout from '../../../components/Callout.astro';
+import PromptExample from '../../../components/PromptExample.astro';
+import Resumen from '../../../components/Resumen.astro';
+
+## What is a prompt?
+
+A **prompt** is the instruction you give the AI. It isn't just a question: it's a **carefully thought-out instruction** that guides what the tool is going to produce.
+
+**Prompt engineering** is the skill of designing, adjusting and improving those instructions. Small changes in how you ask for something produce big differences in the result. It isn't an innate skill: it's learned with practice and clear criteria.
+
+<Callout type="idea">
+AI doesn't know your class. **Anything you don't tell it, it will assume.**
+</Callout>
+
+## The 6 ingredients of a good educational prompt
+
+| # | Ingredient | Question it answers | Example |
+| --- | --- | --- | --- |
+| 1 | **Role** | Who do I want the AI to be? | "Act as a primary school math teacher with experience in inclusive education." |
+| 2 | **Your students' context** | Who is the material for? | "Grade 5, 28 students aged 10 and 11 at a public school in Bucaramanga, Colombia. Several still confuse the numerator and the denominator." |
+| 3 | **Learning objective** | What should they achieve? | "For them to recognize equivalent fractions." |
+| 4 | **Task** | What material do I need? | "Create an exercise sheet with three levels of difficulty." |
+| 5 | **Format** | How do I want to receive it? | "A table with the columns level, exercise and hint. One page per level at most." |
+| 6 | **Criteria and constraints** | What must it meet or avoid? | "Simple language, everyday examples from Colombia, no answers included." |
+
+<Callout type="consejo">
+You don't always need all six. For a quick question, the task is enough. But to create a class material, **the more ingredients you include, the less you'll have to correct**.
+</Callout>
+
+<Callout type="cuidado">
+"Your students' context" is a **description of the group**, never personal data. Don't write names, grades or diagnoses (see Step 7).
+</Callout>
+
+## Before and after
+
+### Example 1: math, primary school
+
+<BeforeAfter>
+<PromptExample variant="weak">
+Make me a fractions worksheet.
+</PromptExample>
+<PromptExample variant="strong">
+Act as a primary school math teacher with experience in inclusive education.
+My students are in grade 5 (ages 10 and 11), at a public school in Bucaramanga, Colombia. Several still confuse the numerator and the denominator.
+Objective: for them to recognize equivalent fractions.
+Create an exercise sheet with three levels:
+- Level 1: with drawings and a worked example.
+- Level 2: exercises with the number line.
+- Level 3: an open problem from everyday life.
+
+Present it in a table with the columns level, exercise and hint. Use simple language and examples from Colombia (arepas, pesos, the neighborhood corner store). Don't include the answers.
+</PromptExample>
+</BeforeAfter>
+
+**What changed?** The second prompt says *who* it's for, *what* it's for and *how* it should look. The result comes out much closer to what you need and only requires minor adjustments.
+
+### Example 2: language arts, secondary school
+
+<BeforeAfter>
+<PromptExample variant="weak">
+Write questions about a short story.
+</PromptExample>
+<PromptExample variant="strong">
+You are a grade 8 language arts teacher.
+My students read the short story I've pasted below. Some have difficulty making inferences.
+Objective: develop inferential comprehension.
+Create 9 questions about the story: 3 literal, 3 inferential and 3 critical. For each inferential question, add a hint that helps students find the answer in the text.
+Format: a numbered list, grouped by question type.
+Base your questions only on the text I give you.
+[Paste the story here]
+</PromptExample>
+</BeforeAfter>
+
+Notice the last instruction: **"base your questions only on the text I give you"**. When you give the AI the original material, you reduce the risk of it making up details.
+
+## The CLEAR framework: five qualities of a good prompt
+
+Lo (2023) suggests checking your prompts against five qualities:
+
+- **C**oncise: clear and direct, with no filler words.
+- **L**ogical: well ordered. First the context, then the task and finally the format.
+- **E**xplicit: it says exactly what you want (length, level, format).
+- **A**daptive: you adjust it based on the answer you get.
+- **R**eflective: you critically evaluate the result and learn for next time.
+
+## Have a conversation: the first result is a draft
+
+The first result is rarely the final one. The great advantage of these tools is that you can **keep the conversation going** to improve the material without starting from scratch. For example:
+
+<PromptExample label="Follow-up messages">
+"Level 1 is too hard. Add a worked example and a hint to each exercise."
+"Change the examples so they're about soccer and the neighborhood corner store."
+"Turn the explanation into a two-column table."
+"Check your answer: is there any math mistake?"
+"Make it shorter: 150 words at most."
+</PromptExample>
+
+## Strategies that work
+
+Researchers have identified prompt "patterns" that solve common problems (White et al., 2023). These are the most useful for teachers:
+
+| Strategy | What it's for | How to ask for it |
+| --- | --- | --- |
+| **Role** | Getting answers from a specific expertise. | "Act as a school counselor who is an expert in inclusive education…" |
+| **Audience** | Adjusting the language to the reader. | "Explain it for an 8-year-old." / "Write it to send to families." |
+| **Ask me first** | Having it gather the information it needs before creating anything. | "Before you create the material, ask me any questions you need about my students, one at a time." |
+| **Template** | Always getting the same structure. | "Use exactly this structure: title, objective, activity, wrap-up." |
+| **Checklist** | Knowing which facts to check. | "At the end, list the facts and claims I should verify." |
+| **Reflection** | Understanding its decisions. | "Explain why you organized the activity this way and what you assumed about my students." |
+
+<Callout type="consejo" title="If you don't know where to start">
+Use the **"ask me first"** strategy. Write: *"I want to create a material for my class. Before you do, ask me all the questions you need, one at a time"*. The AI will guide you, and you just answer.
+</Callout>
+
+## Common mistakes
+
+- **Asking for everything in one huge, confusing message.** It's better to split the task into steps.
+- **Not saying the grade or age.** The level of the language and the examples will be left to chance.
+- **Not stating the objective.** You'll get a nice-looking material with no clear purpose.
+- **Accepting the first answer without reviewing it.** It's always a draft.
+- **Including students' personal data.** Describe needs, not people.
+- **Asking for "something creative" without criteria.** Say what you mean by creative: a game, a story, a challenge.
+
+<Resumen>
+- A good educational prompt has **6 ingredients**: role, your students' context, objective, task, format and criteria.
+- Check your prompts with **CLEAR**: concise, logical, explicit, adaptive and reflective.
+- **Talk and adjust**: the first result is a draft.
+- If you don't know where to start, ask the AI to **ask you first**.
+</Resumen>

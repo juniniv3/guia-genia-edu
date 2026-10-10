@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import ModuleLayout from '../../../layouts/ModuleLayout.astro';
+import { LOCALES } from '../../../i18n/locales';
+import { localeParam } from '../../../i18n/paths';
+import { getModules, type GuideModule } from '../../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const paths = await Promise.all(
+    LOCALES.map(async (locale) =>
+      (await getModules(locale)).map((module) => ({
+        params: { locale: localeParam(locale), slug: module.id },
+        props: { module },
+      })),
+    ),
+  );
+  return paths.flat();
+}) satisfies GetStaticPaths;
+
+interface Props {
+  module: GuideModule;
+}
+
+const { module } = Astro.props;
+const { Content, headings } = await render(module.entry);
+---
+
+<ModuleLayout module={module} headings={headings}>
+  <Content />
+</ModuleLayout>

@@ -1,0 +1,206 @@
+---
+title: Prompt library
+navTitle: Prompt library
+description: Templates ready to adapt to your class. Change what's in square brackets, adjust it to your students and always review the result.
+summary: Templates ready to adapt to your class.
+order: 8
+section: ruta
+readingMinutes: 10
+sources:
+  - Tomlinson (2014)
+  - CAST (2024)
+  - White et al. (2023)
+  - Lo (2023)
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptExample from '../../../components/PromptExample.astro';
+import Resumen from '../../../components/Resumen.astro';
+
+## How to use this library
+
+1. **Choose** the template that looks most like what you need.
+2. **Copy** the text and **replace** everything in `[square brackets]` with the details of your class.
+3. **Review** the result with the checklist from Step 6 and **adjust** it by continuing the conversation with the AI.
+
+Each template shows **what it adapts** (content, process or product) and **based on what** (readiness, interests or learning profile), so you can connect each example with what you saw in Step 2.
+
+<Callout type="cuidado">
+Remember: in the brackets, describe the **group** or its **needs**, never a student's personal data.
+</Callout>
+
+## To get started: let the AI ask you
+
+**Adapts:** any material · **Ideal for:** when you don't know where to start.
+
+<PromptExample label="Template">
+Act as an instructional coach who is an expert in differentiated instruction.
+I want to create a [subject] material for grade [grade] students about [topic].
+Before you create it, ask me, one at a time, any questions you need about my students, my objective and my context. When you have enough information, propose the material and briefly explain why you designed it that way.
+</PromptExample>
+
+## 1. A reading at three levels
+
+**Adapts:** content · **Based on:** readiness · **Ideal for:** any subject.
+
+<PromptExample label="Template">
+Act as a [subject] teacher with experience in differentiated instruction.
+My students are in grade [grade] ([age] years old) and have different reading levels.
+Learning objective: [objective].
+Write a text about [topic] in three versions that teach the same key ideas:
+- Level 1 (more support): short sentences, simple vocabulary and a 5-word glossary.
+- Level 2 (expected): about [number] words, with grade-level vocabulary.
+- Level 3 (challenge): more depth, a fun fact and a reflection question.
+
+At the end of each version, include 3 comprehension questions. Use examples from the Colombian context.
+</PromptExample>
+
+**Example of use:** social studies, grade 6, "the natural regions of Colombia".
+
+## 2. Graded exercises with hints
+
+**Adapts:** process · **Based on:** readiness · **Ideal for:** math and science.
+
+<PromptExample label="Template">
+You are a grade [grade] [subject] teacher.
+Objective: [objective].
+Create [number] exercises about [topic], ordered from easiest to hardest, in three blocks:
+- Block A: with a step-by-step worked example before starting.
+- Block B: similar exercises, each with an optional hint.
+- Block C: an everyday problem that requires explaining the reasoning.
+
+Put the hints at the end, separate from the exercises, so students can decide whether to use them. Include the answers in a separate section for the teacher.
+</PromptExample>
+
+**Example of use:** math, grade 7, "operations with integers".
+
+## 3. An explanation based on interests
+
+**Adapts:** content · **Based on:** interests · **Ideal for:** abstract or less motivating topics.
+
+<PromptExample label="Template">
+Explain [topic] to grade [grade] students using examples from [interest 1], [interest 2] and [interest 3].
+Write a short explanation (at most [number] words) for each interest. All three must teach exactly the same concept and end with the same check-for-understanding question.
+</PromptExample>
+
+**Example of use:** physics, grade 9, "speed", with examples from soccer, cycling and video games.
+
+## 4. Graphic organizer
+
+**Adapts:** content · **Based on:** learning profile · **Ideal for:** synthesis and review.
+
+<PromptExample label="Template">
+Using the following text, create a [concept map / comparison chart / timeline] for grade [grade] students.
+Use at most [number] concepts, with clear linking words. Present it first as a hierarchical list that I can turn into a drawing and then as a description in words for anyone who can't see the diagram.
+Base it only on the text:
+[paste the text here]
+</PromptExample>
+
+**Example of use:** natural science, grade 8, "animal cells and plant cells" in a comparison chart.
+
+## 5. Quiz with feedback
+
+**Adapts:** process · **Based on:** readiness · **Ideal for:** formative assessment.
+
+<PromptExample label="Template">
+Create a [number]-question multiple-choice quiz about [topic] for grade [grade].
+Objective it assesses: [objective].
+For each question, include four options, the correct answer and short feedback for each wrong option that explains the student's most likely mistake.
+Order the questions from simplest to most complex.
+</PromptExample>
+
+**Example of use:** language arts, grade 4, "nouns, adjectives and verbs".
+
+## 6. Assessment rubric
+
+**Adapts:** product · **Ideal for:** projects, presentations and written work.
+
+<PromptExample label="Template">
+Create a rubric to assess [product] by grade [grade] students.
+Learning objective: [objective].
+Use [number] criteria and four performance levels: superior, high, basic and low.
+Write each descriptor in language students can understand, phrased positively, describing what the student achieves. Present it in a table.
+</PromptExample>
+
+**Example of use:** social studies, grade 10, "an oral presentation about an environmental problem in the neighborhood".
+
+<Callout type="consejo">
+Check that the performance levels match your institution's grading scale (for example, Colombia's national scale: superior, high, basic and low).
+</Callout>
+
+## 7. A version in multiple formats (UDL)
+
+**Adapts:** content and product · **Based on:** learning profile · **Ideal for:** diverse groups.
+
+<PromptExample label="Template">
+I have this material for grade [grade] about [topic]:
+[paste the material here]
+
+Following Universal Design for Learning, create:
+1. An easy-to-read version, with short sentences and one idea per paragraph.
+2. An audio script of 2 minutes at most that explains the same thing.
+3. A proposed visual diagram, described in words.
+4. Three options for students to show what they learned (for example: written, oral or graphic).
+</PromptExample>
+
+**Example of use:** any study guide you already have and want to make more accessible.
+
+## 8. A preschool activity
+
+**Adapts:** process · **Based on:** learning profile · **Ideal for:** early childhood education.
+
+<PromptExample label="Template">
+Act as an early childhood teacher.
+Design a [length]-minute activity for [age]-year-old children about [topic].
+It must include: a time for play, a short song or rhyme, an activity with hands-on materials that are easy to find in Colombia and a closing question to talk about.
+Write instructions I can read aloud. Keep in mind that the children can't read yet.
+</PromptExample>
+
+**Example of use:** kindergarten (transición), age 5, "the colors and fruits of my region".
+
+## 9. An ethical dilemma for discussion
+
+**Adapts:** process · **Based on:** interests · **Ideal for:** philosophy, ethics and social studies.
+
+<PromptExample label="Template">
+Create a short ethical dilemma (150 words at most) for grade [grade] students about [topic], set in an everyday situation for young people in Colombia.
+Include: the situation, two possible decisions with arguments for each one, and five questions for a group debate that move from the concrete to the philosophical.
+Don't say which answer is correct.
+</PromptExample>
+
+**Example of use:** philosophy, grade 11, "honesty and using AI for homework".
+
+## 10. Support for reading difficulties
+
+**Adapts:** content · **Based on:** learning profile · **Ideal for:** students who need reading supports.
+
+<PromptExample label="Template">
+Adapt the following text for a grade [grade] student who needs reading supports.
+- Use short sentences (15 words at most) and common vocabulary.
+- Split the text into short blocks, each with a subheading.
+- Put the key words in bold and explain them at the end.
+- Keep all the important ideas of the original text.
+
+Text:
+[paste the text here]
+</PromptExample>
+
+**Example of use:** any class reading that a student needs in an easy-to-read format.
+
+## 11. A menu of options for the final product
+
+**Adapts:** product · **Based on:** interests and learning profile · **Ideal for:** wrapping up a unit.
+
+<PromptExample label="Template">
+To wrap up a unit about [topic] in grade [grade], propose a menu of 6 final product options that let students show the same learning: [objective].
+Include written, oral, visual and hands-on options. For each option, give a description, the (low-cost) materials needed and the estimated time.
+Add 3 assessment criteria shared by all the options.
+</PromptExample>
+
+**Example of use:** natural science, grade 5, "the ecosystems of my region".
+
+<Resumen>
+- The templates are a **starting point**: change them, combine them and improve them.
+- Replace the brackets with descriptions of your **group**, never with personal data.
+- Save the versions that work for you in your **prompt bank**, and always review the result.
+</Resumen>

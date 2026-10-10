@@ -1,50 +1,69 @@
 ---
 import type { MarkdownHeading } from 'astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
+import Callout from '../components/Callout.astro';
 import ModuleNav from '../components/ModuleNav.astro';
 import PrevNext from '../components/PrevNext.astro';
+import Trans from '../components/Trans.astro';
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+import { getModules, type GuideModule } from '../lib/content';
 import { getAdjacent, getRouteModules, getStepNumber, moduleHref } from '../lib/modules';
 
 interface Props {
-  entry: CollectionEntry<'modulos'>;
+  module: GuideModule;
   headings: MarkdownHeading[];
 }
 
-const { entry, headings } = Astro.props;
-const { title, description, readingMinutes, sources } = entry.data;
+const { module, headings } = Astro.props;
+const { title, description, readingMinutes, sources } = module.data;
 
-const modules = await getCollection('modulos');
+const locale = toLocale(Astro.currentLocale);
+const t = getTranslations(locale);
+const modules = await getModules(locale);
 const totalSteps = getRouteModules(modules).length;
-const step = getStepNumber(modules, entry.id);
-const { prev, next } = getAdjacent(modules, entry.id);
-const position = step ? `Paso ${step} de ${totalSteps}` : 'Recursos';
+const step = getStepNumber(modules, module.id);
+const { prev, next } = getAdjacent(modules, module.id);
+const position = step ? t.module.position(step, totalSteps) : t.nav.resources;
 const toc = headings.filter((h) => h.depth === 2);
+// Not translated yet: the page shows the original, so its text is marked with the language it's written in.
+const untranslated = module.lang !== locale;
+const contentLang = untranslated ? module.lang : undefined;
 ---
 
 <BaseLayout title={title} description={description}>
   <div class="container module-page">
     <aside class="module-page__sidebar no-print">
-      <ModuleNav modules={modules} currentId={entry.id} />
+      <ModuleNav modules={modules} currentId={module.id} />
     </aside>
 
     <details class="module-page__mobile-nav no-print">
-      <summary>{position} · Ver todos los pasos</summary>
-      <ModuleNav modules={modules} currentId={entry.id} />
+      <summary>{position} · {t.module.allSteps}</summary>
+      <ModuleNav modules={modules} currentId={module.id} />
     </details>
 
     <article class="module">
+      {
+        untranslated && (
+          <div class="module__notice no-print">
+            <Callout type="cuidado" title={t.module.untranslatedTitle}>
+              <p>{t.module.untranslated}</p>
+            </Callout>
+          </div>
+        )
+      }
+
       <header class="module__header">
-        <p class="eyebrow">{position} · {readingMinutes} min de lectura</p>
-        <h1>{title}</h1>
-        <p class="module__lead">{description}</p>
+        <p class="eyebrow">{position} · {t.module.readingTime(readingMinutes)}</p>
+        <h1 lang={contentLang}>{title}</h1>
+        <p class="module__lead" lang={contentLang}>{description}</p>
       </header>
 
       {
         toc.length > 1 && (
-          <nav class="module__toc no-print" aria-label="En esta página">
-            <p class="module__toc-title">En esta página</p>
-            <ul>
+          <nav class="module__toc no-print" aria-label={t.module.onThisPage}>
+            <p class="module__toc-title">{t.module.onThisPage}</p>
+            <ul lang={contentLang}>
               {toc.map((h) => (
                 <li>
                   <a href={`#${h.slug}`}>{h.text}</a>
@@ -55,21 +74,25 @@ const toc = headings.filter((h) => h.depth === 2);
         )
       }
 
-      <div class="prose">
+      <div class="prose" lang={contentLang}>
         <slot />
       </div>
 
       {
         sources.length > 0 && (
           <section class="module__sources" aria-labelledby="fuentes">
-            <h2 id="fuentes">Fuentes de este módulo</h2>
-            <ul>
+            <h2 id="fuentes">{t.module.sources}</h2>
+            <ul lang={contentLang}>
               {sources.map((source) => (
                 <li>{source}</li>
               ))}
             </ul>
             <p>
-              Consulta los datos completos en <a href={moduleHref('referencias')}>Referencias</a>.
+              <Trans text={t.module.seeReferences}>
+                <a slot="link" href={moduleHref('referencias', locale)}>
+                  {t.module.references}
+                </a>
+              </Trans>
             </p>
           </section>
         )
@@ -139,8 +162,13 @@ const toc = headings.filter((h) => h.depth === 2);
     min-width: 0;
   }
 
-  .module__header {
+  .module__header,
+  .module__notice {
     max-width: var(--measure);
+  }
+
+  .module__notice :global(.callout) {
+    margin-top: 0;
   }
 
   .module__header h1 {

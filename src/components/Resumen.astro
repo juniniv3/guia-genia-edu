@@ -1,9 +1,12 @@
 ---
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+
 interface Props {
   title?: string;
 }
 
-const { title = 'En resumen' } = Astro.props;
+const { title = getTranslations(toLocale(Astro.currentLocale)).summary } = Astro.props;
 ---
 
 <section class="resumen" aria-label={title}>
