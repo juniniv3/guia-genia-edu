@@ -1,0 +1,41 @@
+---
+title: Título del paso
+navTitle: Título corto
+description: Una o dos frases que explican qué aprenderá el docente en este paso.
+summary: Una línea para la tarjeta de la página de inicio.
+order: 9
+section: ruta
+readingMinutes: 6
+sources:
+  - Autor (año)
+---
+
+import Callout from '../../components/Callout.astro';
+import PromptExample from '../../components/PromptExample.astro';
+import Resumen from '../../components/Resumen.astro';
+
+## Primera idea
+
+Explica la idea con palabras sencillas y frases cortas. Después, si hace falta, nombra el referente teórico (Autor, año).
+
+<Callout type="idea">
+La idea más importante de esta sección, en una o dos frases.
+</Callout>
+
+## Un ejemplo de aula
+
+**Situación:** grado, área, tema y lo que necesita el docente.
+
+<PromptExample label="Prompt">
+Actúa como docente de [área] de grado [grado].
+Objetivo de aprendizaje: [objetivo].
+Crea [material] sobre [tema].
+</PromptExample>
+
+Explica qué hace bien este prompt y qué debe revisar el docente en el resultado.
+
+<Resumen>
+- Primera idea clave.
+- Segunda idea clave.
+- Tercera idea clave.
+</Resumen>
