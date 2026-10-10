@@ -1,15 +1,15 @@
 ---
 name: guide-content
-description: Edit, add or reorganize the teacher guide's content (the Spanish MDX modules in src/content/modulos) - steps, glossary, references, prompt templates, callouts and examples. Use for any change to the guide's text or structure, including applying feedback from teacher interviews.
+description: Edit, add, reorganize or translate the teacher guide's content (the Spanish MDX modules in src/content/modulos/es and their English translations in src/content/modulos/en) - steps, glossary, references, prompt templates, callouts and examples. Use for any change to the guide's text or structure, including applying feedback from teacher interviews.
 ---
 
 # Editing the guide's content
 
-All guide text lives in `src/content/modulos/*.mdx`, one file per page. Pages, sidebar, home cards, "Paso X de N" labels and prev/next links are generated from these files, so content work almost never touches code.
+All guide text lives in `src/content/modulos/es/*.mdx` (Spanish, the original), one file per page, with an English translation of each in `src/content/modulos/en/` under the **same file name**. Pages, sidebar, home cards, "Paso X de N" labels and prev/next links are generated from these files, so content work almost never touches code. Spanish is served at `/guia/<slug>/`, English at `/en/guia/<slug>/`.
 
 ## 1. Where content lives
 
-| File | Page | URL |
+| File (in `es/` and `en/`) | Page | Spanish URL |
 | --- | --- | --- |
 | `que-es-la-ia-generativa.mdx` | Paso 1 · What generative AI is | `/guia/que-es-la-ia-generativa/` |
 | `material-adaptativo.mdx` | Paso 2 · Adaptive material (Tomlinson, DUA) | `/guia/material-adaptativo/` |
@@ -23,7 +23,19 @@ All guide text lives in `src/content/modulos/*.mdx`, one file per page. Pages, s
 | `referencias.mdx` | Recursos · Full APA references | `/guia/referencias/` |
 | `acerca.mdx` | Recursos · About, thesis credit, version note | `/guia/acerca/` |
 
-The home page text (hero, "¿Para quién es?", "Al terminar podrás…") is in `src/pages/index.astro`. The `outcomes` list there mirrors the steps, so update it when steps change.
+The home page text (hero, "¿Para quién es?", "Al terminar podrás…") and all site chrome text are in `src/i18n/ui/es.ts` and its translation `src/i18n/ui/en.ts`. The `home.outcomes` list mirrors the steps, so update it in both files when steps change.
+
+## 1b. Keeping the English translation in sync
+
+Every change to a Spanish module should be mirrored in its `en/` file in the same change, unless the author says otherwise:
+
+- Translate into plain, friendly English for teachers ("you"), keeping the same structure: frontmatter, headings, components, tables and list items line up one-to-one with the Spanish file.
+- **Keep the Colombian context**: grades (grado 6 → grade 6), pesos, Bucaramanga, Santander, arepas, MEN, DBA. Gloss a local term the first time it appears ("arepas (Colombian corn cakes)", "Basic Learning Rights (DBA)").
+- Translate prompts and placeholders (`[grado]` → `[grade]`), so teachers can paste them as they are. "Paso N" becomes "Step N"; DUA is UDL.
+- In `sources`, use "and" instead of "y" and the English title when the work has one (see `en/referencias.mdx`). In `en/referencias.mdx`, follow APA 7 in English (`&`, "2nd ed.", "Master's thesis") and add an English translation in square brackets after Spanish titles.
+- Re-sort the English glossary alphabetically by the English term.
+- `order` and `section` in `en/` files are ignored (the Spanish file decides); keep them equal anyway. `readingMinutes` and the rest are read from the translation.
+- A Spanish module without an `en/` file still builds: the English site shows the Spanish text with a "not translated yet" notice. Use this only as a temporary state, and say so in your summary.
 
 ## 2. Frontmatter
 
@@ -48,11 +60,11 @@ sources:                                # short citations shown under "Fuentes d
 
 ## 3. Adding, removing or reordering a step
 
-1. Create `src/content/modulos/<slug>.mdx`, using a kebab-case Spanish slug, since it becomes the URL. Start from [module-template.mdx](module-template.mdx).
+1. Create `src/content/modulos/es/<slug>.mdx`, using a kebab-case Spanish slug, since it becomes the URL in both languages. Start from [module-template.mdx](module-template.mdx). Then add the translation as `src/content/modulos/en/<slug>.mdx` (§1b).
 2. Set `order`, between the neighbours or renumbering them.
-3. Fix the text cross-references. Modules point to each other by number ("ver Paso 6", "lo verás en el Paso 4"). Run `grep -rn "Paso [0-9]" src/content src/pages` and update every reference whose number changed.
+3. Fix the text cross-references. Modules point to each other by number ("ver Paso 6", "lo verás en el Paso 4"; "see Step 6" in English). Run `grep -rnE "Paso [0-9]|Step [0-9]" src/content src/i18n` and update every reference whose number changed, in both languages.
 4. `src/components/SiteHeader.astro` links **"La guía"** to the *first* step and **"Prompts"** to the *last* step. If the prompt library is no longer the last step, change that link to `moduleHref('biblioteca-de-prompts')`.
-5. Update the `outcomes` list in `src/pages/index.astro` if what teachers will learn changed.
+5. Update `home.outcomes` in `src/i18n/ui/es.ts` and `en.ts` if what teachers will learn changed.
 
 The step count ("La ruta en 8 pasos") and "Paso X de N" are computed automatically.
 
@@ -61,13 +73,13 @@ The step count ("La ruta en 8 pasos") and "Paso X de N" are computed automatical
 Import what you use at the top of the file, below the frontmatter:
 
 ```mdx
-import BeforeAfter from '../../components/BeforeAfter.astro';
-import Callout from '../../components/Callout.astro';
-import PromptExample from '../../components/PromptExample.astro';
-import Resumen from '../../components/Resumen.astro';
+import BeforeAfter from '../../../components/BeforeAfter.astro';
+import Callout from '../../../components/Callout.astro';
+import PromptExample from '../../../components/PromptExample.astro';
+import Resumen from '../../../components/Resumen.astro';
 ```
 
-**Callout**: a highlighted note. `type` is `idea` (default, "Idea clave"), `consejo` ("Consejo"), `cuidado` ("Cuidado") or `ejemplo` ("Ejemplo"). The optional `title` overrides the default heading.
+**Callout**: a highlighted note. `type` is `idea` (default, "Idea clave"), `consejo` ("Consejo"), `cuidado` ("Cuidado") or `ejemplo` ("Ejemplo"). The `type` values stay in Spanish in every language; the default headings are translated automatically ("Key idea", "Tip", "Watch out", "Example"). The optional `title` overrides the default heading, so translate it in `en/` files.
 
 ```mdx
 <Callout type="cuidado" title="Regla de oro">
@@ -75,7 +87,7 @@ import Resumen from '../../components/Resumen.astro';
 </Callout>
 ```
 
-**PromptExample**: a prompt shown as a card. `variant` is `neutral` (default, "Prompt"), `weak` ("Prompt débil", ✗) or `strong` ("Prompt mejorado", ✓). The optional `label` overrides the heading, e.g. "Plantilla" or "Mensajes de ajuste". Line breaks inside are preserved.
+**PromptExample**: a prompt shown as a card. `variant` is `neutral` (default, "Prompt"), `weak` ("Prompt débil", ✗) or `strong` ("Prompt mejorado", ✓); the default labels are translated automatically. The optional `label` overrides the heading, e.g. "Plantilla" ("Template") or "Mensajes de ajuste" ("Follow-up messages"). Line breaks inside are preserved.
 
 **BeforeAfter**: wraps exactly two PromptExamples side by side (weak first); they stack on mobile.
 
@@ -90,7 +102,7 @@ Actúa como docente de matemáticas de primaria…
 </BeforeAfter>
 ```
 
-**Resumen**: the "En resumen" box that closes every step. The optional `title` changes the heading.
+**Resumen**: the "En resumen" ("In summary") box that closes every step. The optional `title` changes the heading.
 
 ```mdx
 <Resumen>
@@ -112,7 +124,7 @@ Plain Markdown that is already styled:
 - Every step (`section: ruta`) ends with a `<Resumen>` of 3–4 bullets. Resource pages don't need one.
 - Keep each step at a 5–10 minute read. If it grows beyond that, split it into two steps.
 
-## 6. Writing style (Spanish, for teachers)
+## 6. Writing style (Spanish, for teachers; §1b for English)
 
 - Address the reader as **"tú"**. Use short sentences and one idea per paragraph.
 - **Plain language first, theory second.** Explain the idea in classroom terms, then name the author: "el andamiaje justo (Vygotsky)". Keep inline citations sparse, (Autor, año), and put the full list in `sources`.
@@ -125,7 +137,7 @@ Plain Markdown that is already styled:
 
 ## 7. Prompt templates (Paso 8)
 
-New templates in `biblioteca-de-prompts.mdx` follow this exact block, continuing the numbering:
+New templates in `biblioteca-de-prompts.mdx` follow this exact block, continuing the numbering (in English: "Adapts / Based on / Ideal for", label "Template", "Example of use"):
 
 ```mdx
 ## 12. Título de la plantilla
@@ -152,8 +164,8 @@ Formato: [formato]. Usa ejemplos del contexto colombiano.
 
 ## 8. Sources and references
 
-- New source: add the short form to the module's `sources`, and the full **APA 7** entry to `referencias.mdx` in the right section (Fuentes académicas, Organismos internacionales, Normativa y política pública de Colombia, Herramientas), in alphabetical order.
-- **Time-sensitive facts** (tool features, prices, age limits, laws, policies): verify them on the web before writing, and record the date. The Paso 3 tool table says "revisados en octubre de 2026", and the "Herramientas" entry in `referencias.mdx` has the same date; update both together.
+- New source: add the short form to the module's `sources`, and the full **APA 7** entry to `referencias.mdx` in the right section (in both languages) (Fuentes académicas, Organismos internacionales, Normativa y política pública de Colombia, Herramientas), in alphabetical order.
+- **Time-sensitive facts** (tool features, prices, age limits, laws, policies): verify them on the web before writing, and record the date. The Paso 3 tool table says "revisados en octubre de 2026", and the "Herramientas" entry in `referencias.mdx` has the same date; update both together, in both languages.
 - Don't invent citations. If a claim can't be sourced, rephrase it as practical advice or drop it.
 
 ## 9. MDX pitfalls
@@ -175,7 +187,7 @@ The guide is revised in action-research cycles. The thesis interview covers clar
 
 - Name the category each change addresses in your summary, so the author can report it in the thesis.
 - Prefer clarifying what exists (examples, shorter sentences, a missing step) over adding new sections.
-- When the author releases a revised version, update the "Versión base" callout in `acerca.mdx` (e.g. "Versión 2 — ajustada con los aportes de …").
+- When the author releases a revised version, update the "Versión base" callout in `acerca.mdx` (e.g. "Versión 2 — ajustada con los aportes de …"), the "Base version" callout in `en/acerca.mdx`, and `footer.edition` in `src/i18n/ui/`.
 
 ## 11. Verify before finishing
 
@@ -184,4 +196,4 @@ npm run lint && npm run typecheck && npm test && npm run build
 grep -rn 'href="/' dist | grep -v 'href="/guia-genia-edu' || echo "links OK"
 ```
 
-Then open the changed page in the dev server (`astro dev --background`, http://localhost:4321/guia-genia-edu/guia/<slug>/) and check the sidebar, "En esta página", the components and the Resumen. If pages show no content, see the stale-cache gotcha in CLAUDE.md.
+Then open the changed page in the dev server (`astro dev --background`, http://localhost:4321/guia-genia-edu/guia/<slug>/ and /guia-genia-edu/en/guia/<slug>/) and check the sidebar, "En esta página", the components and the Resumen. If pages show no content, see the stale-cache gotcha in CLAUDE.md.

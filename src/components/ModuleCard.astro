@@ -1,22 +1,29 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+import type { GuideModule } from '../lib/content';
 import { moduleHref } from '../lib/modules';
 
 interface Props {
-  entry: CollectionEntry<'modulos'>;
+  module: GuideModule;
   step: number;
 }
 
-const { entry, step } = Astro.props;
-const { navTitle, title, summary, readingMinutes } = entry.data;
+const { module, step } = Astro.props;
+const { navTitle, title, summary, readingMinutes } = module.data;
+const locale = toLocale(Astro.currentLocale);
+const t = getTranslations(locale);
+const lang = module.lang === locale ? undefined : module.lang;
 ---
 
-<a class="module-card" href={moduleHref(entry.id)}>
+<a class="module-card" href={moduleHref(module.id, locale)}>
   <span class="module-card__num" aria-hidden="true">{step}</span>
   <span class="module-card__body">
-    <span class="module-card__title"><span class="visually-hidden">Paso {step}: </span>{navTitle ?? title}</span>
-    <span class="module-card__summary">{summary}</span>
-    <span class="module-card__time">{readingMinutes} min de lectura</span>
+    <span class="module-card__title">
+      <span class="visually-hidden">{t.nav.step(step)}: </span><span lang={lang}>{navTitle ?? title}</span>
+    </span>
+    <span class="module-card__summary" lang={lang}>{summary}</span>
+    <span class="module-card__time">{t.module.readingTime(readingMinutes)}</span>
   </span>
 </a>
 

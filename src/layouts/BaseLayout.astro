@@ -2,6 +2,9 @@
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import { DEFAULT_LOCALE, LOCALE_INFO, LOCALES, toLocale } from '../i18n/locales';
+import { translatePathname } from '../i18n/paths';
+import { getTranslations } from '../i18n/ui';
 import { SITE_NAME } from '../lib/site';
 import { withBase } from '../lib/url';
 
@@ -12,9 +15,13 @@ interface Props {
 
 const { title, description } = Astro.props;
 const pageTitle = title === SITE_NAME ? SITE_NAME : `${title} · ${SITE_NAME}`;
+const locale = toLocale(Astro.currentLocale);
+const t = getTranslations(locale);
+// Absolute URLs of this page in every language, for search engines (hreflang).
+const alternate = (target: typeof locale) => new URL(translatePathname(Astro.url.pathname, target), Astro.site).href;
 ---
 
-<html lang="es">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,11 +30,19 @@ const pageTitle = title === SITE_NAME ? SITE_NAME : `${title} · ${SITE_NAME}`;
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content={LOCALE_INFO[locale].ogLocale} />
+    {
+      LOCALES.filter((l) => l !== locale).map((l) => (
+        <meta property="og:locale:alternate" content={LOCALE_INFO[l].ogLocale} />
+      ))
+    }
+    {LOCALES.map((l) => <link rel="alternate" hreflang={l} href={alternate(l)} />)}
+    <link rel="alternate" hreflang="x-default" href={alternate(DEFAULT_LOCALE)} />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
     <title>{pageTitle}</title>
   </head>
   <body>
-    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <a class="skip-link" href="#contenido">{t.skipLink}</a>
     <SiteHeader />
     <main id="contenido">
       <slot />

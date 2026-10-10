@@ -1,43 +1,48 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+import type { GuideModule } from '../lib/content';
 import { getResourceModules, getRouteModules, moduleHref } from '../lib/modules';
 
 interface Props {
-  modules: CollectionEntry<'modulos'>[];
+  modules: GuideModule[];
   currentId: string;
 }
 
 const { modules, currentId } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const t = getTranslations(locale).nav;
 const route = getRouteModules(modules);
 const resources = getResourceModules(modules);
-const label = (m: CollectionEntry<'modulos'>) => m.data.navTitle ?? m.data.title;
+const label = (m: GuideModule) => m.data.navTitle ?? m.data.title;
+const lang = (m: GuideModule) => (m.lang === locale ? undefined : m.lang);
 ---
 
-<nav class="module-nav" aria-label="Pasos de la guía">
-  <p class="module-nav__heading">La ruta</p>
+<nav class="module-nav" aria-label={t.label}>
+  <p class="module-nav__heading">{t.route}</p>
   <ol class="module-nav__list">
     {
       route.map((m, i) => (
         <li>
-          <a href={moduleHref(m.id)} aria-current={m.id === currentId ? 'page' : undefined}>
+          <a href={moduleHref(m.id, locale)} aria-current={m.id === currentId ? 'page' : undefined}>
             <span class="module-nav__num" aria-hidden="true">
               {i + 1}
             </span>
             <span>
-              <span class="visually-hidden">Paso {i + 1}: </span>
-              {label(m)}
+              <span class="visually-hidden">{t.step(i + 1)}: </span>
+              <span lang={lang(m)}>{label(m)}</span>
             </span>
           </a>
         </li>
       ))
     }
   </ol>
-  <p class="module-nav__heading">Recursos</p>
+  <p class="module-nav__heading">{t.resources}</p>
   <ul class="module-nav__list">
     {
       resources.map((m) => (
         <li>
-          <a href={moduleHref(m.id)} aria-current={m.id === currentId ? 'page' : undefined}>
+          <a href={moduleHref(m.id, locale)} aria-current={m.id === currentId ? 'page' : undefined} lang={lang(m)}>
             {label(m)}
           </a>
         </li>

@@ -1,4 +1,7 @@
 ---
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+
 type Variant = 'neutral' | 'weak' | 'strong';
 
 interface Props {
@@ -7,12 +10,7 @@ interface Props {
   variant?: Variant;
 }
 
-const defaultLabels: Record<Variant, string> = {
-  neutral: 'Prompt',
-  weak: 'Prompt débil',
-  strong: 'Prompt mejorado',
-};
-
+const defaultLabels = getTranslations(toLocale(Astro.currentLocale)).prompt;
 const { variant = 'neutral', label } = Astro.props;
 ---
 

@@ -2,7 +2,7 @@
 
 Guía pedagógica para docentes sobre el uso de la **inteligencia artificial generativa** en la creación de **material didáctico adaptativo**, con criterio pedagógico, ético y responsable.
 
-**Sitio publicado:** https://juniniv3.github.io/guia-genia-edu/
+**Sitio publicado:** https://juniniv3.github.io/guia-genia-edu/ (en inglés: https://juniniv3.github.io/guia-genia-edu/en/)
 
 ## Contenido de la guía
 
@@ -17,7 +17,7 @@ Una ruta de 8 pasos escrita en lenguaje sencillo para docentes de cualquier nive
 7. Uso ético y responsable
 8. Biblioteca de prompts
 
-Además incluye un glosario, las referencias completas y una página "Acerca de".
+Además incluye un glosario, las referencias completas y una página "Acerca de". Toda la guía está disponible en español (idioma original) y en inglés; el botón ES/EN del encabezado cambia de idioma en cualquier página.
 
 ## Origen
 
@@ -46,11 +46,13 @@ La investigación sigue un diseño de investigación-acción: la guía se ajusta
 
 ## Cómo editar el contenido
 
-Todo el texto de la guía está en `src/content/modulos/`, un archivo `.mdx` por página. El nombre del archivo es la dirección de la página (por ejemplo, `escribir-prompts.mdx` se publica en `/guia/escribir-prompts/`).
+Todo el texto de la guía está en `src/content/modulos/es/`, un archivo `.mdx` por página. El nombre del archivo es la dirección de la página (por ejemplo, `es/escribir-prompts.mdx` se publica en `/guia/escribir-prompts/`). La traducción al inglés de cada página está en `src/content/modulos/en/`, con el mismo nombre de archivo, y se publica en `/en/guia/escribir-prompts/`.
 
 - **Editar un paso:** abre su archivo y cambia el texto. Es Markdown con algunos componentes para destacar ideas (`Callout`), mostrar prompts (`PromptExample`, `BeforeAfter`) y cerrar con un resumen (`Resumen`).
 - **Agregar un paso:** crea un archivo nuevo con el encabezado (frontmatter) completo y un valor de `order`. El menú, la página de inicio y los botones de anterior y siguiente se actualizan solos. Si cambia la numeración, revisa las referencias del tipo "ver Paso 6" en los demás módulos.
 - **Agregar una fuente:** añádela en `sources` del módulo y la referencia completa (APA 7) en `referencias.mdx`.
+- **Traducción:** cada cambio en `es/` debe reflejarse en el archivo equivalente de `en/`. Si una página aún no tiene traducción, la versión en inglés muestra el texto en español con un aviso, así que el sitio nunca se rompe por una traducción pendiente.
+- **Textos de la interfaz y de la página de inicio:** están en `src/i18n/ui/es.ts` y su traducción en `src/i18n/ui/en.ts`.
 
 Si trabajas con Claude Code, la habilidad `guide-content` (en `.claude/skills/guide-content/`) contiene todas las reglas de contenido, estilo y formato, y se activa sola al pedir cambios en la guía. `CLAUDE.md` describe la arquitectura y las convenciones del proyecto.
 
@@ -58,9 +60,10 @@ Si trabajas con Claude Code, la habilidad `guide-content` (en `.claude/skills/gu
 
 ```text
 src/
-├── content/modulos/   Texto de la guía (un .mdx por página)
+├── content/modulos/   Texto de la guía: es/ (original) y en/ (traducción), un .mdx por página
 ├── content.config.ts  Esquema de los módulos
-├── pages/             Inicio y la ruta dinámica /guia/<módulo>/
+├── i18n/              Idiomas, rutas por idioma y textos de la interfaz (es.ts, en.ts)
+├── pages/             Inicio y la ruta dinámica /guia/<módulo>/, en cada idioma
 ├── layouts/           Plantillas de página (general y de módulo)
 ├── components/        Encabezado, menú, tarjetas y componentes para MDX
 ├── lib/               Utilidades (rutas con base, orden de los módulos)

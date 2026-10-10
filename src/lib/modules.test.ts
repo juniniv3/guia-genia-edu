@@ -4,7 +4,9 @@ import {
   getResourceModules,
   getRouteModules,
   getStepNumber,
+  localizeModules,
   moduleHref,
+  parseEntryId,
   sortModules,
   type ModuleLike,
 } from './modules';
@@ -65,7 +67,60 @@ describe('getStepNumber', () => {
 
 describe('moduleHref', () => {
   it('builds a base-prefixed URL with a trailing slash', () => {
-    expect(moduleHref('intro')).toMatch(/\/guia\/intro\/$/);
-    expect(moduleHref('intro').startsWith(import.meta.env.BASE_URL.replace(/\/$/, ''))).toBe(true);
+    expect(moduleHref('intro', 'es')).toMatch(/\/guia\/intro\/$/);
+    expect(moduleHref('intro', 'es').startsWith(import.meta.env.BASE_URL.replace(/\/$/, ''))).toBe(true);
+  });
+
+  it('keeps Spanish unprefixed and puts other locales under their own segment', () => {
+    expect(moduleHref('intro', 'es')).not.toContain('/es/');
+    expect(moduleHref('intro', 'en')).toMatch(/\/en\/guia\/intro\/$/);
+  });
+});
+
+describe('parseEntryId', () => {
+  it('splits the locale folder from the slug', () => {
+    expect(parseEntryId('en/glosario')).toEqual({ locale: 'en', slug: 'glosario' });
+  });
+
+  it('rejects modules outside a locale folder', () => {
+    expect(() => parseEntryId('glosario')).toThrow(/locale folder/);
+    expect(() => parseEntryId('fr/glosario')).toThrow(/locale folder/);
+  });
+});
+
+describe('localizeModules', () => {
+  interface Entry extends ModuleLike {
+    data: ModuleLike['data'] & { title: string };
+  }
+
+  const entries: Entry[] = [
+    { id: 'es/intro', data: { order: 1, section: 'ruta', title: 'Introducción' } },
+    { id: 'es/etica', data: { order: 2, section: 'ruta', title: 'Ética' } },
+    { id: 'en/intro', data: { order: 9, section: 'recursos', title: 'Introduction' } },
+    { id: 'en/huerfano', data: { order: 3, section: 'ruta', title: 'Orphan' } },
+  ];
+
+  it('uses translations by slug and falls back to the Spanish original', () => {
+    const en = localizeModules(entries, 'en');
+    expect(en.map((m) => [m.id, m.data.title, m.lang])).toEqual([
+      ['intro', 'Introduction', 'en'],
+      ['etica', 'Ética', 'es'],
+    ]);
+    expect(en[0]?.entry).toBe(entries[2]);
+  });
+
+  it('takes order and section from the original', () => {
+    expect(localizeModules(entries, 'en')[0]?.data).toMatchObject({ order: 1, section: 'ruta' });
+  });
+
+  it('ignores translations without a Spanish original', () => {
+    expect(localizeModules(entries, 'en').map((m) => m.id)).not.toContain('huerfano');
+  });
+
+  it('returns the originals for the default locale', () => {
+    expect(localizeModules(entries, 'es').map((m) => [m.id, m.lang])).toEqual([
+      ['intro', 'es'],
+      ['etica', 'es'],
+    ]);
   });
 });

@@ -1,23 +1,31 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import Trans from './Trans.astro';
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+import type { GuideModule } from '../lib/content';
 import { moduleHref } from '../lib/modules';
 
 interface Props {
   step: number;
-  prev: CollectionEntry<'modulos'> | undefined;
-  next: CollectionEntry<'modulos'> | undefined;
+  prev: GuideModule | undefined;
+  next: GuideModule | undefined;
 }
 
 const { step, prev, next } = Astro.props;
-const label = (m: CollectionEntry<'modulos'>) => m.data.navTitle ?? m.data.title;
+const locale = toLocale(Astro.currentLocale);
+const t = getTranslations(locale);
+const label = (m: GuideModule) => m.data.navTitle ?? m.data.title;
+const lang = (m: GuideModule) => (m.lang === locale ? undefined : m.lang);
 ---
 
-<nav class="prev-next no-print" aria-label="Navegación entre pasos">
+<nav class="prev-next no-print" aria-label={t.prevNext.label}>
   {
     prev ? (
-      <a class="prev-next__link" href={moduleHref(prev.id)} rel="prev">
-        <span class="prev-next__dir">← Paso {step - 1}</span>
-        <span class="prev-next__title">{label(prev)}</span>
+      <a class="prev-next__link" href={moduleHref(prev.id, locale)} rel="prev">
+        <span class="prev-next__dir">← {t.nav.step(step - 1)}</span>
+        <span class="prev-next__title" lang={lang(prev)}>
+          {label(prev)}
+        </span>
       </a>
     ) : (
       <span />
@@ -25,16 +33,24 @@ const label = (m: CollectionEntry<'modulos'>) => m.data.navTitle ?? m.data.title
   }
   {
     next ? (
-      <a class="prev-next__link prev-next__link--next" href={moduleHref(next.id)} rel="next">
-        <span class="prev-next__dir">Paso {step + 1} →</span>
-        <span class="prev-next__title">{label(next)}</span>
+      <a class="prev-next__link prev-next__link--next" href={moduleHref(next.id, locale)} rel="next">
+        <span class="prev-next__dir">{t.nav.step(step + 1)} →</span>
+        <span class="prev-next__title" lang={lang(next)}>
+          {label(next)}
+        </span>
       </a>
     ) : (
       <div class="prev-next__done">
-        <p class="prev-next__title">¡Terminaste la ruta!</p>
+        <p class="prev-next__title">{t.prevNext.finishedTitle}</p>
         <p>
-          Vuelve a la guía cada vez que lo necesites. Consulta el <a href={moduleHref('glosario')}>glosario</a> o las{' '}
-          <a href={moduleHref('referencias')}>referencias</a> para profundizar.
+          <Trans text={t.prevNext.finished}>
+            <a slot="glossary" href={moduleHref('glosario', locale)}>
+              {t.prevNext.glossary}
+            </a>
+            <a slot="references" href={moduleHref('referencias', locale)}>
+              {t.prevNext.references}
+            </a>
+          </Trans>
         </p>
       </div>
     )

@@ -1,0 +1,20 @@
+---
+/**
+ * Renders a translated string whose `{name}` placeholders hold markup, passed as named slots:
+ * <Trans text="See the {link}."><a slot="link" href="…">references</a></Trans>
+ * The text around the placeholders is escaped as usual.
+ */
+import { splitPlaceholders } from '../i18n/ui';
+
+interface Props {
+  text: string;
+}
+
+const parts = await Promise.all(
+  splitPlaceholders(Astro.props.text).map(async (part) =>
+    'placeholder' in part ? { html: await Astro.slots.render(part.placeholder) } : part,
+  ),
+);
+---
+
+{parts.map((part) => ('html' in part ? <Fragment set:html={part.html} /> : part.text))}

@@ -1,0 +1,116 @@
+---
+title: Creating a material step by step
+navTitle: Creating step by step
+description: A six-step cycle for going from an idea to a classroom-ready adaptive material, with a complete example.
+summary: The creation cycle, with a complete example.
+order: 5
+section: ruta
+readingMinutes: 9
+sources:
+  - Dourvas, Kokkonis and Kontogiannis (2026)
+  - Kemmis and McTaggart (1988); Latorre (2005)
+  - Tomlinson (2014)
+  - CAST (2024)
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptExample from '../../../components/PromptExample.astro';
+import Resumen from '../../../components/Resumen.astro';
+
+## The creation cycle
+
+Creating a good material with AI isn't "writing an instruction and copying the result". It's a six-step cycle:
+
+1. **Plan.** Define the learning objective, describe your students (in general terms, with no personal data) and decide what you'll adapt and based on what.
+2. **Ask.** Write the prompt with the six ingredients from Step 4.
+3. **Review.** Read the result with a critical eye: is it correct, relevant and appropriate? (Step 6).
+4. **Adjust.** Ask the AI for changes or edit it yourself.
+5. **Apply.** Use the material in class and watch how your students respond.
+6. **Reflect.** What worked? What would you change? Save the prompts that gave good results.
+
+<Callout type="idea">
+This cycle is a form of **reflective practice**: formulate, evaluate and reformulate, just as you do when you plan a lesson. It also follows the logic of action research: **plan, act, observe and reflect**, and then start again with a better material.
+</Callout>
+
+## A complete example: the water cycle
+
+**Situation:** a grade 7 natural science teacher at a public school, with 32 students. After a diagnostic activity, she identified three groups:
+
+- a group that still confuses evaporation with condensation;
+- a group that has mastered the basics;
+- a group that already connects the cycle with weather phenomena.
+
+There is also **a student with low vision** in the class.
+
+### 1. Plan
+
+- **Objective:** explain the stages of the water cycle and relate them to everyday phenomena.
+- **What she adapts:** the content and the process.
+- **Based on what:** readiness (three levels) and learning profile (accessibility for low vision, following UDL).
+- **Shared product:** at the end, everyone will explain the cycle with a diagram of their own.
+
+### 2. Ask
+
+<PromptExample label="First prompt">
+Act as a secondary school natural science teacher with experience in Universal Design for Learning.
+
+Context: grade 7, students aged 12 and 13 at a public school in Bucaramanga, Colombia. The group has three levels of readiness on the topic: some confuse evaporation and condensation, others have mastered the basics and others already connect the cycle with the weather. There is a student with low vision.
+
+Learning objective: explain the stages of the water cycle and relate them to everyday phenomena.
+
+Task: create a worksheet in three versions with the same objective:
+- Version 1: with more support, short sentences, a 5-word glossary and examples from home (the boiling pot, the cold glass that "sweats").
+- Version 2: expected level, with a short reading and 5 questions.
+- Version 3: a challenge that connects the water cycle with the rainy seasons in Santander.
+
+Also, create an accessible version of version 2 for the student with low vision: one that doesn't depend on images, with descriptions in words, and suitable for reading aloud.
+
+Format: for each version, include a title, a reading, activities and a closing question. Use clear language and examples from the Colombian context.
+</PromptExample>
+
+### 3. Review
+
+The teacher read the result and noted:
+
+- The stages were well explained, but version 3 mentioned **sublimation** without explaining it. Is it necessary for this grade? She decided it was, but with a definition.
+- Version 1 used the word **"precipitation"** without explaining it.
+- A figure about "the percentage of fresh water on the planet" had no source. She **checked** it in a reliable source before keeping it.
+- The examples from home worked very well for her context.
+
+### 4. Adjust
+
+<PromptExample label="Follow-up messages">
+"In version 1, explain 'precipitation' in simple words and add an example from daily life."
+"In version 3, add a short definition of 'sublimation'."
+"In the accessible version, describe each stage of the cycle in words, as if you were explaining it to someone over the phone."
+</PromptExample>
+
+After these adjustments, the teacher edited a few details by hand: she replaced place names with others close to the school and increased the font size of the printed version.
+
+### 5. Apply
+
+She handed out the versions without labels like "low level" or "high level". Instead, she used neutral names: **cloud path, river path and ocean path**. During the class, she watched who needed more support and who finished quickly.
+
+<Callout type="consejo">
+Avoid labels that compare students. Use neutral names or colors for the versions. What matters is that each student gets the support they need, without feeling singled out.
+</Callout>
+
+### 6. Reflect
+
+When she finished, the teacher asked herself:
+
+- Did everyone reach the objective? How do I know?
+- Did any version turn out too easy or too hard?
+- What would I change in the prompt next time?
+
+She saved the final prompt, with her notes, in her **prompt bank**.
+
+<Callout type="consejo" title="Build your prompt bank">
+Open a document and save the prompts that worked for you, organized by topic and grade, with a note on what you would adjust. Next time you'll only have to change the details in square brackets. In Step 8 you'll find templates to get started.
+</Callout>
+
+<Resumen>
+- Creating with AI is a **cycle**: plan, ask, review, adjust, apply and reflect.
+- AI takes part in two of the six steps (ask and adjust); **the rest depend on your judgment**.
+- Save your best prompts in a **bank** so you can reuse and improve them.
+</Resumen>
