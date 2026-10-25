@@ -1,0 +1,103 @@
+---
+/**
+ * The button of an animated figure: "Ver de nuevo", or with `pausable` also "Pausar" / "Continuar" while it plays.
+ * Hidden until playOnView (src/lib/animation.ts) arms the figure, which then switches its state and label. A
+ * `discreet` button stays invisible until a keyboard user reaches it, and then shows over the figure's corner.
+ */
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+
+interface Props {
+  /** Pause and resume while it plays: required when the animation lasts more than 5 seconds. */
+  pausable?: boolean;
+  /** Invisible until focused with the keyboard; the figure needs `position: relative`. */
+  discreet?: boolean;
+}
+
+const { pausable = false, discreet = false } = Astro.props;
+const t = getTranslations(toLocale(Astro.currentLocale)).figure;
+---
+
+<button
+  type="button"
+  class:list={['anim-button', 'no-print', { 'anim-button--discreet': discreet }]}
+  data-replay
+  data-state={pausable ? 'pause' : 'replay'}
+  data-label-pause={t.pause}
+  data-label-resume={t.resume}
+  data-label-replay={t.replay}
+  hidden>
+  <svg class="anim-button__icon anim-button__icon--pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path d="M9 5v14M15 5v14"></path>
+  </svg>
+  <svg class="anim-button__icon anim-button__icon--resume" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path d="M7 5v14l11-7Z"></path>
+  </svg>
+  <svg class="anim-button__icon anim-button__icon--replay" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"></path>
+  </svg>
+  <span data-label>{pausable ? t.pause : t.replay}</span>
+</button>
+
+<style>
+  .anim-button {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    width: fit-content;
+    margin: 0.9rem 0 0 auto;
+    padding: 0.3rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--primary);
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .anim-button:hover {
+    background: var(--primary-soft);
+  }
+
+  .anim-button[hidden] {
+    display: none;
+  }
+
+  .anim-button--discreet {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    margin: 0;
+    box-shadow: var(--shadow);
+  }
+
+  /* Like .visually-hidden, until a keyboard user tabs to it. */
+  .anim-button--discreet:not(:focus-visible) {
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .anim-button__icon {
+    display: none;
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .anim-button[data-state='pause'] .anim-button__icon--pause,
+  .anim-button[data-state='resume'] .anim-button__icon--resume,
+  .anim-button[data-state='replay'] .anim-button__icon--replay {
+    display: block;
+  }
+</style>

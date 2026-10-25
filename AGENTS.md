@@ -44,11 +44,14 @@ src/
     PromptFormats, NextWord, RoleFlow + RoleStep, AnnotatedAnswer + Flag        More diagrams (Step 1); AiIcon is the shared robot
     Matrix, HelpZones, SameGoal, DecisionFlow + Decision, ToolTest, CreationCycle + CycleStep, DataToNeeds, TemplateFill
                          Diagrams for Steps 2, 3, 5–8; PersonIcon is the shared teacher
+    TeacherAiScene       Home hero: animated teacher + AI scene ("ask, draft, review"); loops, pauses on click/tap
+    AnimationButton      Replay / pause button under an animated figure (driven by lib/animation.ts)
   lib/
     url.ts               withBase() / stripBase(): add or remove the deploy base
     modules.ts           localizeModules(), ordering, route vs. resources, prev/next, step number, moduleHref()
     content.ts           getModules(locale): the collection in one language (GuideModule)
     site.ts              Site name
+    animation.ts         playOnView(): plays a figure's CSS animation once in view; replay and pause button
   styles/global.css      Design tokens (light/dark), prose, task-list and print styles
 ```
 
