@@ -62,6 +62,8 @@ export const en: Dictionary = {
     neutral: 'Prompt',
     weak: 'Weak prompt',
     strong: 'Improved prompt',
+    copy: 'Copy',
+    copied: 'Copied!',
   },
   summary: 'In summary',
   figure: {

@@ -88,7 +88,7 @@ import Resumen from '../../../components/Resumen.astro';
 </Callout>
 ```
 
-**PromptExample**: a prompt shown as a card. `variant` is `neutral` (default, "Prompt"), `weak` ("Prompt débil", ✗) or `strong` ("Prompt mejorado", ✓); the default labels are translated automatically. The optional `label` overrides the heading, e.g. "Plantilla" ("Template") or "Mensajes de ajuste" ("Follow-up messages"). Line breaks inside are preserved.
+**PromptExample**: a prompt shown as a card. `variant` is `neutral` (default, "Prompt"), `weak` ("Prompt débil", ✗) or `strong` ("Prompt mejorado", ✓); the default labels are translated automatically. The optional `label` overrides the heading, e.g. "Plantilla" ("Template") or "Mensajes de ajuste" ("Follow-up messages"). Line breaks inside are preserved. With `copy`, a "Copiar" button copies the prompt as plain text (lists keep their "- " or "1. "); every template in the prompt library has it.
 
 **BeforeAfter**: wraps exactly two PromptExamples side by side (weak first); they stack on mobile.
 
@@ -270,7 +270,7 @@ New templates in `biblioteca-de-prompts.mdx` follow this exact block, continuing
 
 **Qué adapta:** contenido · **Según:** preparación · **Ideal para:** cualquier área.
 
-<PromptExample label="Plantilla">
+<PromptExample label="Plantilla" copy>
 Actúa como docente de [área] con experiencia en [enfoque].
 Mis estudiantes son de grado [grado] ([edad] años) y [característica del grupo].
 Objetivo de aprendizaje: [objetivo].

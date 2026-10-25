@@ -52,6 +52,7 @@ src/
     content.ts           getModules(locale): the collection in one language (GuideModule)
     site.ts              Site name
     animation.ts         playOnView(): plays a figure's CSS animation once in view; replay and pause button
+    copy.ts              The "Copiar" button of prompt cards (PromptExample `copy`): copies the prompt as plain text
   styles/global.css      Design tokens (light/dark), prose, task-list and print styles
 ```
 
