@@ -4,9 +4,8 @@
  * Animated: plays once when it scrolls into view and can be replayed. Without JavaScript, with reduced motion
  * and in print it shows the finished state.
  */
+import AnimationButton from './AnimationButton.astro';
 import Figure from './Figure.astro';
-import { toLocale } from '../i18n/locales';
-import { getTranslations } from '../i18n/ui';
 
 interface Props {
   /** The start of the sentence, e.g. "Las plantas fabrican su propio". */
@@ -19,7 +18,6 @@ interface Props {
 }
 
 const { text, options, chosenLabel, caption } = Astro.props;
-const replayLabel = getTranslations(toLocale(Astro.currentLocale)).figure.replay;
 const sorted = [...options].sort((a, b) => b.fit - a.fit);
 const chosen = sorted[0];
 ---
@@ -53,45 +51,14 @@ const chosen = sorted[0];
         ))
       }
     </ul>
-    <button type="button" class="next-word__replay no-print" data-replay hidden>
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"></path>
-      </svg>
-      {replayLabel}
-    </button>
+    <AnimationButton />
   </div>
 </Figure>
 
 <script>
-  // Plays each "next word" animation once, when it scrolls into view; the replay button restarts it.
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  import { playOnView } from '../lib/animation';
 
-  if (!reduceMotion && 'IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          entry.target.classList.add('is-playing');
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.5 },
-    );
-
-    for (const figure of document.querySelectorAll<HTMLElement>('[data-next-word]')) {
-      figure.classList.add('is-armed');
-      observer.observe(figure);
-
-      const replay = figure.querySelector<HTMLButtonElement>('[data-replay]');
-      if (!replay) continue;
-      replay.hidden = false;
-      replay.addEventListener('click', () => {
-        figure.classList.remove('is-armed', 'is-playing');
-        figure.getBoundingClientRect(); // forces a reflow, so the animations start again from the beginning
-        figure.classList.add('is-armed', 'is-playing');
-      });
-    }
-  }
+  playOnView('[data-next-word]');
 </script>
 
 <style>
@@ -192,8 +159,7 @@ const chosen = sorted[0];
     text-transform: uppercase;
   }
 
-  .next-word__label svg,
-  .next-word__replay svg {
+  .next-word__label svg {
     width: 1rem;
     height: 1rem;
     fill: none;
@@ -201,31 +167,6 @@ const chosen = sorted[0];
     stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
-  }
-
-  .next-word__replay {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    width: fit-content;
-    margin: 0.9rem 0 0 auto;
-    padding: 0.3rem 0.85rem;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: var(--surface);
-    color: var(--primary);
-    font: inherit;
-    font-size: 0.8rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
-
-  .next-word__replay:hover {
-    background: var(--primary-soft);
-  }
-
-  .next-word__replay[hidden] {
-    display: none;
   }
 
   /*

@@ -70,6 +70,8 @@ export const es = {
     yes: 'Sí',
     no: 'No',
     continue: 'sigue con la siguiente pregunta',
+    pause: 'Pausar la animación',
+    resume: 'Continuar la animación',
   },
   home: {
     description:
@@ -80,6 +82,9 @@ export const es = {
       `Una ruta práctica de ${steps} pasos para usar herramientas como ChatGPT, Gemini, Copilot o Claude con criterio pedagógico, ético y responsable, y así responder mejor a la diversidad de tu aula.`,
     start: 'Empezar la guía →',
     seePrompts: 'Ver ejemplos de prompts',
+    sceneTitle: 'Una docente trabaja con la IA',
+    sceneDescription:
+      'La docente escribe su pedido, la IA piensa y le entrega un borrador, y ella lo revisa, lo corrige y lo aprueba.',
     principleQuote: '“Tú decides, la IA asiste.”',
     principle:
       'La IA generativa puede producir borradores en segundos, pero no conoce a tus estudiantes. Qué enseñar, para quién, cómo y por qué sigue siendo una decisión tuya. Esta guía sigue el enfoque centrado en el ser humano que propone la UNESCO: la tecnología al servicio de los fines educativos, con el docente al mando.',

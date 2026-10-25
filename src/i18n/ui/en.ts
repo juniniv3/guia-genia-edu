@@ -69,6 +69,8 @@ export const en: Dictionary = {
     yes: 'Yes',
     no: 'No',
     continue: 'go on to the next question',
+    pause: 'Pause the animation',
+    resume: 'Resume the animation',
   },
   home: {
     description:
@@ -79,6 +81,9 @@ export const en: Dictionary = {
       `A practical ${steps}-step path for using tools like ChatGPT, Gemini, Copilot or Claude with sound pedagogical, ethical and responsible judgment, so you can better respond to the diversity of your classroom.`,
     start: 'Start the guide →',
     seePrompts: 'See prompt examples',
+    sceneTitle: 'A teacher working with AI',
+    sceneDescription:
+      'The teacher types her request, the AI thinks and hands her a draft, and she reviews it, corrects it and approves it.',
     principleQuote: '“You decide; AI assists.”',
     principle:
       'Generative AI can produce drafts in seconds, but it doesn’t know your students. What to teach, to whom, how and why is still your decision. This guide follows the human-centered approach proposed by UNESCO: technology in the service of educational goals, with the teacher in charge.',

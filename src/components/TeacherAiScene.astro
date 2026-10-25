@@ -1,0 +1,781 @@
+---
+/**
+ * The home hero's animated scene, "Tú decides, la IA asiste": a teacher types a request, the AI thinks and hands her a
+ * draft, and she reviews it, corrects it and approves it. Wordless; its accessible name and description come from the
+ * home copy. It loops while it's in view (every 9 s); clicking or tapping it pauses it, and keyboard users get a pause
+ * button when they tab to it (a looping animation must always be pausable). Without JavaScript, with reduced motion
+ * and in print it shows its final pose, which tells the same story.
+ */
+import AnimationButton from './AnimationButton.astro';
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+
+const t = getTranslations(toLocale(Astro.currentLocale)).home;
+---
+
+<div class="scene" data-teacher-ai-scene>
+  <svg
+    class="scene__art"
+    viewBox="0 0 520 360"
+    role="img"
+    aria-labelledby="teacher-ai-scene-title teacher-ai-scene-desc"
+    focusable="false">
+    <title id="teacher-ai-scene-title">{t.sceneTitle}</title>
+    <desc id="teacher-ai-scene-desc">{t.sceneDescription}</desc>
+
+    <circle class="scene__stage" cx="268" cy="190" r="158"></circle>
+
+    <!-- The teacher: head and body (her arms are drawn later, in front of the desk and the page). -->
+    <g class="scene__hair">
+      <circle cx="140" cy="98" r="38"></circle>
+      <circle cx="104" cy="116" r="12"></circle>
+      <circle cx="176" cy="116" r="12"></circle>
+      <circle cx="106" cy="94" r="12"></circle>
+      <circle cx="174" cy="94" r="12"></circle>
+      <circle cx="118" cy="72" r="12"></circle>
+      <circle cx="162" cy="72" r="12"></circle>
+      <circle cx="106" cy="130" r="11"></circle>
+      <circle cx="174" cy="130" r="11"></circle>
+      <circle cx="140" cy="52" r="17"></circle>
+      <circle cx="125" cy="57" r="8"></circle>
+      <circle cx="155" cy="57" r="8"></circle>
+    </g>
+    <rect class="scene__neck" x="130" y="128" width="20" height="26" rx="6"></rect>
+    <path class="scene__sweater" d="M70,330 L76,200 Q80,156 140,150 Q200,156 204,200 L210,330 Z"></path>
+    <path class="scene__shirt" d="M122,151 L140,190 L158,151 Q140,146 122,151 Z"></path>
+    <path class="scene__seam" d="M140,190 V330"></path>
+    <circle class="scene__button" cx="147" cy="214" r="3"></circle>
+    <circle class="scene__button" cx="147" cy="244" r="3"></circle>
+    <circle class="scene__skin" cx="112" cy="110" r="6"></circle>
+    <circle class="scene__skin" cx="168" cy="110" r="6"></circle>
+    <circle class="scene__earring" cx="112" cy="119" r="3"></circle>
+    <circle class="scene__earring" cx="168" cy="119" r="3"></circle>
+    <ellipse class="scene__skin" cx="140" cy="106" rx="27" ry="31"></ellipse>
+    <path class="scene__hair" d="M113,100 C114,74 166,74 167,100 C158,88 148,86 140,90 C132,86 122,88 113,100 Z"></path>
+    <path class="scene__brow" d="M121,94 q6,-4 12,-1 M147,93 q6,-3 12,1"></path>
+    <circle class="scene__blush" cx="121" cy="121" r="5"></circle>
+    <circle class="scene__blush" cx="159" cy="121" r="5"></circle>
+    <g transform="translate(1.5 0)">
+      <g class="scene__t-blink scene__anim">
+        <circle class="scene__eye" cx="128" cy="109" r="2.6"></circle>
+        <circle class="scene__eye" cx="152" cy="109" r="2.6"></circle>
+      </g>
+    </g>
+    <path class="scene__glasses" d="M137,108 h6 M119,106 l-6,-2 M161,106 l6,-2"></path>
+    <circle class="scene__glasses" cx="128" cy="108" r="9"></circle>
+    <circle class="scene__glasses" cx="152" cy="108" r="9"></circle>
+    <path class="scene__nose" d="M141,113 q-2,5 2,6"></path>
+    <path class="scene__mouth" d="M132,123 q8,7 16,0"></path>
+
+    <!-- The AI: a friendly robot, a bigger version of AiIcon. -->
+    <g class="scene__robot-hover scene__anim">
+      <g class="scene__robot-bounce scene__anim">
+        <g class="scene__robot-arm scene__anim">
+          <path class="scene__robot-limb" d="M372,200 Q348,214 342,236"></path>
+          <circle class="scene__robot-hand" cx="340" cy="240" r="10"></circle>
+        </g>
+        <path class="scene__robot-limb" d="M448,200 Q472,214 478,236"></path>
+        <circle class="scene__robot-hand" cx="480" cy="240" r="10"></circle>
+        <rect class="scene__robot-body" x="366" y="174" width="88" height="130" rx="24"></rect>
+        <rect class="scene__robot-panel" x="386" y="196" width="48" height="30" rx="9"></rect>
+        <circle class="scene__robot-led" cx="400" cy="211" r="4.5"></circle>
+        <circle class="scene__robot-led scene__robot-led--2" cx="420" cy="211" r="4.5"></circle>
+        <rect class="scene__robot-neck" x="398" y="162" width="24" height="16" rx="4"></rect>
+        <path class="scene__robot-antenna" d="M410,66 V88"></path>
+        <circle class="scene__robot-light scene__anim" cx="410" cy="62" r="8"></circle>
+        <rect class="scene__robot-head" x="346" y="116" width="12" height="28" rx="5"></rect>
+        <rect class="scene__robot-head" x="462" y="116" width="12" height="28" rx="5"></rect>
+        <rect class="scene__robot-head" x="356" y="86" width="108" height="80" rx="26"></rect>
+        <g class="scene__robot-eyes scene__anim">
+          <g class="scene__robot-look scene__anim">
+            <g class="scene__robot-blink scene__anim">
+              <circle class="scene__robot-eye" cx="390" cy="124" r="8"></circle>
+              <circle class="scene__robot-eye" cx="430" cy="124" r="8"></circle>
+            </g>
+          </g>
+        </g>
+        <path class="scene__robot-face scene__robot-unsure scene__anim" d="M389,146 q10,-7 20,0 t20,0"></path>
+        <path class="scene__robot-face scene__robot-happy scene__anim" d="M381,128 q9,-10 18,0 M421,128 q9,-10 18,0 M392,142 q18,15 36,0"
+        ></path>
+      </g>
+    </g>
+
+    <!-- The desk, in front of both. -->
+    <rect class="scene__desk-front" x="34" y="306" width="452" height="40" rx="8"></rect>
+    <rect class="scene__desk" x="20" y="298" width="480" height="14" rx="7"></rect>
+    <circle class="scene__apple" cx="50" cy="285" r="13"></circle>
+    <path class="scene__stem" d="M50,273 v-6"></path>
+    <path class="scene__leaf" d="M51,270 q6,-8 13,-6 q-4,8 -13,6 Z"></path>
+
+    <!-- The draft: comes out of the robot's hand, gets reviewed, corrected and approved. -->
+    <g class="scene__page scene__anim">
+      <rect class="scene__page-shadow" x="251" y="113" width="84" height="108" rx="8"></rect>
+      <rect class="scene__page-sheet" x="246" y="108" width="84" height="108" rx="8"></rect>
+      <rect class="scene__highlight scene__anim" x="253" y="167" width="70" height="36" rx="4"></rect>
+      <rect class="scene__page-title" x="258" y="121" width="48" height="8" rx="4"></rect>
+      <rect class="scene__page-image" x="258" y="137" width="28" height="24" rx="4"></rect>
+      <path class="scene__page-mountain" d="M261,158 l8,-9 6,6 4,-4 5,7 Z"></path>
+      <rect class="scene__page-line" x="292" y="139" width="26" height="5" rx="2.5"></rect>
+      <rect class="scene__page-line" x="292" y="149" width="20" height="5" rx="2.5"></rect>
+      <rect class="scene__page-line" x="258" y="172" width="60" height="5" rx="2.5"></rect>
+      <rect class="scene__page-line" x="258" y="183" width="60" height="5" rx="2.5"></rect>
+      <rect class="scene__page-line" x="258" y="194" width="44" height="5" rx="2.5"></rect>
+      <path class="scene__edit scene__anim" d="M258,206 q8,-5 16,0 t16,0 t16,0"></path>
+      <g class="scene__check scene__anim">
+        <circle cx="328" cy="112" r="16"></circle>
+        <path d="M320,112 l6,6 l10,-12"></path>
+      </g>
+    </g>
+
+    <!-- The teacher's arms: one holds the tablet; the other types, then reviews the page with a pen. -->
+    <g transform="rotate(-10 140 262)">
+      <rect class="scene__tablet" x="96" y="234" width="88" height="58" rx="7"></rect>
+      <rect class="scene__screen" x="102" y="240" width="76" height="46" rx="4"></rect>
+      <rect class="scene__screen-line" x="109" y="248" width="44" height="4" rx="2"></rect>
+      <rect class="scene__screen-line" x="109" y="256" width="56" height="4" rx="2"></rect>
+      <rect class="scene__screen-line" x="109" y="264" width="32" height="4" rx="2"></rect>
+    </g>
+    <path class="scene__sleeve" d="M84,196 Q62,252 98,284"></path>
+    <circle class="scene__skin" cx="103" cy="284" r="9"></circle>
+    <g class="scene__arm-type scene__anim">
+      <path class="scene__sleeve" d="M196,196 Q222,244 178,262"></path>
+      <g class="scene__tap scene__anim">
+        <circle class="scene__skin" cx="172" cy="262" r="9"></circle>
+      </g>
+    </g>
+    <g class="scene__arm-review scene__anim">
+      <path class="scene__sleeve" d="M196,196 Q226,192 238,162"></path>
+      <path class="scene__pen" d="M230,138 L254,172"></path>
+      <circle class="scene__skin" cx="240" cy="158" r="9"></circle>
+    </g>
+
+    <!-- What they say: her request, and the AI thinking. -->
+    <g class="scene__think scene__anim">
+      <rect class="scene__bubble-bg" x="318" y="34" width="66" height="30" rx="15"></rect>
+      <circle class="scene__dot scene__anim" cx="334" cy="49" r="5" style="--d: 1.75s"></circle>
+      <circle class="scene__dot scene__anim" cx="351" cy="49" r="5" style="--d: 1.9s"></circle>
+      <circle class="scene__dot scene__anim" cx="368" cy="49" r="5" style="--d: 2.05s"></circle>
+    </g>
+    <g class="scene__bubble scene__anim">
+      <path
+        class="scene__bubble-bg"
+        d="M194,22 H292 Q310,22 310,40 V66 Q310,84 292,84 H212 L182,104 L196,84 H194 Q176,84 176,66 V40 Q176,22 194,22 Z"
+      ></path>
+      <rect class="scene__typed scene__anim" x="192" y="36" width="100" height="8" rx="4" style="--d: 0.55s"></rect>
+      <rect class="scene__typed scene__anim" x="192" y="50" width="82" height="8" rx="4" style="--d: 0.95s"></rect>
+      <rect class="scene__typed scene__anim" x="192" y="64" width="58" height="8" rx="4" style="--d: 1.3s"></rect>
+    </g>
+
+    <!-- The finale. -->
+    <path class="scene__sparkle scene__anim" d="M222,88 l2.5,6 6,2.5 -6,2.5 -2.5,6 -2.5,-6 -6,-2.5 6,-2.5 Z" style="--d: 5.7s"
+    ></path>
+    <path class="scene__sparkle scene__anim" d="M348,80 l2,5 5,2 -5,2 -2,5 -2,-5 -5,-2 5,-2 Z" style="--d: 5.85s"></path>
+    <path class="scene__sparkle scene__anim" d="M488,66 l2.5,6 6,2.5 -6,2.5 -2.5,6 -2.5,-6 -6,-2.5 6,-2.5 Z" style="--d: 6s"
+    ></path>
+  </svg>
+  <span class="scene__clock scene__anim" data-clock aria-hidden="true"></span>
+  <AnimationButton pausable discreet />
+</div>
+
+<script>
+  import { playOnView } from '../lib/animation';
+
+  playOnView('[data-teacher-ai-scene]', { threshold: 0.4, pausable: true, loop: true, pauseOnClick: true });
+</script>
+
+<style>
+  .scene {
+    --skin: #b9774f;
+    --skin-shade: #94583a;
+    --hair: #2b1a12;
+    --blush: #e3826f;
+    --ink: #1e2a2b;
+    --sweater: var(--accent);
+    --sweater-shade: #7d3c06;
+    --shirt: #ffffff;
+    --tablet: #2e3b3c;
+    --desk: #dcc9ad;
+    --desk-front: #ead9c2;
+
+    position: relative;
+    width: 100%;
+    max-width: 30rem;
+    margin-inline: auto;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .scene {
+      --hair: #4f3022;
+      --sweater-shade: #c98a35;
+      --shirt: #e8eeec;
+      --tablet: #0c1314;
+      --desk: #3a4644;
+      --desk-front: #2b3534;
+    }
+  }
+
+  .scene.is-armed {
+    cursor: pointer;
+  }
+
+  .scene__art {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .scene__clock {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  /* ---------- Drawing ---------- */
+  .scene__stage {
+    fill: var(--surface);
+    opacity: 0.85;
+  }
+
+  .scene__hair {
+    fill: var(--hair);
+  }
+
+  .scene__skin {
+    fill: var(--skin);
+  }
+
+  .scene__neck {
+    fill: var(--skin-shade);
+  }
+
+  .scene__sweater {
+    fill: var(--sweater);
+  }
+
+  .scene__sleeve {
+    fill: none;
+    stroke: var(--sweater);
+    stroke-width: 22;
+    stroke-linecap: round;
+  }
+
+  .scene__shirt {
+    fill: var(--shirt);
+  }
+
+  .scene__seam {
+    stroke: var(--sweater-shade);
+    stroke-width: 2.5;
+  }
+
+  .scene__button {
+    fill: var(--sweater-shade);
+  }
+
+  .scene__earring {
+    fill: var(--primary);
+  }
+
+  .scene__brow,
+  .scene__nose,
+  .scene__mouth,
+  .scene__glasses,
+  .scene__pen,
+  .scene__robot-limb,
+  .scene__robot-antenna,
+  .scene__robot-face,
+  .scene__edit,
+  .scene__stem,
+  .scene__check path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .scene__brow {
+    stroke: var(--hair);
+    stroke-width: 2.4;
+  }
+
+  .scene__blush {
+    fill: var(--blush);
+    opacity: 0.45;
+  }
+
+  .scene__eye {
+    fill: var(--ink);
+  }
+
+  .scene__glasses {
+    stroke: var(--ink);
+    stroke-width: 2.4;
+  }
+
+  .scene__nose {
+    stroke: var(--skin-shade);
+    stroke-width: 1.8;
+  }
+
+  .scene__mouth {
+    stroke: var(--ink);
+    stroke-width: 2.4;
+  }
+
+  .scene__tablet {
+    fill: var(--tablet);
+  }
+
+  .scene__screen {
+    fill: var(--primary-soft);
+  }
+
+  .scene__screen-line {
+    fill: var(--primary);
+    opacity: 0.55;
+  }
+
+  .scene__pen {
+    stroke: var(--primary-strong);
+    stroke-width: 6;
+  }
+
+  .scene__robot-head,
+  .scene__robot-body {
+    fill: var(--primary);
+  }
+
+  .scene__robot-limb {
+    stroke: var(--primary);
+    stroke-width: 15;
+  }
+
+  .scene__robot-hand,
+  .scene__robot-neck {
+    fill: var(--primary-strong);
+  }
+
+  .scene__robot-panel {
+    fill: var(--primary-soft);
+  }
+
+  .scene__robot-led,
+  .scene__robot-light {
+    fill: var(--accent);
+  }
+
+  .scene__robot-led--2 {
+    fill: var(--surface);
+  }
+
+  .scene__robot-antenna {
+    stroke: var(--primary);
+    stroke-width: 4.5;
+  }
+
+  .scene__robot-eye {
+    fill: var(--surface);
+  }
+
+  .scene__robot-face {
+    stroke: var(--surface);
+    stroke-width: 4.5;
+  }
+
+  .scene__desk {
+    fill: var(--desk);
+  }
+
+  .scene__desk-front {
+    fill: var(--desk-front);
+  }
+
+  .scene__apple {
+    fill: var(--cuidado);
+  }
+
+  .scene__stem {
+    stroke: var(--sweater-shade);
+    stroke-width: 2.5;
+  }
+
+  .scene__leaf {
+    fill: var(--consejo);
+  }
+
+  .scene__page-shadow {
+    fill: var(--ink);
+    opacity: 0.08;
+  }
+
+  .scene__page-sheet {
+    fill: var(--surface);
+    stroke: var(--border);
+    stroke-width: 2;
+  }
+
+  .scene__page-title,
+  .scene__typed,
+  .scene__dot {
+    fill: var(--primary);
+  }
+
+  .scene__page-image,
+  .scene__highlight {
+    fill: var(--accent-soft);
+  }
+
+  .scene__page-mountain,
+  .scene__sparkle {
+    fill: var(--accent);
+  }
+
+  .scene__page-line {
+    fill: var(--text-muted);
+    opacity: 0.35;
+  }
+
+  .scene__edit {
+    stroke: var(--cuidado);
+    stroke-width: 2.5;
+    stroke-dasharray: 64;
+  }
+
+  .scene__check circle {
+    fill: var(--consejo);
+  }
+
+  .scene__check path {
+    stroke: var(--surface);
+    stroke-width: 3.5;
+  }
+
+  .scene__bubble-bg {
+    fill: var(--surface);
+    stroke: var(--border);
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+
+  /* ---------- Final pose (what shows without the animation) ---------- */
+  .scene__think,
+  .scene__arm-type,
+  .scene__highlight,
+  .scene__robot-eyes,
+  .scene__robot-unsure {
+    opacity: 0;
+  }
+
+  /* What each moving part turns or grows around. */
+  .scene__bubble {
+    transform-box: fill-box;
+    transform-origin: left bottom;
+  }
+
+  .scene__typed,
+  .scene__highlight {
+    transform-box: fill-box;
+    transform-origin: left center;
+  }
+
+  .scene__page,
+  .scene__check,
+  .scene__sparkle,
+  .scene__robot-light,
+  .scene__robot-blink,
+  .scene__t-blink {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .scene__robot-arm {
+    transform-origin: 372px 200px;
+  }
+
+  .scene__arm-review {
+    transform-origin: 196px 196px;
+  }
+
+  /*
+   * One loop, 9 s (the clock): ask 0.2–1.8 s, think 1.6–2.9 s, draft 2.7–3.9 s, review 4–5.6 s, finale 5.5–6.5 s,
+   * then the final pose rests until the bubble, the page and the sparkles fade out (8.5–8.9 s) and playOnView
+   * (src/lib/animation.ts) starts the loop again. `is-armed` applies it paused at its first frame, `is-playing` runs it
+   * and `is-paused` holds it. Apart from those fade-outs, only `backwards` fill, so every part ends in its final pose.
+   */
+  .scene.is-armed .scene__clock {
+    animation: scene-clock 9s linear;
+  }
+
+  .scene.is-armed .scene__bubble {
+    animation:
+      scene-pop 0.45s ease-out 0.2s backwards,
+      scene-fade-out 0.4s ease-in 8.5s forwards;
+  }
+
+  .scene.is-armed .scene__typed {
+    animation: scene-type 0.4s ease-out var(--d) backwards;
+  }
+
+  .scene.is-armed .scene__tap {
+    animation: scene-tap 0.18s ease-in-out 0.4s 8 alternate;
+  }
+
+  .scene.is-armed .scene__think {
+    animation: scene-think 1.3s linear 1.6s backwards;
+  }
+
+  .scene.is-armed .scene__dot {
+    animation: scene-dot 0.45s ease-in-out var(--d) 2;
+  }
+
+  .scene.is-armed .scene__robot-light {
+    animation: scene-pulse 0.4s ease-in-out 1.7s 3;
+  }
+
+  .scene.is-armed .scene__robot-look {
+    animation: scene-look-up 1.2s ease-in-out 1.7s;
+  }
+
+  .scene.is-armed .scene__robot-blink {
+    animation: scene-blink 0.22s ease-in-out 0.9s;
+  }
+
+  .scene.is-armed .scene__t-blink {
+    animation: scene-blink 0.22s ease-in-out 2.3s;
+  }
+
+  .scene.is-armed .scene__robot-arm {
+    animation: scene-reach 1.2s ease-in-out 2.7s;
+  }
+
+  .scene.is-armed .scene__page {
+    animation:
+      scene-deliver 0.9s cubic-bezier(0.3, 0.7, 0.4, 1) 2.9s backwards,
+      scene-fade-out 0.4s ease-in 8.5s forwards;
+  }
+
+  .scene.is-armed .scene__arm-type {
+    animation: scene-visible 4s step-end;
+  }
+
+  .scene.is-armed .scene__arm-review {
+    animation:
+      scene-hidden 4s step-end,
+      scene-review 1s ease-in-out 4.1s;
+  }
+
+  .scene.is-armed .scene__highlight {
+    animation: scene-sweep 0.9s ease-out 4.2s backwards;
+  }
+
+  .scene.is-armed .scene__edit {
+    animation: scene-draw 0.45s ease-out 4.9s backwards;
+  }
+
+  .scene.is-armed .scene__check {
+    animation: scene-pop 0.45s cubic-bezier(0.3, 1.6, 0.5, 1) 5.2s backwards;
+  }
+
+  .scene.is-armed .scene__robot-eyes,
+  .scene.is-armed .scene__robot-unsure {
+    animation: scene-visible 5.5s step-end;
+  }
+
+  .scene.is-armed .scene__robot-happy {
+    animation: scene-hidden 5.5s step-end;
+  }
+
+  .scene.is-armed .scene__robot-bounce {
+    animation: scene-bounce 0.6s ease-out 5.5s;
+  }
+
+  .scene.is-armed .scene__robot-hover {
+    animation: scene-hover 4.5s ease-in-out 2 alternate;
+  }
+
+  .scene.is-armed .scene__sparkle {
+    animation:
+      scene-twinkle 0.45s ease-out var(--d) backwards,
+      scene-fade-out 0.4s ease-in 8.5s forwards;
+  }
+
+  /* After every `animation` above, so these win over the play state the shorthands reset. */
+  .scene.is-armed .scene__anim {
+    animation-play-state: paused;
+  }
+
+  .scene.is-playing .scene__anim {
+    animation-play-state: running;
+  }
+
+  .scene.is-paused .scene__anim {
+    animation-play-state: paused;
+  }
+
+  @keyframes scene-clock {
+    from,
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes scene-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+  }
+
+  @keyframes scene-type {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes scene-tap {
+    to {
+      transform: translateY(3px);
+    }
+  }
+
+  @keyframes scene-think {
+    0%,
+    100% {
+      opacity: 0;
+    }
+
+    12%,
+    88% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scene-dot {
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  @keyframes scene-pulse {
+    50% {
+      opacity: 0.6;
+      transform: scale(1.45);
+    }
+  }
+
+  @keyframes scene-look-up {
+    20%,
+    80% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes scene-blink {
+    50% {
+      transform: scaleY(0.1);
+    }
+  }
+
+  @keyframes scene-reach {
+    25%,
+    70% {
+      transform: rotate(28deg);
+    }
+  }
+
+  @keyframes scene-deliver {
+    from {
+      opacity: 0;
+      transform: translate(36px, 56px) scale(0.3);
+    }
+
+    25% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scene-visible {
+    from,
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scene-hidden {
+    from,
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes scene-review {
+    40% {
+      transform: rotate(16deg);
+    }
+
+    75% {
+      transform: rotate(7deg);
+    }
+  }
+
+  @keyframes scene-sweep {
+    0% {
+      opacity: 0.9;
+      transform: scaleX(0);
+    }
+
+    70% {
+      opacity: 0.9;
+      transform: scaleX(1);
+    }
+
+    100% {
+      opacity: 0;
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes scene-draw {
+    from {
+      stroke-dashoffset: 64;
+    }
+  }
+
+  @keyframes scene-bounce {
+    40% {
+      transform: translateY(-14px);
+    }
+  }
+
+  @keyframes scene-hover {
+    to {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes scene-twinkle {
+    from {
+      opacity: 0;
+      transform: scale(0) rotate(-60deg);
+    }
+  }
+
+  @keyframes scene-fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scene * {
+      animation: none !important;
+    }
+  }
+
+  @media print {
+    .scene * {
+      animation: none !important;
+    }
+  }
+</style>
