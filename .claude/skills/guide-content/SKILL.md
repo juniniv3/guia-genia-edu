@@ -32,6 +32,7 @@ Every change to a Spanish module should be mirrored in its `en/` file in the sam
 - Translate into plain, friendly English for teachers ("you"), keeping the same structure: frontmatter, headings, components, tables and list items line up one-to-one with the Spanish file.
 - **Keep the Colombian context**: grades (grado 6 → grade 6), pesos, Bucaramanga, Santander, arepas, MEN, DBA. Gloss a local term the first time it appears ("arepas (Colombian corn cakes)", "Basic Learning Rights (DBA)").
 - Translate prompts and placeholders (`[grado]` → `[grade]`), so teachers can paste them as they are. "Paso N" becomes "Step N"; DUA is UDL.
+- Translate every figure's props and `caption` (§4b): their text lives in the MDX, not in the components.
 - In `sources`, use "and" instead of "y" and the English title when the work has one (see `en/referencias.mdx`). In `en/referencias.mdx`, follow APA 7 in English (`&`, "2nd ed.", "Master's thesis") and add an English translation in square brackets after Spanish titles.
 - Re-sort the English glossary alphabetically by the English term.
 - `order` and `section` in `en/` files are ignored (the Spanish file decides); keep them equal anyway. `readingMinutes` and the rest are read from the translation.
@@ -110,6 +111,48 @@ Actúa como docente de matemáticas de primaria…
 - Segunda idea clave.
 </Resumen>
 ```
+
+## 4b. Figures (diagrams)
+
+Figures are diagrams drawn in HTML and CSS with the site's colors, so they follow light/dark mode, wrap on phones and print with the module. All their text comes from props, so each language file writes its own. Keep labels to a few words. Every figure takes an optional `caption`, shown below it. Step 4 (`escribir-prompts.mdx`) uses all of them.
+
+**AiAssumes**: a vague prompt and what the AI has to guess around it.
+
+```mdx
+<AiAssumes
+  prompt="Hazme un taller de fracciones."
+  guesses={['¿Grado?', '¿Objetivo?', '¿Nivel?', '¿Formato?']}
+  ai="IA"
+  caption="Con un prompt vago, la IA tiene que suponer todo lo que no le dijiste."
+/>
+```
+
+**PromptAnatomy** + **PromptPart**: a prompt card split into its ingredients. `n` is the ingredient number from the Paso 4 table (1 rol … 6 criterios); it sets the badge and the color. `label` on PromptAnatomy is the card heading (default "Prompt").
+
+```mdx
+<PromptAnatomy label="Un prompt, seis ingredientes" caption="…">
+<PromptPart n={1} label="Rol">
+Actúa como docente de matemáticas de primaria…
+</PromptPart>
+<PromptPart n={3} label="Objetivo de aprendizaje">
+Objetivo: que reconozcan fracciones equivalentes.
+</PromptPart>
+</PromptAnatomy>
+```
+
+**DraftLoop**: exactly four steps in a clockwise loop, plus the way out (`exit`), which comes out of the third step.
+
+```mdx
+<DraftLoop steps={['Pide', 'Recibe un borrador', 'Revísalo', 'Ajusta']} exit="Úsalo en clase" caption="…" />
+```
+
+**ClearFramework**: two groups of tiles; each word's first letter is shown large, so the words must spell the acronym.
+
+```mdx
+<ClearFramework beforeLabel="Antes de enviarlo" before={['Conciso', 'Lógico', 'Explícito']} afterLabel="Después de leer la respuesta" after={['Adaptativo', 'Reflexivo']} caption="…" />
+```
+
+Use at most one figure per `##` section, next to the text it illustrates, never between a sentence ending in ":" and its list. A new kind of diagram is a new component in `src/components/` built on `Figure.astro` (code work, not content work).
 
 Plain Markdown that is already styled:
 - GFM tables, which scroll sideways on phones.

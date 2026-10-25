@@ -1,0 +1,134 @@
+---
+/** Diagram for "the AI doesn't know your class": a vague prompt and everything the AI has to guess around it. */
+import Figure from './Figure.astro';
+
+interface Props {
+  /** The vague prompt, short enough for one or two lines. */
+  prompt: string;
+  /** What the AI has to guess, e.g. "¿Grado?". Split between both sides of the AI. */
+  guesses: string[];
+  /** Label under the AI icon ("IA", "AI"). */
+  ai: string;
+  caption?: string;
+}
+
+const { prompt, guesses, ai, caption } = Astro.props;
+const start = guesses.filter((_, i) => i % 2 === 0);
+const end = guesses.filter((_, i) => i % 2 === 1);
+---
+
+<Figure caption={caption}>
+  <div class="ai-assumes">
+    <p class="ai-assumes__prompt">{prompt}</p>
+    <svg class="ai-assumes__arrow" viewBox="0 0 24 32" aria-hidden="true" focusable="false">
+      <path d="M12 2v26M5 21l7 7 7-7"></path>
+    </svg>
+    <div class="ai-assumes__scene">
+      <ul class="ai-assumes__guesses ai-assumes__guesses--start">
+        {start.map((guess) => <li>{guess}</li>)}
+      </ul>
+      <div class="ai-assumes__ai">
+        <svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false">
+          <path d="M32 7v8" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"></path>
+          <circle cx="32" cy="6" r="4" fill="var(--accent)"></circle>
+          <rect x="4" y="27" width="6" height="12" rx="2" fill="var(--primary)"></rect>
+          <rect x="54" y="27" width="6" height="12" rx="2" fill="var(--primary)"></rect>
+          <rect x="9" y="15" width="46" height="38" rx="12" fill="var(--primary)"></rect>
+          <circle cx="24" cy="31" r="4.5" fill="var(--surface)"></circle>
+          <circle cx="40" cy="31" r="4.5" fill="var(--surface)"></circle>
+          <path
+            d="M22 43q5-4 10 0t10 0"
+            fill="none"
+            stroke="var(--surface)"
+            stroke-width="3"
+            stroke-linecap="round"></path>
+        </svg>
+        <span>{ai}</span>
+      </div>
+      <ul class="ai-assumes__guesses ai-assumes__guesses--end">
+        {end.map((guess) => <li>{guess}</li>)}
+      </ul>
+    </div>
+  </div>
+</Figure>
+
+<style>
+  .ai-assumes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .ai-assumes__prompt {
+    max-width: 24rem;
+    margin: 0;
+    padding: 0.7rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 1.1rem 1.1rem 1.1rem 0.3rem;
+    background: var(--surface-2);
+    font-weight: 700;
+    line-height: 1.45;
+    text-align: center;
+  }
+
+  .ai-assumes__arrow {
+    width: 1.1rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .ai-assumes__scene {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 30rem;
+  }
+
+  .ai-assumes__guesses {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ai-assumes__guesses--start {
+    align-items: flex-end;
+  }
+
+  .ai-assumes__guesses--end {
+    align-items: flex-start;
+  }
+
+  .ai-assumes__guesses li {
+    margin: 0;
+    padding: 0.3rem 0.75rem;
+    border: 2px dashed var(--accent);
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .ai-assumes__ai {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+  }
+</style>

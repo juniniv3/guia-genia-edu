@@ -1,0 +1,47 @@
+---
+/** Frames a diagram drawn in code (AiAssumes, DraftLoop, ClearFramework, PromptAnatomy) with an optional caption. */
+interface Props {
+  caption?: string;
+  /** Draw the bordered panel around the diagram; off for diagrams that are already a card. */
+  framed?: boolean;
+}
+
+const { caption, framed = true } = Astro.props;
+---
+
+<figure class="figure">
+  <div class:list={['figure__body', { 'figure__body--framed': framed }]}><slot /></div>
+  {caption && <figcaption class="figure__caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .figure {
+    margin: 1.75rem 0;
+  }
+
+  .figure__body {
+    container-type: inline-size;
+  }
+
+  .figure__body--framed {
+    padding: 1.25rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .figure__caption {
+    margin-top: 0.6rem;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  @media print {
+    .figure {
+      break-inside: avoid;
+    }
+  }
+</style>
