@@ -14,8 +14,10 @@ sources:
 ---
 
 import Callout from '../../../components/Callout.astro';
+import Matrix from '../../../components/Matrix.astro';
 import PromptExample from '../../../components/PromptExample.astro';
 import Resumen from '../../../components/Resumen.astro';
+import TemplateFill from '../../../components/TemplateFill.astro';
 
 ## Cómo usar esta biblioteca
 
@@ -24,6 +26,24 @@ import Resumen from '../../../components/Resumen.astro';
 3. **Revisa** el resultado con la lista de verificación del Paso 6 y **ajusta** conversando con la IA.
 
 Cada plantilla indica **qué adapta** (contenido, proceso o producto) y **según qué** (preparación, intereses o perfil), para que relaciones cada ejemplo con lo que viste en el Paso 2.
+
+<Matrix
+  colsLabel="¿Qué adapta?"
+  cols={['Contenido', 'Proceso', 'Producto']}
+  rowsLabel="¿Según qué?"
+  rows={['Preparación', 'Intereses', 'Perfil']}
+  marks={[
+    { row: 1, col: 1, text: '1' },
+    { row: 1, col: 2, text: '2, 5' },
+    { row: 2, col: 1, text: '3' },
+    { row: 2, col: 2, text: '9' },
+    { row: 2, col: 3, text: '11' },
+    { row: 3, col: 1, text: '4, 7, 10' },
+    { row: 3, col: 2, text: '8' },
+    { row: 3, col: 3, text: '7, 11' },
+  ]}
+  caption="Los números son las plantillas de esta página, ubicadas en la matriz del Paso 2. La 6 (rúbrica) sirve para cualquier producto."
+/>
 
 <Callout type="cuidado">
 Recuerda: en los corchetes describe al **grupo** o sus **necesidades**, nunca datos personales de un estudiante.
@@ -56,6 +76,14 @@ Al final de cada versión, incluye 3 preguntas de comprensión. Usa ejemplos del
 </PromptExample>
 
 **Ejemplo de uso:** ciencias sociales, grado 6, "las regiones naturales de Colombia".
+
+<TemplateFill
+  templateLabel="Plantilla"
+  filledLabel="Tu versión"
+  template="Actúa como docente de [área] con experiencia en enseñanza diferenciada. Mis estudiantes son de grado [grado] ([edad] años) y tienen distintos niveles de lectura. Escribe un texto sobre [tema] en tres versiones…"
+  values={['ciencias sociales', '6', '11 y 12', 'las regiones naturales de Colombia']}
+  caption="Así empieza la plantilla 1 con los datos del ejemplo de uso. Cambia solo lo que está entre corchetes."
+/>
 
 ## 2. Ejercicios graduados con pistas
 

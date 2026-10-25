@@ -5,7 +5,7 @@ description: What adapting a material means, what you can adapt and why it works
 summary: What to adapt, based on what, and why it works.
 order: 2
 section: ruta
-readingMinutes: 8
+readingMinutes: 9
 sources:
   - Tomlinson (2014). The differentiated classroom
   - CAST (2024). Universal Design for Learning Guidelines, version 3.0
@@ -15,7 +15,10 @@ sources:
 ---
 
 import Callout from '../../../components/Callout.astro';
+import HelpZones from '../../../components/HelpZones.astro';
+import Matrix from '../../../components/Matrix.astro';
 import Resumen from '../../../components/Resumen.astro';
+import SameGoal from '../../../components/SameGoal.astro';
 
 ## First: what is a teaching material?
 
@@ -34,6 +37,15 @@ Having "several versions" isn't enough. A version is adaptive only if it **chang
 ## The adaptation matrix
 
 Differentiated instruction (Tomlinson, 2014) asks you to answer two questions: **what am I going to adapt?** and **based on which characteristic of my students?**
+
+<Matrix
+  colsLabel="What do I adapt?"
+  cols={['Content', 'Process', 'Product']}
+  rowsLabel="Based on what?"
+  rows={['Readiness', 'Interests', 'Learning profile']}
+  marks={[{ row: 1, col: 1 }, { row: 1, col: 2 }]}
+  caption="Every adaptation crosses a what with a based on what. This step's fractions example uses the two marked cells: content and process, based on readiness."
+/>
 
 ### What can I adapt?
 
@@ -75,6 +87,15 @@ This is where AI helps enormously: producing the same idea in several formats (t
 - **Connecting with what they already know (Ausubel).** Real learning happens when new ideas are anchored in prior knowledge and in the student's reality. That's why adapting isn't just changing the difficulty: it's also using **examples from their context**.
 - **Learning in networks (Siemens).** Today we also learn by connecting sources, people and digital tools. Technology can help open **different paths** for different students.
 
+<HelpZones
+  zones={[
+    { title: 'What they can do alone', note: 'If the material stays here, it bores them.' },
+    { title: 'What they can do with help', note: 'The zone of proximal development: this is where your material works.' },
+    { title: "What they can't do yet", note: 'If the material jumps out here, it frustrates them.' },
+  ]}
+  caption="Just-right scaffolding (Vygotsky): not so easy that it bores, not so hard that it frustrates."
+/>
+
 ## An example: one topic, three versions
 
 **Topic:** equivalent fractions, grade 5.
@@ -85,6 +106,18 @@ This is where AI helps enormously: producing the same idea in several formats (t
 - **Version C, challenge.** An open problem: "A recipe for 4 people uses 2/4 of a cup of sugar. How much do you need for 8 people? Is there another way to write it?". At the end, each student makes up their own problem.
 
 All three versions pursue **the same objective**; what changes is the scaffolding. In terms of the matrix: the **content** and the **process** are adapted based on **readiness**.
+
+<SameGoal
+  versions={[
+    { title: 'Version A', text: 'More support: drawings, a worked example and hints', support: 3 },
+    { title: 'Version B', text: 'Expected level: the number line', support: 2 },
+    { title: 'Version C', text: 'Challenge: an open problem', support: 1 },
+  ]}
+  supportLabel="Support"
+  goalLabel="Same objective"
+  goal="Recognize that two different fractions can represent the same amount."
+  caption="What changes between versions is the scaffolding, not the objective."
+/>
 
 <Callout type="idea">
 Adapting isn't "lowering the bar". All students work toward the same objective, with different supports.

@@ -1,0 +1,200 @@
+---
+/**
+ * A grid that crosses two kinds of choices (what to adapt × based on what, dimensions × levels) and marks some
+ * cells. It's a real table, so screen readers announce each cell's row and column.
+ */
+import Figure from './Figure.astro';
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+
+interface Props {
+  /** Heading over all the columns, e.g. "¿Qué adapto?". */
+  colsLabel: string;
+  cols: string[];
+  /** Heading over the row names, e.g. "¿Según qué?". */
+  rowsLabel: string;
+  rows: string[];
+  /** Marked cells, counted from 1. A mark without `text` shows a check. */
+  marks: { row: number; col: number; text?: string }[];
+  /** The columns are a progression, left to right: draws an arrow next to `colsLabel`. */
+  progress?: boolean;
+  caption?: string;
+}
+
+const { colsLabel, cols, rowsLabel, rows, marks, progress = false, caption } = Astro.props;
+const yesLabel = getTranslations(toLocale(Astro.currentLocale)).figure.yes;
+const markAt = (row: number, col: number) => marks.find((m) => m.row === row && m.col === col);
+---
+
+<Figure caption={caption}>
+  <table class="matrix">
+    <colgroup>
+      <col class="matrix__names" />
+      <col span={cols.length} />
+    </colgroup>
+    <thead>
+      <tr>
+        <td></td>
+        <th class="matrix__group" scope="colgroup" colspan={cols.length}>
+          {colsLabel}
+          {
+            progress && (
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M3 12h17M14 6l6 6-6 6" />
+              </svg>
+            )
+          }
+        </th>
+      </tr>
+      <tr>
+        <th class="matrix__corner" scope="col">{rowsLabel}</th>
+        {cols.map((col) => <th class="matrix__col" scope="col">{col}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row, r) => (
+          <tr>
+            <th class="matrix__row" scope="row">
+              {row}
+            </th>
+            {cols.map((_, c) => {
+              const mark = markAt(r + 1, c + 1);
+              if (!mark) return <td class="matrix__cell" />;
+              return (
+                <td class="matrix__cell matrix__cell--marked">
+                  {mark.text ?? (
+                    <>
+                      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M20 6 9 17l-5-5" />
+                      </svg>
+                      <span class="visually-hidden">{yesLabel}</span>
+                    </>
+                  )}
+                </td>
+              );
+            })}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</Figure>
+
+<style>
+  .matrix {
+    display: table;
+    width: 100%;
+    margin: 0;
+    overflow: visible;
+    border-collapse: separate;
+    border-spacing: 4px;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    table-layout: fixed;
+  }
+
+  .matrix__names {
+    width: 36%;
+  }
+
+  .matrix th,
+  .matrix td {
+    padding: 0.5rem 0.4rem;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: none;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .matrix__group,
+  .matrix__corner {
+    color: var(--primary);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .matrix .matrix__group {
+    padding-bottom: 0.1rem;
+  }
+
+  .matrix__group svg {
+    width: 1rem;
+    height: 1rem;
+    margin-left: 0.3rem;
+    vertical-align: -0.2em;
+  }
+
+  .matrix .matrix__corner {
+    color: var(--text-muted);
+    text-align: left;
+    vertical-align: bottom;
+  }
+
+  .matrix .matrix__col,
+  .matrix .matrix__row {
+    background: var(--surface-2);
+    font-weight: 700;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+
+  .matrix .matrix__row {
+    text-align: left;
+  }
+
+  .matrix .matrix__cell {
+    height: 2.6rem;
+    border: 1px dashed var(--border);
+  }
+
+  .matrix .matrix__cell--marked {
+    border: 2px solid var(--primary);
+    background: var(--primary-soft);
+    color: var(--primary-strong);
+    font-weight: 800;
+  }
+
+  .matrix svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .matrix__cell svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    vertical-align: middle;
+  }
+
+  /* Phones: smaller headers, so the names fit their columns. */
+  @container (max-width: 30rem) {
+    .matrix {
+      border-spacing: 3px;
+      font-size: 0.78rem;
+    }
+
+    .matrix th,
+    .matrix td {
+      padding: 0.45rem 0.25rem;
+    }
+
+    .matrix__group,
+    .matrix__corner {
+      font-size: 0.64rem;
+      letter-spacing: 0.02em;
+    }
+  }
+
+  @media print {
+    .matrix__cell--marked {
+      print-color-adjust: exact;
+    }
+  }
+</style>

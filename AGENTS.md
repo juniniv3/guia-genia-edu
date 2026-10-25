@@ -42,6 +42,8 @@ src/
     Callout, PromptExample, BeforeAfter, Resumen                    Used inside MDX
     Figure, PromptAnatomy + PromptPart, AiAssumes, DraftLoop, ClearFramework   Diagrams drawn in HTML/CSS, used inside MDX
     PromptFormats, NextWord, RoleFlow + RoleStep, AnnotatedAnswer + Flag        More diagrams (Step 1); AiIcon is the shared robot
+    Matrix, HelpZones, SameGoal, DecisionFlow + Decision, ToolTest, CreationCycle + CycleStep, DataToNeeds, TemplateFill
+                         Diagrams for Steps 2, 3, 5–8; PersonIcon is the shared teacher
   lib/
     url.ts               withBase() / stripBase(): add or remove the deploy base
     modules.ts           localizeModules(), ordering, route vs. resources, prev/next, step number, moduleHref()

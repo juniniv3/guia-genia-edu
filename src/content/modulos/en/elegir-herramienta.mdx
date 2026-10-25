@@ -5,7 +5,7 @@ description: Simple criteria for choosing the right tool based on the material y
 summary: Criteria for choosing, and a comparison of tools.
 order: 3
 section: ruta
-readingMinutes: 6
+readingMinutes: 7
 sources:
   - UNESCO (2024). Guidance for generative AI in education and research (Spanish edition)
   - Terms of use and help centers of OpenAI, Google, Microsoft and Anthropic (accessed October 2026)
@@ -13,7 +13,10 @@ sources:
 ---
 
 import Callout from '../../../components/Callout.astro';
+import Decision from '../../../components/Decision.astro';
+import DecisionFlow from '../../../components/DecisionFlow.astro';
 import Resumen from '../../../components/Resumen.astro';
+import ToolTest from '../../../components/ToolTest.astro';
 
 ## Start with the right question
 
@@ -27,6 +30,24 @@ The question isn't "which AI is the best?", but: **what material do I need to cr
 4. **Privacy.** Does it use your conversations to train its models? Can you turn that off in the settings? Never enter your students' personal data (you'll see this in Step 7).
 5. **Minimum age.** If your students are going to use it directly, check the permitted age. UNESCO recommends that generative AI not be used in the classroom before age 13.
 6. **Institutional access.** If your school or university uses Google Workspace or Microsoft 365, you may already have access to Gemini or Copilot with your institutional account, sometimes with better data protection.
+
+<DecisionFlow caption="Three quick questions that sum up the criteria. Then test the tool with a topic you know well.">
+<Decision
+  question="Does your school or university give you a Google Workspace or Microsoft 365 account?"
+  yes="Start with Gemini or Copilot on that account: it sometimes has better data protection."
+  no="Start with the free version of a general-purpose tool and decide later."
+/>
+<Decision
+  question="Will your students use it directly?"
+  yes="Check its minimum age. UNESCO recommends that generative AI not be used in the classroom before age 13."
+  no="Use it yourself to prepare materials, without entering your students' data."
+/>
+<Decision
+  question="Do you need images, audio or presentations?"
+  yes="Check that the tool generates them: not all of them do."
+  no="For text, any of the general-purpose tools will do."
+/>
+</DecisionFlow>
 
 ## The best-known tools
 
@@ -59,6 +80,20 @@ Ask for the same material in two different tools and compare the results with th
 - Is the language **right for my students' age**?
 - Did it follow **all my instructions** (format, length, level)?
 - **How much did I have to correct** to get it ready?
+
+<ToolTest
+  promptLabel="The same prompt in both"
+  prompt="Create an equivalent fractions worksheet for grade 5, at three levels."
+  toolsLabel="Tool"
+  tools={['A', 'B']}
+  rows={[
+    { question: 'Is the content correct?', answers: [true, true] },
+    { question: 'Is the language right for their age?', answers: [true, false] },
+    { question: 'Did it follow all my instructions?', answers: [false, true] },
+    { question: 'How much did I have to correct?', answers: ['A lot', 'A little'] },
+  ]}
+  caption="Illustrative example. For this material, tool B needed fewer corrections; with another topic, the result may change."
+/>
 
 <Callout type="cuidado">
 Tools are updated almost every month: their features, limits and paid plans change. What's free today may not be tomorrow. That's why this guide focuses on **criteria** that don't go out of date, rather than on buttons or menus.

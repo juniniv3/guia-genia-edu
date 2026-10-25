@@ -5,7 +5,7 @@ description: Una lista de verificación para decidir si un material generado con
 summary: Lista de verificación antes de llevarlo al aula.
 order: 6
 section: ruta
-readingMinutes: 7
+readingMinutes: 8
 sources:
   - UNESCO (2024). Guía para el uso de IA generativa en educación e investigación
   - Holmes, Bialik y Fadel (2019)
@@ -13,7 +13,11 @@ sources:
   - MEN. Estándares Básicos de Competencias (2006) y Derechos Básicos de Aprendizaje
 ---
 
+import AnnotatedAnswer from '../../../components/AnnotatedAnswer.astro';
 import Callout from '../../../components/Callout.astro';
+import Decision from '../../../components/Decision.astro';
+import DecisionFlow from '../../../components/DecisionFlow.astro';
+import Flag from '../../../components/Flag.astro';
 import Resumen from '../../../components/Resumen.astro';
 
 ## Por qué revisar siempre
@@ -23,6 +27,18 @@ Tú eres responsable de lo que llevas al aula, aunque lo haya redactado una máq
 <Callout type="cuidado" title="Regla de oro">
 **Si no lo puedes verificar, no lo uses.**
 </Callout>
+
+<DecisionFlow caption="La regla de oro, paso a paso. Úsala con cada dato, cifra o cita que no conozcas.">
+<Decision
+  question="¿Puedes verificarlo en una fuente confiable?"
+  no="No lo uses."
+/>
+<Decision
+  question="¿Es correcto y adecuado para tus estudiantes?"
+  yes="Úsalo en tu material."
+  no="Corrígelo o pide un ajuste, y vuelve a revisarlo."
+/>
+</DecisionFlow>
 
 ## Lista de verificación
 
@@ -81,6 +97,18 @@ Desconfía y verifica con más cuidado cuando veas:
 - **Respuestas que cambian** si haces la misma pregunta otra vez.
 - **Afirmaciones que contradicen** lo que sabes de tu disciplina.
 - **Imágenes con errores**: textos deformados, manos extrañas, mapas o banderas incorrectos.
+
+<AnnotatedAnswer
+  label="Respuesta de la IA · ejemplo inventado"
+  notes={[
+    'Contradice lo que sabes: las plantas fabrican su alimento con luz, agua y dióxido de carbono.',
+    'Cita que no aparece al buscarla: puede ser inventada.',
+    'Dato muy preciso sin fuente: verifícalo antes de usarlo.',
+  ]}
+  caption="Tres señales de alerta en una sola respuesta. Cada una es una razón para verificar antes de usar el texto."
+>
+<Flag n={1}>Las plantas toman su alimento del suelo</Flag> a través de las raíces. <Flag n={2}>Según Gómez (2019)</Flag>, <Flag n={3}>el 97,3 %</Flag> de su peso proviene de los minerales de la tierra.
+</AnnotatedAnswer>
 
 <Callout type="consejo">
 Pídele a la IA: *"Haz una lista de las afirmaciones de este material que debo verificar y dime dónde puedo hacerlo"*. Te servirá de guía, pero recuerda: **la verificación la haces tú**, en fuentes confiables.

@@ -5,7 +5,7 @@ description: Un ciclo de seis pasos para pasar de una idea a un material adaptat
 summary: El ciclo de creación, con un ejemplo completo.
 order: 5
 section: ruta
-readingMinutes: 9
+readingMinutes: 10
 sources:
   - Dourvas, Kokkonis y Kontogiannis (2026)
   - Kemmis y McTaggart (1988); Latorre (2005)
@@ -14,8 +14,11 @@ sources:
 ---
 
 import Callout from '../../../components/Callout.astro';
+import CreationCycle from '../../../components/CreationCycle.astro';
+import CycleStep from '../../../components/CycleStep.astro';
 import PromptExample from '../../../components/PromptExample.astro';
 import Resumen from '../../../components/Resumen.astro';
+import SameGoal from '../../../components/SameGoal.astro';
 
 ## El ciclo de creación
 
@@ -27,6 +30,27 @@ Crear un buen material con IA no es "escribir una instrucción y copiar el resul
 4. **Ajustar.** Pide cambios a la IA o edita tú directamente.
 5. **Aplicar.** Usa el material en clase y observa cómo responden tus estudiantes.
 6. **Reflexionar.** ¿Qué funcionó? ¿Qué cambiarías? Guarda los prompts que dieron buenos resultados.
+
+<CreationCycle teacherLabel="Tu criterio" aiLabel="Participa la IA" caption="La IA participa en dos de los seis pasos; los otros cuatro dependen de tu criterio. Al reflexionar, el ciclo vuelve a empezar con un material mejor.">
+<CycleStep who="docente" title="Planear">
+Objetivo, estudiantes y qué adaptar.
+</CycleStep>
+<CycleStep who="ia" title="Pedir">
+El prompt con los seis ingredientes.
+</CycleStep>
+<CycleStep who="docente" title="Revisar">
+¿Es correcto, pertinente y adecuado?
+</CycleStep>
+<CycleStep who="ia" title="Ajustar">
+Pide cambios o edita tú.
+</CycleStep>
+<CycleStep who="docente" title="Aplicar">
+Úsalo en clase y observa.
+</CycleStep>
+<CycleStep who="docente" title="Reflexionar">
+¿Qué funcionó? Guarda el prompt.
+</CycleStep>
+</CreationCycle>
 
 <Callout type="idea">
 Este ciclo es una forma de **práctica reflexiva**: formular, evaluar y reformular, igual que haces al planear una clase. También sigue la lógica de la investigación-acción: **planificar, actuar, observar y reflexionar**, para volver a empezar con un material mejor.
@@ -90,6 +114,18 @@ Después de estos ajustes, la docente editó a mano algunos detalles: cambió no
 ### 5. Aplicar
 
 Entregó las versiones sin etiquetas como "nivel bajo" o "nivel alto". En su lugar usó nombres neutrales: **ruta nube, ruta río y ruta océano**. Durante la clase observó quiénes necesitaban más apoyo y quiénes terminaban rápido.
+
+<SameGoal
+  versions={[
+    { title: 'Ruta nube', text: 'Frases cortas, glosario y ejemplos de la casa', support: 3 },
+    { title: 'Ruta río', text: 'Lectura breve y 5 preguntas', support: 2 },
+    { title: 'Ruta océano', text: 'Reto: el ciclo y las lluvias en Santander', support: 1 },
+  ]}
+  supportLabel="Apoyos"
+  goalLabel="Producto común"
+  goal="Todos explican el ciclo del agua con un esquema propio."
+  caption="Tres rutas con nombres neutrales y distintos apoyos, hacia el mismo producto. La versión accesible de la ruta río lleva al mismo lugar."
+/>
 
 <Callout type="consejo">
 Evita etiquetas que comparen a los estudiantes. Usa nombres neutrales o colores para las versiones. Lo importante es que cada estudiante reciba el apoyo que necesita, sin sentirse señalado.

@@ -1,0 +1,178 @@
+---
+/**
+ * One question of a DecisionFlow, with what to do for each answer. Leave out `yes` when "yes" just means "go on":
+ * the arrow to the next question then carries the "Sí" label.
+ */
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+
+interface Props {
+  question: string;
+  yes?: string;
+  no?: string;
+}
+
+const { question, yes, no } = Astro.props;
+const t = getTranslations(toLocale(Astro.currentLocale)).figure;
+---
+
+<li class:list={['decision', { 'decision--continue': !yes }]}>
+  <span class="decision__connector" aria-hidden="true">
+    <svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v17M6 14l6 6 6-6"></path></svg>
+    <span class="decision__connector-label">{t.yes}</span>
+  </span>
+  <p class="decision__question">
+    <span class="decision__mark" aria-hidden="true">?</span>
+    {question}
+  </p>
+  <ul class="decision__branches">
+    {
+      yes ? (
+        <li class="decision__branch">
+          <span class="decision__answer decision__answer--yes">{t.yes}</span>
+          <span>{yes}</span>
+        </li>
+      ) : (
+        <li class="visually-hidden">
+          {t.yes}: {t.continue}
+        </li>
+      )
+    }
+    {
+      no && (
+        <li class="decision__branch">
+          <span class="decision__answer decision__answer--no">{t.no}</span>
+          <span>{no}</span>
+        </li>
+      )
+    }
+  </ul>
+</li>
+
+<style>
+  .decision {
+    position: relative;
+    margin: 0;
+  }
+
+  /* The arrow in the gap above, from the previous question; it says "Sí" when that question had no "yes" branch. */
+  .decision__connector {
+    position: absolute;
+    bottom: calc(100% + 0.25rem);
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transform: translateX(-0.75rem);
+    color: var(--primary);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .decision:first-child .decision__connector,
+  .decision__connector-label {
+    display: none;
+  }
+
+  .decision--continue + .decision .decision__connector-label {
+    display: inline;
+  }
+
+  .decision__connector svg {
+    width: 1.5rem;
+    height: 1.9rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .decision__question {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0.7rem 0.9rem;
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-sm);
+    background: var(--primary-soft);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .decision__mark {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--on-primary);
+    font-size: 0.9rem;
+    font-weight: 800;
+  }
+
+  .decision__branches {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .decision__branch {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .decision__answer {
+    flex-shrink: 0;
+    min-width: 2.4rem;
+    padding: 0.05rem 0.45rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .decision__answer--yes {
+    background: var(--consejo-bg);
+    color: var(--consejo);
+    box-shadow: inset 0 0 0 1.5px var(--consejo);
+  }
+
+  .decision__answer--no {
+    background: var(--cuidado-bg);
+    color: var(--cuidado);
+    box-shadow: inset 0 0 0 1.5px var(--cuidado);
+  }
+
+  @container (min-width: 30rem) {
+    .decision__branches {
+      grid-auto-columns: minmax(0, 1fr);
+      grid-auto-flow: column;
+    }
+  }
+
+  @media print {
+    .decision__question,
+    .decision__mark,
+    .decision__answer {
+      print-color-adjust: exact;
+    }
+  }
+</style>

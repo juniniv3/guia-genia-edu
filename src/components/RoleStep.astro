@@ -1,6 +1,7 @@
 ---
 /** One card of a RoleFlow: who acts (the teacher or the AI) and what they do, with an arrow from the previous card. */
 import AiIcon from './AiIcon.astro';
+import PersonIcon from './PersonIcon.astro';
 
 interface Props {
   /** `docente` or `ia`; stays in Spanish in every language, like Callout's `type`. */
@@ -16,16 +17,7 @@ const { who, title } = Astro.props;
   <svg class="role__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
     <path d="M3 12h17M14 6l6 6-6 6"></path>
   </svg>
-  {
-    who === 'ia' ? (
-      <AiIcon size={48} />
-    ) : (
-      <svg class="role__person" viewBox="0 0 64 64" width="48" height="48" aria-hidden="true" focusable="false">
-        <circle cx="32" cy="20" r="11" />
-        <path d="M12 56a20 20 0 0 1 40 0Z" />
-      </svg>
-    )
-  }
+  {who === 'ia' ? <AiIcon size={48} /> : <PersonIcon size={48} />}
   <span class="role__title">{title}</span>
   <div class="role__text"><slot /></div>
 </li>
@@ -52,11 +44,6 @@ const { who, title } = Astro.props;
   .role--ia {
     --tone: var(--primary);
     --tone-bg: var(--primary-soft);
-  }
-
-  .role__person {
-    flex-shrink: 0;
-    fill: var(--accent);
   }
 
   .role__title {

@@ -1,0 +1,208 @@
+---
+/** The same prompt in two (or more) tools, compared question by question: a check, a cross or a short answer. */
+import Figure from './Figure.astro';
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+
+interface Props {
+  /** Small heading on the prompt card, e.g. "El mismo prompt". */
+  promptLabel: string;
+  prompt: string;
+  /** Heading over the tool columns, e.g. "Herramienta"; lets the columns themselves be short ("A", "B"). */
+  toolsLabel?: string;
+  tools: string[];
+  /** One row per question; `answers` follow the order of `tools`: true ✓, false ✗, or a short text. */
+  rows: { question: string; answers: (boolean | string)[] }[];
+  caption?: string;
+}
+
+const { promptLabel, prompt, toolsLabel, tools, rows, caption } = Astro.props;
+const t = getTranslations(toLocale(Astro.currentLocale)).figure;
+---
+
+<Figure caption={caption}>
+  <div class="tool-test">
+    <p class="tool-test__prompt">
+      <span class="tool-test__label">{promptLabel}</span>
+      <span class="tool-test__text">{prompt}</span>
+    </p>
+    <svg class="tool-test__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 3v17M6 14l6 6 6-6"></path>
+    </svg>
+    <table class="tool-test__table">
+      <colgroup>
+        <col class="tool-test__questions" />
+        <col span={tools.length} />
+      </colgroup>
+      <thead>
+        {
+          toolsLabel && (
+            <tr>
+              <td />
+              <th class="tool-test__group" scope="colgroup" colspan={tools.length}>
+                {toolsLabel}
+              </th>
+            </tr>
+          )
+        }
+        <tr>
+          <td></td>
+          {tools.map((tool) => <th scope="col">{tool}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map(({ question, answers }) => (
+            <tr>
+              <th scope="row">{question}</th>
+              {answers.map((answer) =>
+                typeof answer === 'string' ? (
+                  <td class="tool-test__text-answer">{answer}</td>
+                ) : (
+                  <td class:list={['tool-test__mark', answer ? 'tool-test__mark--yes' : 'tool-test__mark--no']}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path d={answer ? 'M20 6 9 17l-5-5' : 'M18 6 6 18M6 6l12 12'} />
+                    </svg>
+                    <span class="visually-hidden">{answer ? t.yes : t.no}</span>
+                  </td>
+                ),
+              )}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</Figure>
+
+<style>
+  .tool-test {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .tool-test__prompt {
+    max-width: 26rem;
+    margin: 0;
+    padding: 0.7rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 1.1rem 1.1rem 0.3rem 1.1rem;
+    background: var(--surface-2);
+    line-height: 1.45;
+    text-align: center;
+  }
+
+  .tool-test__label {
+    display: block;
+    margin-bottom: 0.2rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .tool-test__text {
+    font-weight: 700;
+  }
+
+  .tool-test__arrow {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tool-test__table {
+    display: table;
+    width: 100%;
+    max-width: 30rem;
+    margin: 0;
+    overflow: visible;
+    border-collapse: separate;
+    border-spacing: 4px;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    table-layout: fixed;
+  }
+
+  .tool-test__table th,
+  .tool-test__table td {
+    padding: 0.5rem 0.45rem;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: none;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .tool-test__questions {
+    width: 52%;
+  }
+
+  .tool-test__table thead th {
+    background: var(--primary-soft);
+    color: var(--primary-strong);
+    font-weight: 800;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .tool-test__table thead .tool-test__group {
+    padding-bottom: 0.1rem;
+    background: none;
+    color: var(--primary);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .tool-test__table tbody th {
+    background: var(--surface-2);
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .tool-test__table .tool-test__text-answer {
+    padding-inline: 0.2rem;
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .tool-test__table .tool-test__mark {
+    border: 1px solid var(--border);
+  }
+
+  .tool-test__mark svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    vertical-align: middle;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tool-test__table .tool-test__mark--yes {
+    background: var(--consejo-bg);
+    color: var(--consejo);
+  }
+
+  .tool-test__table .tool-test__mark--no {
+    background: var(--cuidado-bg);
+    color: var(--cuidado);
+  }
+
+  @media print {
+    .tool-test__mark {
+      print-color-adjust: exact;
+    }
+  }
+</style>

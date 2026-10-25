@@ -5,7 +5,7 @@ description: Qué significa adaptar un material, qué puedes adaptar y por qué 
 summary: Qué adaptar, según qué y por qué funciona.
 order: 2
 section: ruta
-readingMinutes: 8
+readingMinutes: 9
 sources:
   - Tomlinson (2014). The differentiated classroom
   - CAST (2024). Pautas del Diseño Universal para el Aprendizaje, versión 3.0
@@ -15,7 +15,10 @@ sources:
 ---
 
 import Callout from '../../../components/Callout.astro';
+import HelpZones from '../../../components/HelpZones.astro';
+import Matrix from '../../../components/Matrix.astro';
 import Resumen from '../../../components/Resumen.astro';
+import SameGoal from '../../../components/SameGoal.astro';
 
 ## Primero: ¿qué es un material didáctico?
 
@@ -34,6 +37,15 @@ Tener "varias versiones" no basta. Una versión es adaptativa solo si **cambia a
 ## La matriz para adaptar
 
 La enseñanza diferenciada (Tomlinson, 2014) propone responder dos preguntas: **¿qué voy a adaptar?** y **¿según qué característica de mis estudiantes?**
+
+<Matrix
+  colsLabel="¿Qué adapto?"
+  cols={['Contenido', 'Proceso', 'Producto']}
+  rowsLabel="¿Según qué?"
+  rows={['Preparación', 'Intereses', 'Perfil']}
+  marks={[{ row: 1, col: 1 }, { row: 1, col: 2 }]}
+  caption="Cada adaptación cruza un qué con un según qué. El ejemplo de fracciones de este paso usa las dos casillas marcadas: contenido y proceso, según la preparación."
+/>
 
 ### ¿Qué puedo adaptar?
 
@@ -75,6 +87,15 @@ Aquí la IA ayuda muchísimo: producir la misma idea en varios formatos (texto, 
 - **Conectar con lo que ya saben (Ausubel).** Se aprende de verdad cuando lo nuevo se ancla en conocimientos previos y en la realidad del estudiante. Por eso adaptar no es solo cambiar la dificultad: también es usar **ejemplos de su contexto**.
 - **Aprender en red (Siemens).** Hoy también se aprende conectando fuentes, personas y herramientas digitales. La tecnología puede ayudar a abrir **rutas distintas** para estudiantes distintos.
 
+<HelpZones
+  zones={[
+    { title: 'Lo que logra solo', note: 'Si el material se queda aquí, aburre.' },
+    { title: 'Lo que logra con ayuda', note: 'La zona de desarrollo próximo: aquí actúa tu material.' },
+    { title: 'Lo que aún no logra', note: 'Si el material salta hasta aquí, frustra.' },
+  ]}
+  caption="El andamiaje justo (Vygotsky): ni tan fácil que aburra, ni tan difícil que frustre."
+/>
+
 ## Un ejemplo: un tema, tres versiones
 
 **Tema:** fracciones equivalentes, grado 5.
@@ -85,6 +106,18 @@ Aquí la IA ayuda muchísimo: producir la misma idea en varios formatos (texto, 
 - **Versión C, reto.** Un problema abierto: "Una receta para 4 personas lleva 2/4 de taza de azúcar. ¿Cuánto se necesita para 8 personas? ¿Hay otra forma de escribirlo?". Al final, cada estudiante inventa su propio problema.
 
 Las tres versiones persiguen **el mismo objetivo**; lo que cambia es el andamiaje. En términos de la matriz: se adaptan el **contenido** y el **proceso** según la **preparación**.
+
+<SameGoal
+  versions={[
+    { title: 'Versión A', text: 'Más apoyo: dibujos, un ejemplo resuelto y pistas', support: 3 },
+    { title: 'Versión B', text: 'Nivel esperado: la recta numérica', support: 2 },
+    { title: 'Versión C', text: 'Reto: un problema abierto', support: 1 },
+  ]}
+  supportLabel="Apoyos"
+  goalLabel="Mismo objetivo"
+  goal="Reconocer que dos fracciones distintas pueden representar la misma cantidad."
+  caption="Lo que cambia entre versiones es el andamiaje, no el objetivo."
+/>
 
 <Callout type="idea">
 Adaptar no es "bajar el nivel". Todos los estudiantes trabajan hacia el mismo objetivo, con apoyos distintos.

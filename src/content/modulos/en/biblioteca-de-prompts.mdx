@@ -14,8 +14,10 @@ sources:
 ---
 
 import Callout from '../../../components/Callout.astro';
+import Matrix from '../../../components/Matrix.astro';
 import PromptExample from '../../../components/PromptExample.astro';
 import Resumen from '../../../components/Resumen.astro';
+import TemplateFill from '../../../components/TemplateFill.astro';
 
 ## How to use this library
 
@@ -24,6 +26,24 @@ import Resumen from '../../../components/Resumen.astro';
 3. **Review** the result with the checklist from Step 6 and **adjust** it by continuing the conversation with the AI.
 
 Each template shows **what it adapts** (content, process or product) and **based on what** (readiness, interests or learning profile), so you can connect each example with what you saw in Step 2.
+
+<Matrix
+  colsLabel="What does it adapt?"
+  cols={['Content', 'Process', 'Product']}
+  rowsLabel="Based on what?"
+  rows={['Readiness', 'Interests', 'Learning profile']}
+  marks={[
+    { row: 1, col: 1, text: '1' },
+    { row: 1, col: 2, text: '2, 5' },
+    { row: 2, col: 1, text: '3' },
+    { row: 2, col: 2, text: '9' },
+    { row: 2, col: 3, text: '11' },
+    { row: 3, col: 1, text: '4, 7, 10' },
+    { row: 3, col: 2, text: '8' },
+    { row: 3, col: 3, text: '7, 11' },
+  ]}
+  caption="The numbers are this page's templates, placed on the matrix from Step 2. Template 6 (the rubric) works for any product."
+/>
 
 <Callout type="cuidado">
 Remember: in the brackets, describe the **group** or its **needs**, never a student's personal data.
@@ -56,6 +76,14 @@ At the end of each version, include 3 comprehension questions. Use examples from
 </PromptExample>
 
 **Example of use:** social studies, grade 6, "the natural regions of Colombia".
+
+<TemplateFill
+  templateLabel="Template"
+  filledLabel="Your version"
+  template="Act as a [subject] teacher with experience in differentiated instruction. My students are in grade [grade] ([age] years old) and have different reading levels. Write a text about [topic] in three versions…"
+  values={['social studies', '6', '11 and 12', 'the natural regions of Colombia']}
+  caption="The start of template 1, filled in with the details from the example of use. Change only what's in brackets."
+/>
 
 ## 2. Graded exercises with hints
 

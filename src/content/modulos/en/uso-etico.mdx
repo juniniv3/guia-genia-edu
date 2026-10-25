@@ -5,7 +5,7 @@ description: Practical principles for protecting your students, being transparen
 summary: Privacy, transparency, bias and your role as a teacher.
 order: 7
 section: ruta
-readingMinutes: 8
+readingMinutes: 9
 sources:
   - UNESCO (2024). Guidance for generative AI in education and research (Spanish edition)
   - UNESCO (2024). AI competency framework for teachers
@@ -17,6 +17,8 @@ sources:
 
 import BeforeAfter from '../../../components/BeforeAfter.astro';
 import Callout from '../../../components/Callout.astro';
+import DataToNeeds from '../../../components/DataToNeeds.astro';
+import Matrix from '../../../components/Matrix.astro';
 import PromptExample from '../../../components/PromptExample.astro';
 import Resumen from '../../../components/Resumen.astro';
 
@@ -47,6 +49,17 @@ Juan Pérez, in 6B, has ADHD and got a 2.0 out of 5 in math. Make him a workshee
 Create a math worksheet for a grade 6 student who needs short instructions, frequent breaks and visual support to stay focused.
 </PromptExample>
 </BeforeAfter>
+
+<DataToNeeds
+  fromLabel="Instead of"
+  toLabel="Write"
+  pairs={[
+    { from: 'Juan Pérez, in 6B', to: 'a grade 6 student' },
+    { from: 'has ADHD', to: 'needs short instructions, frequent breaks and visual support' },
+    { from: 'got a 2.0 out of 5 in math', to: 'needs to reinforce the topic with more examples' },
+  ]}
+  caption="Swap each piece of personal data for the need behind it: the AI doesn't need to know who the student is, only what they need."
+/>
 
 ### 2. Be transparent
 
@@ -98,6 +111,25 @@ In 2024, UNESCO published an **AI competency framework for teachers**. It organi
 5. AI for professional development.
 
 Each dimension has three levels of progression: **acquire, deepen and create**. This guide helps you take the first steps, especially in ethics and in AI pedagogy.
+
+<Matrix
+  colsLabel="Levels of progression"
+  cols={['Acquire', 'Deepen', 'Create']}
+  rowsLabel="Dimensions"
+  rows={[
+    'A human-centered mindset',
+    'The ethics of AI',
+    'AI foundations and applications',
+    'AI pedagogy',
+    'AI for professional development',
+  ]}
+  marks={[
+    { row: 2, col: 1, text: 'This guide' },
+    { row: 4, col: 1, text: 'This guide' },
+  ]}
+  progress
+  caption="UNESCO's framework crosses five dimensions with three levels. This guide helps you take the first steps, especially in ethics and in AI pedagogy."
+/>
 
 <Resumen>
 - **People at the center:** AI assists, you decide.

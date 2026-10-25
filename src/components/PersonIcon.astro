@@ -1,0 +1,20 @@
+---
+/** The person that stands for "you, the teacher" in every figure. Decorative: the figure's text names it. */
+interface Props {
+  size?: number;
+}
+
+const { size = 48 } = Astro.props;
+---
+
+<svg class="person-icon" viewBox="0 0 64 64" width={size} height={size} aria-hidden="true" focusable="false">
+  <circle cx="32" cy="20" r="11"></circle>
+  <path d="M12 56a20 20 0 0 1 40 0Z"></path>
+</svg>
+
+<style>
+  .person-icon {
+    flex-shrink: 0;
+    fill: var(--accent);
+  }
+</style>

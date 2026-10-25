@@ -5,7 +5,7 @@ description: Criterios sencillos para escoger la herramienta adecuada según el 
 summary: Criterios para escoger y comparación de herramientas.
 order: 3
 section: ruta
-readingMinutes: 6
+readingMinutes: 7
 sources:
   - UNESCO (2024). Guía para el uso de IA generativa en educación e investigación
   - Términos de uso y centros de ayuda de OpenAI, Google, Microsoft y Anthropic (consultados en octubre de 2026)
@@ -13,7 +13,10 @@ sources:
 ---
 
 import Callout from '../../../components/Callout.astro';
+import Decision from '../../../components/Decision.astro';
+import DecisionFlow from '../../../components/DecisionFlow.astro';
 import Resumen from '../../../components/Resumen.astro';
+import ToolTest from '../../../components/ToolTest.astro';
 
 ## Empieza por la pregunta correcta
 
@@ -27,6 +30,24 @@ La pregunta no es "¿cuál es la mejor IA?", sino: **¿qué material necesito cr
 4. **Privacidad.** ¿Usa tus conversaciones para entrenar sus modelos? ¿Se puede desactivar en la configuración? Nunca ingreses datos personales de tus estudiantes (lo verás en el Paso 7).
 5. **Edad mínima.** Si tus estudiantes la van a usar directamente, revisa la edad permitida. La UNESCO recomienda que el uso de IA generativa en el aula no sea antes de los 13 años.
 6. **Acceso institucional.** Si tu colegio o universidad usa Google Workspace o Microsoft 365, es posible que ya tengas acceso a Gemini o a Copilot con tu cuenta institucional, a veces con mejores protecciones de datos.
+
+<DecisionFlow caption="Tres preguntas rápidas que resumen los criterios. Después, prueba la herramienta con un tema que domines.">
+<Decision
+  question="¿Tu colegio o universidad te da una cuenta de Google Workspace o Microsoft 365?"
+  yes="Empieza por Gemini o Copilot con esa cuenta: a veces tiene mejores protecciones de datos."
+  no="Empieza por la versión gratuita de una herramienta general y decide después."
+/>
+<Decision
+  question="¿Tus estudiantes la van a usar directamente?"
+  yes="Revisa su edad mínima. La UNESCO recomienda no usar IA generativa en el aula antes de los 13 años."
+  no="Úsala tú para preparar materiales, sin ingresar datos de tus estudiantes."
+/>
+<Decision
+  question="¿Necesitas imágenes, audio o presentaciones?"
+  yes="Verifica que la herramienta los genere: no todas lo hacen."
+  no="Para textos, cualquiera de las herramientas generales te sirve."
+/>
+</DecisionFlow>
 
 ## Las herramientas más conocidas
 
@@ -59,6 +80,20 @@ Pide el mismo material en dos herramientas distintas y compara los resultados co
 - ¿El lenguaje es **adecuado para la edad** de mis estudiantes?
 - ¿Siguió **todas mis instrucciones** (formato, extensión, nivel)?
 - ¿**Cuánto tuve que corregir** para dejarlo listo?
+
+<ToolTest
+  promptLabel="El mismo prompt en las dos"
+  prompt="Crea un taller de fracciones equivalentes para grado 5, en tres niveles."
+  toolsLabel="Herramienta"
+  tools={['A', 'B']}
+  rows={[
+    { question: '¿El contenido es correcto?', answers: [true, true] },
+    { question: '¿El lenguaje es adecuado para la edad?', answers: [true, false] },
+    { question: '¿Siguió todas mis instrucciones?', answers: [false, true] },
+    { question: '¿Cuánto tuve que corregir?', answers: ['Mucho', 'Poco'] },
+  ]}
+  caption="Ejemplo ilustrativo. Para este material, la herramienta B pidió menos correcciones; con otro tema, el resultado puede cambiar."
+/>
 
 <Callout type="cuidado">
 Las herramientas se actualizan casi cada mes: cambian sus funciones, sus límites y sus planes de pago. Lo que hoy es gratuito puede dejar de serlo. Por eso esta guía se centra en **criterios** que no pasan de moda, más que en botones o menús.

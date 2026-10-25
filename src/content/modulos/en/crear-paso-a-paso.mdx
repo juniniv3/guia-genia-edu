@@ -5,7 +5,7 @@ description: A six-step cycle for going from an idea to a classroom-ready adapti
 summary: The creation cycle, with a complete example.
 order: 5
 section: ruta
-readingMinutes: 9
+readingMinutes: 10
 sources:
   - Dourvas, Kokkonis and Kontogiannis (2026)
   - Kemmis and McTaggart (1988); Latorre (2005)
@@ -14,8 +14,11 @@ sources:
 ---
 
 import Callout from '../../../components/Callout.astro';
+import CreationCycle from '../../../components/CreationCycle.astro';
+import CycleStep from '../../../components/CycleStep.astro';
 import PromptExample from '../../../components/PromptExample.astro';
 import Resumen from '../../../components/Resumen.astro';
+import SameGoal from '../../../components/SameGoal.astro';
 
 ## The creation cycle
 
@@ -27,6 +30,27 @@ Creating a good material with AI isn't "writing an instruction and copying the r
 4. **Adjust.** Ask the AI for changes or edit it yourself.
 5. **Apply.** Use the material in class and watch how your students respond.
 6. **Reflect.** What worked? What would you change? Save the prompts that gave good results.
+
+<CreationCycle teacherLabel="Your judgment" aiLabel="The AI takes part" caption="The AI takes part in two of the six steps; the other four depend on your judgment. When you reflect, the cycle starts again with a better material.">
+<CycleStep who="docente" title="Plan">
+Objective, students and what to adapt.
+</CycleStep>
+<CycleStep who="ia" title="Ask">
+The prompt with the six ingredients.
+</CycleStep>
+<CycleStep who="docente" title="Review">
+Is it correct, relevant and appropriate?
+</CycleStep>
+<CycleStep who="ia" title="Adjust">
+Ask for changes or edit it yourself.
+</CycleStep>
+<CycleStep who="docente" title="Apply">
+Use it in class and watch.
+</CycleStep>
+<CycleStep who="docente" title="Reflect">
+What worked? Save the prompt.
+</CycleStep>
+</CreationCycle>
 
 <Callout type="idea">
 This cycle is a form of **reflective practice**: formulate, evaluate and reformulate, just as you do when you plan a lesson. It also follows the logic of action research: **plan, act, observe and reflect**, and then start again with a better material.
@@ -90,6 +114,18 @@ After these adjustments, the teacher edited a few details by hand: she replaced 
 ### 5. Apply
 
 She handed out the versions without labels like "low level" or "high level". Instead, she used neutral names: **cloud path, river path and ocean path**. During the class, she watched who needed more support and who finished quickly.
+
+<SameGoal
+  versions={[
+    { title: 'Cloud path', text: 'Short sentences, a glossary and examples from home', support: 3 },
+    { title: 'River path', text: 'A short reading and 5 questions', support: 2 },
+    { title: 'Ocean path', text: 'Challenge: the cycle and the rainy seasons in Santander', support: 1 },
+  ]}
+  supportLabel="Support"
+  goalLabel="Shared product"
+  goal="Everyone explains the water cycle with a diagram of their own."
+  caption="Three paths with neutral names and different supports, toward the same product. The accessible version of the river path leads to the same place."
+/>
 
 <Callout type="consejo">
 Avoid labels that compare students. Use neutral names or colors for the versions. What matters is that each student gets the support they need, without feeling singled out.
