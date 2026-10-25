@@ -40,6 +40,7 @@ src/
     LanguagePicker       ES/EN toggle in the header, links to the same page in the other language
     Trans                Renders a translated string whose {placeholders} are links/markup
     Callout, PromptExample, BeforeAfter, Resumen                    Used inside MDX
+    Figure, PromptAnatomy + PromptPart, AiAssumes, DraftLoop, ClearFramework   Diagrams drawn in HTML/CSS, used inside MDX
   lib/
     url.ts               withBase() / stripBase(): add or remove the deploy base
     modules.ts           localizeModules(), ordering, route vs. resources, prev/next, step number, moduleHref()

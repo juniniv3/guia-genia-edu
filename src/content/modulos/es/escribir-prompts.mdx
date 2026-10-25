@@ -14,9 +14,14 @@ sources:
   - UNESCO (2024). Guía para el uso de IA generativa en educación e investigación
 ---
 
+import AiAssumes from '../../../components/AiAssumes.astro';
 import BeforeAfter from '../../../components/BeforeAfter.astro';
 import Callout from '../../../components/Callout.astro';
+import ClearFramework from '../../../components/ClearFramework.astro';
+import DraftLoop from '../../../components/DraftLoop.astro';
+import PromptAnatomy from '../../../components/PromptAnatomy.astro';
 import PromptExample from '../../../components/PromptExample.astro';
+import PromptPart from '../../../components/PromptPart.astro';
 import Resumen from '../../../components/Resumen.astro';
 
 ## ¿Qué es un prompt?
@@ -29,6 +34,13 @@ La **ingeniería de prompts** es la habilidad de diseñar, ajustar y mejorar esa
 La IA no conoce tu clase. **Todo lo que no le digas, lo va a suponer.**
 </Callout>
 
+<AiAssumes
+  prompt="Hazme un taller de fracciones."
+  guesses={['¿Grado?', '¿Objetivo?', '¿Nivel?', '¿Formato?']}
+  ai="IA"
+  caption="Con un prompt vago, la IA tiene que suponer todo lo que no le dijiste."
+/>
+
 ## Los 6 ingredientes de un buen prompt educativo
 
 | # | Ingrediente | Pregunta que responde | Ejemplo |
@@ -39,6 +51,27 @@ La IA no conoce tu clase. **Todo lo que no le digas, lo va a suponer.**
 | 4 | **Tarea** | ¿Qué material necesito? | "Crea una guía de ejercicios en tres niveles de dificultad." |
 | 5 | **Formato** | ¿Cómo lo quiero recibir? | "Una tabla con las columnas nivel, ejercicio y pista. Máximo una página por nivel." |
 | 6 | **Criterios y restricciones** | ¿Qué debe cumplir o evitar? | "Lenguaje sencillo, ejemplos de la vida cotidiana en Colombia, sin incluir las respuestas." |
+
+<PromptAnatomy label="Un prompt, seis ingredientes" caption="Los seis ingredientes de la tabla, juntos en un solo mensaje. En el Ejemplo 1 verás una versión más completa.">
+<PromptPart n={1} label="Rol">
+Actúa como docente de matemáticas de primaria con experiencia en educación inclusiva.
+</PromptPart>
+<PromptPart n={2} label="Contexto de tus estudiantes">
+Mis estudiantes son de grado 5 (10 y 11 años), en un colegio público de Bucaramanga. Varios aún confunden numerador y denominador.
+</PromptPart>
+<PromptPart n={3} label="Objetivo de aprendizaje">
+Objetivo: que reconozcan fracciones equivalentes.
+</PromptPart>
+<PromptPart n={4} label="Tarea">
+Crea una guía de ejercicios en tres niveles de dificultad.
+</PromptPart>
+<PromptPart n={5} label="Formato">
+Preséntala en una tabla con las columnas nivel, ejercicio y pista. Máximo una página por nivel.
+</PromptPart>
+<PromptPart n={6} label="Criterios y restricciones">
+Usa lenguaje sencillo y ejemplos de la vida cotidiana en Colombia. No incluyas las respuestas.
+</PromptPart>
+</PromptAnatomy>
 
 <Callout type="consejo">
 No siempre necesitas los seis. Para una pregunta rápida basta con la tarea. Pero para crear un material de clase, **mientras más ingredientes incluyas, menos tendrás que corregir**.
@@ -136,6 +169,14 @@ Lo (2023) propone revisar tus prompts con cinco cualidades:
 - **A**daptativo: lo ajustas según la respuesta que recibes.
 - **R**eflexivo: evalúas críticamente el resultado y aprendes para la próxima vez.
 
+<ClearFramework
+  beforeLabel="Antes de enviarlo"
+  before={['Conciso', 'Lógico', 'Explícito']}
+  afterLabel="Después de leer la respuesta"
+  after={['Adaptativo', 'Reflexivo']}
+  caption="Las tres primeras cualidades guían cómo escribes el prompt. Las dos últimas, qué haces con la respuesta."
+/>
+
 ## Conversa: el primer resultado es un borrador
 
 Rara vez el primer resultado es el definitivo. La gran ventaja de estas herramientas es que puedes **seguir conversando** para mejorar el material sin empezar de cero. Por ejemplo:
@@ -147,6 +188,12 @@ Rara vez el primer resultado es el definitivo. La gran ventaja de estas herramie
 "Revisa tu respuesta: ¿hay algún error matemático?"
 "Hazlo más corto: máximo 150 palabras."
 </PromptExample>
+
+<DraftLoop
+  steps={['Pide', 'Recibe un borrador', 'Revísalo', 'Ajusta']}
+  exit="Úsalo en clase"
+  caption="Da la vuelta al ciclo hasta que el material esté listo para tus estudiantes."
+/>
 
 ## Estrategias que funcionan
 

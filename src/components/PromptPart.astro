@@ -1,0 +1,67 @@
+---
+/** One ingredient of a PromptAnatomy card: a numbered, colored row with the ingredient's name and its prompt text. */
+interface Props {
+  /** Ingredient number from the table in Step 4 (1 = role … 6 = criteria); also picks the color. */
+  n: 1 | 2 | 3 | 4 | 5 | 6;
+  /** Ingredient name, e.g. "Rol". */
+  label: string;
+}
+
+const { n, label } = Astro.props;
+---
+
+<li class="part" style={`--tone: var(--ing-${n})`}>
+  <span class="part__badge" aria-hidden="true">{n}</span>
+  <span class="part__label">{label}</span>
+  <div class="part__text"><slot /></div>
+</li>
+
+<style>
+  .part {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.1rem 0.75rem;
+    margin: 0;
+    padding: 0.7rem 1rem 0.7rem 0.85rem;
+    border-left: 4px solid var(--tone);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .part + .part {
+    border-top: 1px solid var(--border);
+  }
+
+  .part__badge {
+    grid-row: span 2;
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-top: 0.1rem;
+    border-radius: 50%;
+    background: var(--tone);
+    color: var(--surface);
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  .part__label {
+    color: var(--tone);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .part__text :global(p) {
+    margin: 0;
+  }
+
+  @media print {
+    .part__badge {
+      border: 1px solid var(--tone);
+      print-color-adjust: exact;
+    }
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+/** A prompt card split into its ingredients: wraps PromptPart rows, numbered like the ingredients table in Step 4. */
+import Figure from './Figure.astro';
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+
+interface Props {
+  /** Heading of the card; defaults to "Prompt". */
+  label?: string;
+  caption?: string;
+}
+
+const defaultLabel = getTranslations(toLocale(Astro.currentLocale)).prompt.neutral;
+const { label = defaultLabel, caption } = Astro.props;
+---
+
+<Figure caption={caption} framed={false}>
+  <div class="anatomy">
+    <p class="anatomy__label">{label}</p>
+    <ol class="anatomy__parts"><slot /></ol>
+  </div>
+</Figure>
+
+<style>
+  .anatomy {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--primary);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .anatomy__label {
+    margin: 0;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .anatomy__parts {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media print {
+    .anatomy {
+      box-shadow: none;
+    }
+  }
+</style>

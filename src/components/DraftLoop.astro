@@ -1,0 +1,181 @@
+---
+/** Diagram for "the first result is a draft": four steps in a clockwise loop, with a way out once the material is ready. */
+import Figure from './Figure.astro';
+
+interface Props {
+  /** The four steps of the loop, in order: ask, get a draft, review, adjust. */
+  steps: [string, string, string, string];
+  /** Where the loop ends, e.g. "Úsalo en clase". It comes out of the third step. */
+  exit: string;
+  caption?: string;
+}
+
+const { steps, exit, caption } = Astro.props;
+---
+
+<Figure caption={caption}>
+  <div class="loop">
+    <ol class="loop__steps">
+      {
+        steps.map((step, i) => (
+          <li class="loop__step">
+            <span class="loop__num" aria-hidden="true">
+              {i + 1}
+            </span>
+            {step}
+            <svg class="loop__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M3 12h17M14 6l6 6-6 6" />
+            </svg>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="loop__exit">
+      <svg class="loop__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M3 12h17M14 6l6 6-6 6"></path>
+      </svg>
+      <svg class="loop__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M20 6 9 17l-5-5"></path>
+      </svg>
+      {exit}
+    </p>
+  </div>
+</Figure>
+
+<style>
+  .loop {
+    --gap: 2.5rem;
+    --arrow: 1.5rem;
+    --arrow-offset: calc((var(--gap) - var(--arrow)) / 2);
+
+    max-width: 30rem;
+    margin-inline: auto;
+  }
+
+  .loop__steps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Clockwise: 1 top left, 2 top right, 3 bottom right, 4 bottom left. */
+  .loop__step:nth-child(3) {
+    grid-area: 2 / 2;
+  }
+
+  .loop__step:nth-child(4) {
+    grid-area: 2 / 1;
+  }
+
+  .loop__step,
+  .loop__exit {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0.55rem 0.75rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .loop__step {
+    min-height: 3.4rem;
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-sm);
+    background: var(--primary-soft);
+  }
+
+  .loop__num {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--on-primary);
+    font-size: 0.8rem;
+  }
+
+  .loop__arrow,
+  .loop__check {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Each step's arrow sits in the gap and points to the next step. */
+  .loop__arrow {
+    position: absolute;
+    width: var(--arrow);
+    height: var(--arrow);
+    color: var(--primary);
+  }
+
+  .loop__step:nth-child(1) .loop__arrow {
+    top: 50%;
+    left: calc(100% + var(--arrow-offset));
+    transform: translateY(-50%);
+  }
+
+  .loop__step:nth-child(2) .loop__arrow,
+  .loop__exit .loop__arrow {
+    left: 50%;
+    top: calc(100% + var(--arrow-offset));
+    transform: translateX(-50%) rotate(90deg);
+  }
+
+  .loop__step:nth-child(3) .loop__arrow {
+    top: 50%;
+    right: calc(100% + var(--arrow-offset));
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  .loop__step:nth-child(4) .loop__arrow {
+    left: 50%;
+    bottom: calc(100% + var(--arrow-offset));
+    transform: translateX(-50%) rotate(-90deg);
+  }
+
+  /* The way out hangs below step 3, so its arrow points down from it. */
+  .loop__exit {
+    width: calc(50% - var(--gap) / 2);
+    margin: var(--gap) 0 0 auto;
+    border-radius: 999px;
+    background: var(--primary);
+    color: var(--on-primary);
+  }
+
+  .loop__exit .loop__arrow {
+    top: auto;
+    bottom: calc(100% + var(--arrow-offset));
+  }
+
+  .loop__check {
+    flex-shrink: 0;
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  /* On phones, the number goes above the step so the words get the whole width. */
+  @container (max-width: 26rem) {
+    .loop__step {
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+  }
+
+  @media print {
+    .loop__exit {
+      print-color-adjust: exact;
+    }
+  }
+</style>

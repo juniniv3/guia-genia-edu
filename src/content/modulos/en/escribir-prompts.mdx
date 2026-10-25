@@ -14,9 +14,14 @@ sources:
   - UNESCO (2024). Guidance for generative AI in education and research (Spanish edition)
 ---
 
+import AiAssumes from '../../../components/AiAssumes.astro';
 import BeforeAfter from '../../../components/BeforeAfter.astro';
 import Callout from '../../../components/Callout.astro';
+import ClearFramework from '../../../components/ClearFramework.astro';
+import DraftLoop from '../../../components/DraftLoop.astro';
+import PromptAnatomy from '../../../components/PromptAnatomy.astro';
 import PromptExample from '../../../components/PromptExample.astro';
+import PromptPart from '../../../components/PromptPart.astro';
 import Resumen from '../../../components/Resumen.astro';
 
 ## What is a prompt?
@@ -29,6 +34,13 @@ A **prompt** is the instruction you give the AI. It isn't just a question: it's 
 AI doesn't know your class. **Anything you don't tell it, it will assume.**
 </Callout>
 
+<AiAssumes
+  prompt="Make me a fractions worksheet."
+  guesses={['Grade?', 'Objective?', 'Level?', 'Format?']}
+  ai="AI"
+  caption="With a vague prompt, the AI has to guess everything you didn't tell it."
+/>
+
 ## The 6 ingredients of a good educational prompt
 
 | # | Ingredient | Question it answers | Example |
@@ -39,6 +51,27 @@ AI doesn't know your class. **Anything you don't tell it, it will assume.**
 | 4 | **Task** | What material do I need? | "Create an exercise sheet with three levels of difficulty." |
 | 5 | **Format** | How do I want to receive it? | "A table with the columns level, exercise and hint. One page per level at most." |
 | 6 | **Criteria and constraints** | What must it meet or avoid? | "Simple language, everyday examples from Colombia, no answers included." |
+
+<PromptAnatomy label="One prompt, six ingredients" caption="The six ingredients from the table, put together in a single message. Example 1 below shows a longer version.">
+<PromptPart n={1} label="Role">
+Act as a primary school math teacher with experience in inclusive education.
+</PromptPart>
+<PromptPart n={2} label="Your students' context">
+My students are in grade 5 (ages 10 and 11), at a public school in Bucaramanga, Colombia. Several still confuse the numerator and the denominator.
+</PromptPart>
+<PromptPart n={3} label="Learning objective">
+Objective: for them to recognize equivalent fractions.
+</PromptPart>
+<PromptPart n={4} label="Task">
+Create an exercise sheet with three levels of difficulty.
+</PromptPart>
+<PromptPart n={5} label="Format">
+Present it in a table with the columns level, exercise and hint. One page per level at most.
+</PromptPart>
+<PromptPart n={6} label="Criteria and constraints">
+Use simple language and everyday examples from Colombia. Don't include the answers.
+</PromptPart>
+</PromptAnatomy>
 
 <Callout type="consejo">
 You don't always need all six. For a quick question, the task is enough. But to create a class material, **the more ingredients you include, the less you'll have to correct**.
@@ -136,6 +169,14 @@ Lo (2023) suggests checking your prompts against five qualities:
 - **A**daptive: you adjust it based on the answer you get.
 - **R**eflective: you critically evaluate the result and learn for next time.
 
+<ClearFramework
+  beforeLabel="Before you send it"
+  before={['Concise', 'Logical', 'Explicit']}
+  afterLabel="After you read the answer"
+  after={['Adaptive', 'Reflective']}
+  caption="The first three qualities guide how you write the prompt. The last two guide what you do with the answer."
+/>
+
 ## Have a conversation: the first result is a draft
 
 The first result is rarely the final one. The great advantage of these tools is that you can **keep the conversation going** to improve the material without starting from scratch. For example:
@@ -147,6 +188,12 @@ The first result is rarely the final one. The great advantage of these tools is 
 "Check your answer: is there any math mistake?"
 "Make it shorter: 150 words at most."
 </PromptExample>
+
+<DraftLoop
+  steps={['Ask', 'Get a draft', 'Review it', 'Adjust']}
+  exit="Use it in class"
+  caption="Go around the loop until the material is ready for your students."
+/>
 
 ## Strategies that work
 
