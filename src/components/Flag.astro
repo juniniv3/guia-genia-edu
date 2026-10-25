@@ -1,0 +1,48 @@
+---
+/** Marks a problem inside an AnnotatedAnswer's text: highlighted with a wavy underline and the number of its note. */
+interface Props {
+  /** Number of the note that explains it. */
+  n: number;
+}
+
+const { n } = Astro.props;
+---
+
+<mark class="flag"><span class="flag__num">{n}</span><slot /></mark>
+
+<style>
+  .flag {
+    padding: 0.05em 0.15em;
+    border-radius: 3px;
+    background: var(--cuidado-bg);
+    color: inherit;
+    text-decoration: underline wavy var(--cuidado);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.25em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* inline-grid: an atomic inline box, so the wavy underline skips the number. */
+  .flag__num {
+    display: inline-grid;
+    place-items: center;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-right: 0.25em;
+    border-radius: 50%;
+    background: var(--cuidado);
+    color: var(--surface);
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1;
+    vertical-align: 0.15em;
+  }
+
+  @media print {
+    .flag,
+    .flag__num {
+      print-color-adjust: exact;
+    }
+  }
+</style>

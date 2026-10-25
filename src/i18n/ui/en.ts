@@ -64,6 +64,9 @@ export const en: Dictionary = {
     strong: 'Improved prompt',
   },
   summary: 'In summary',
+  figure: {
+    replay: 'Play again',
+  },
   home: {
     description:
       'A teaching guide for educators: how to use generative artificial intelligence to create adaptive teaching materials with sound pedagogical, ethical and responsible judgment.',

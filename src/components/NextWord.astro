@@ -1,0 +1,318 @@
+---
+/**
+ * Diagram for "it works like autocomplete": a sentence, the candidate next words and how well each fits.
+ * Animated: plays once when it scrolls into view and can be replayed. Without JavaScript, with reduced motion
+ * and in print it shows the finished state.
+ */
+import Figure from './Figure.astro';
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+
+interface Props {
+  /** The start of the sentence, e.g. "Las plantas fabrican su propio". */
+  text: string;
+  /** Candidate next words; `fit` (0–100) is the bar length. The one that fits best is chosen. */
+  options: { word: string; fit: number }[];
+  /** Tag on the chosen word, e.g. "Encaja mejor". */
+  chosenLabel: string;
+  caption?: string;
+}
+
+const { text, options, chosenLabel, caption } = Astro.props;
+const replayLabel = getTranslations(toLocale(Astro.currentLocale)).figure.replay;
+const sorted = [...options].sort((a, b) => b.fit - a.fit);
+const chosen = sorted[0];
+---
+
+<Figure caption={caption}>
+  <div class="next-word" data-next-word>
+    <p class="next-word__sentence">
+      {text}{' '}<mark class="next-word__chosen" style={`--steps: ${chosen.word.length}; --w: ${chosen.word.length + 1}ch`}
+        >{chosen.word}</mark
+      ><span class="next-word__caret" aria-hidden="true"></span>
+    </p>
+    <ul class="next-word__options">
+      {
+        sorted.map((option, i) => (
+          <li
+            class:list={['next-word__option', { 'next-word__option--chosen': option === chosen }]}
+            style={`--fit: ${option.fit / 100}; --i: ${i}`}>
+            <span class="next-word__word">{option.word}</span>
+            <span class="next-word__bar" aria-hidden="true">
+              <span />
+            </span>
+            {option === chosen && (
+              <span class="next-word__label">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                {chosenLabel}
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+    <button type="button" class="next-word__replay no-print" data-replay hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"></path>
+      </svg>
+      {replayLabel}
+    </button>
+  </div>
+</Figure>
+
+<script>
+  // Plays each "next word" animation once, when it scrolls into view; the replay button restarts it.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('is-playing');
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 },
+    );
+
+    for (const figure of document.querySelectorAll<HTMLElement>('[data-next-word]')) {
+      figure.classList.add('is-armed');
+      observer.observe(figure);
+
+      const replay = figure.querySelector<HTMLButtonElement>('[data-replay]');
+      if (!replay) continue;
+      replay.hidden = false;
+      replay.addEventListener('click', () => {
+        figure.classList.remove('is-armed', 'is-playing');
+        figure.getBoundingClientRect(); // forces a reflow, so the animations start again from the beginning
+        figure.classList.add('is-armed', 'is-playing');
+      });
+    }
+  }
+</script>
+
+<style>
+  .next-word {
+    max-width: 30rem;
+    margin-inline: auto;
+  }
+
+  .next-word__sentence {
+    margin: 0 0 1rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .next-word__chosen {
+    display: inline-block;
+    overflow: hidden;
+    padding-inline: 0.2em;
+    border-radius: 4px;
+    background: var(--primary-soft);
+    color: var(--primary-strong);
+    vertical-align: bottom;
+    white-space: nowrap;
+  }
+
+  .next-word__caret {
+    display: inline-block;
+    width: 2px;
+    height: 1.15em;
+    margin-left: 2px;
+    background: var(--primary);
+    vertical-align: -0.2em;
+  }
+
+  .next-word__options {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .next-word__option {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.2rem 0.75rem;
+    margin: 0;
+    padding: 0.35rem 0.6rem;
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+  }
+
+  .next-word__option--chosen {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+  }
+
+  .next-word__word {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .next-word__bar {
+    height: 0.6rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--border);
+  }
+
+  .next-word__bar > span {
+    display: block;
+    width: calc(var(--fit) * 100%);
+    height: 100%;
+    border-radius: inherit;
+    background: var(--text-muted);
+    transform-origin: left;
+  }
+
+  .next-word__option--chosen .next-word__bar > span {
+    background: var(--primary);
+  }
+
+  .next-word__label {
+    display: inline-flex;
+    grid-column: 2;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .next-word__label svg,
+  .next-word__replay svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .next-word__replay {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    width: fit-content;
+    margin: 0.9rem 0 0 auto;
+    padding: 0.3rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--primary);
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .next-word__replay:hover {
+    background: var(--primary-soft);
+  }
+
+  .next-word__replay[hidden] {
+    display: none;
+  }
+
+  /*
+   * Animation, about 3.5 s: the options appear and their bars grow, the best one is picked, and it is typed
+   * into the sentence. `is-armed` (set by the script) applies it paused at its first frame; `is-playing` runs it.
+   * Fill mode `backwards` only, so once it ends every element is back to its normal, finished style.
+   */
+  .next-word.is-armed .next-word__option {
+    animation: nw-appear 0.4s ease-out calc(0.1s + var(--i) * 0.15s) backwards paused;
+  }
+
+  .next-word.is-armed .next-word__option--chosen {
+    animation:
+      nw-appear 0.4s ease-out calc(0.1s + var(--i) * 0.15s) backwards paused,
+      nw-pick 0.4s ease-out 1.6s backwards paused;
+  }
+
+  .next-word.is-armed .next-word__bar > span {
+    animation: nw-grow 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) calc(0.4s + var(--i) * 0.15s) backwards paused;
+  }
+
+  .next-word.is-armed .next-word__label {
+    animation: nw-appear 0.4s ease-out 1.8s backwards paused;
+  }
+
+  .next-word.is-armed .next-word__chosen {
+    animation: nw-type 0.7s steps(var(--steps), end) 2.3s backwards paused;
+  }
+
+  .next-word.is-armed .next-word__caret {
+    animation: nw-blink 0.5s step-end 7 paused;
+  }
+
+  .next-word.is-playing .next-word__option,
+  .next-word.is-playing .next-word__bar > span,
+  .next-word.is-playing .next-word__label,
+  .next-word.is-playing .next-word__chosen,
+  .next-word.is-playing .next-word__caret {
+    animation-play-state: running;
+  }
+
+  @keyframes nw-appear {
+    from {
+      opacity: 0;
+      transform: translateY(0.4rem);
+    }
+  }
+
+  @keyframes nw-pick {
+    from {
+      border-color: transparent;
+      background-color: transparent;
+    }
+  }
+
+  @keyframes nw-grow {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes nw-type {
+    from {
+      max-width: 0;
+      padding-inline: 0;
+    }
+
+    to {
+      max-width: var(--w);
+    }
+  }
+
+  @keyframes nw-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .next-word * {
+      animation: none !important;
+    }
+  }
+
+  @media print {
+    .next-word * {
+      animation: none !important;
+    }
+  }
+</style>

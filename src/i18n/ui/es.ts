@@ -65,6 +65,9 @@ export const es = {
     strong: 'Prompt mejorado',
   },
   summary: 'En resumen',
+  figure: {
+    replay: 'Ver de nuevo',
+  },
   home: {
     description:
       'Guía pedagógica para docentes: cómo usar la inteligencia artificial generativa para crear material didáctico adaptativo con criterio pedagógico, ético y responsable.',

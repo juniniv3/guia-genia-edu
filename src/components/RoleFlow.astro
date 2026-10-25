@@ -1,0 +1,35 @@
+---
+/** Who does what, in order: wraps RoleStep cards, joined by arrows (side by side, or stacked on phones). */
+import Figure from './Figure.astro';
+
+interface Props {
+  caption?: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<Figure caption={caption}>
+  <ol class="roles"><slot /></ol>
+</Figure>
+
+<style>
+  .roles {
+    --gap: 2.25rem;
+
+    display: grid;
+    gap: var(--gap);
+    max-width: 22rem;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  @container (min-width: 34rem) {
+    .roles {
+      grid-auto-columns: minmax(0, 1fr);
+      grid-auto-flow: column;
+      max-width: none;
+    }
+  }
+</style>

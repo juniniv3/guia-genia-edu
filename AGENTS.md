@@ -41,6 +41,7 @@ src/
     Trans                Renders a translated string whose {placeholders} are links/markup
     Callout, PromptExample, BeforeAfter, Resumen                    Used inside MDX
     Figure, PromptAnatomy + PromptPart, AiAssumes, DraftLoop, ClearFramework   Diagrams drawn in HTML/CSS, used inside MDX
+    PromptFormats, NextWord, RoleFlow + RoleStep, AnnotatedAnswer + Flag        More diagrams (Step 1); AiIcon is the shared robot
   lib/
     url.ts               withBase() / stripBase(): add or remove the deploy base
     modules.ts           localizeModules(), ordering, route vs. resources, prev/next, step number, moduleHref()
