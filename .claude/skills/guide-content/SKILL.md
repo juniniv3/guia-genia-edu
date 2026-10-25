@@ -114,7 +114,7 @@ Actúa como docente de matemáticas de primaria…
 
 ## 4b. Figures (diagrams)
 
-Figures are diagrams drawn in HTML and CSS with the site's colors, so they follow light/dark mode, wrap on phones and print with the module. All their text comes from props, so each language file writes its own. Keep labels to a few words. Every figure takes an optional `caption`, shown below it. Step 4 (`escribir-prompts.mdx`) uses the first four below, Step 1 (`que-es-la-ia-generativa.mdx`) the rest.
+Figures are diagrams drawn in HTML and CSS with the site's colors, so they follow light/dark mode, wrap on phones and print with the module. All their text comes from props, so each language file writes its own. Keep labels to a few words. Every figure takes an optional `caption`, shown below it. Step 4 (`escribir-prompts.mdx`) uses the first four below and Step 1 the next four; every other step uses the rest. Look at how a step's MDX uses a figure before reusing it elsewhere.
 
 **AiAssumes**: a vague prompt and what the AI has to guess around it.
 
@@ -192,6 +192,45 @@ Redacta un borrador en segundos.
 <AnnotatedAnswer label="Respuesta de la IA · ejemplo inventado" notes={['Falso: …', 'Cifra inventada: …']} caption="…">
 El río Magdalena es el más importante de Colombia. <Flag n={1}>Nace en la Sierra Nevada de Santa Marta</Flag> y desemboca…
 </AnnotatedAnswer>
+```
+
+**Matrix**: a real table crossing two kinds of choices, with marked cells (`row`/`col` counted from 1; without `text` a mark shows a check). `progress` adds an arrow: the columns go from left to right. Used for the adaptation matrix (Paso 2), the UNESCO competencies (Paso 7) and the template map (Paso 8).
+
+```mdx
+<Matrix colsLabel="¿Qué adapto?" cols={['Contenido', 'Proceso', 'Producto']} rowsLabel="¿Según qué?" rows={['Preparación', 'Intereses', 'Perfil']} marks={[{ row: 1, col: 1 }, { row: 1, col: 2, text: '2, 5' }]} caption="…" />
+```
+
+**HelpZones**: the zone of proximal development as three rings with a numbered legend; `zones` go from the inner ring outwards and the middle one is highlighted (Paso 2).
+
+**SameGoal**: versions with 1–3 dots of support (`support`), all pointing at one shared goal (Pasos 2 and 5).
+
+```mdx
+<SameGoal versions={[{ title: 'Versión A', text: 'Más apoyo…', support: 3 }, { title: 'Versión C', text: 'Reto…', support: 1 }]} supportLabel="Apoyos" goalLabel="Mismo objetivo" goal="…" caption="…" />
+```
+
+**DecisionFlow** + **Decision**: yes/no questions in order. Leave out `yes` when "yes" just means "go on to the next question" (Paso 6); the "Sí"/"No" labels come from `figure.yes`/`figure.no` in `src/i18n/ui/`.
+
+```mdx
+<DecisionFlow caption="…">
+<Decision question="¿Puedes verificarlo en una fuente confiable?" no="No lo uses." />
+<Decision question="¿Es correcto y adecuado?" yes="Úsalo." no="Corrígelo y vuelve a revisarlo." />
+</DecisionFlow>
+```
+
+**ToolTest**: one prompt in several tools, compared question by question; each answer is `true` (✓), `false` (✗) or a short text (Paso 3).
+
+**CreationCycle** + **CycleStep**: the six-step cycle of Paso 5 as a loop, with `who` (`docente` or `ia`) on each step. It assumes exactly six steps.
+
+**DataToNeeds**: personal data crossed out, next to the need to write instead (Paso 7).
+
+```mdx
+<DataToNeeds fromLabel="En lugar de" toLabel="Escribe" pairs={[{ from: 'tiene TDAH', to: 'necesita instrucciones cortas…' }]} caption="…" />
+```
+
+**TemplateFill**: a template with its `[placeholders]` and the same text filled in; `values` fill the placeholders in order (Paso 8).
+
+```mdx
+<TemplateFill templateLabel="Plantilla" filledLabel="Tu versión" template="Actúa como docente de [área]…" values={['ciencias sociales']} caption="…" />
 ```
 
 **Animation.** Animate a figure only when the motion is the lesson (NextWord shows an answer being built word by word). An animation plays once when the figure scrolls into view, lasts under 5 seconds, has a replay button ("Ver de nuevo", from `figure.replay` in `src/i18n/ui/`), and shows its finished state without JavaScript, with reduced motion and in print. Use CSS keyframes and a small `<script>` in the component, not an animation library.

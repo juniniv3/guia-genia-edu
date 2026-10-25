@@ -5,7 +5,7 @@ description: A checklist for deciding whether an AI-generated material is ready 
 summary: A checklist before taking it into the classroom.
 order: 6
 section: ruta
-readingMinutes: 7
+readingMinutes: 8
 sources:
   - UNESCO (2024). Guidance for generative AI in education and research (Spanish edition)
   - Holmes, Bialik and Fadel (2019)
@@ -13,7 +13,11 @@ sources:
   - MEN. Estándares Básicos de Competencias (2006) and Derechos Básicos de Aprendizaje
 ---
 
+import AnnotatedAnswer from '../../../components/AnnotatedAnswer.astro';
 import Callout from '../../../components/Callout.astro';
+import Decision from '../../../components/Decision.astro';
+import DecisionFlow from '../../../components/DecisionFlow.astro';
+import Flag from '../../../components/Flag.astro';
 import Resumen from '../../../components/Resumen.astro';
 
 ## Why you should always review
@@ -23,6 +27,18 @@ You're responsible for what you bring into the classroom, even if a machine wrot
 <Callout type="cuidado" title="Golden rule">
 **If you can't verify it, don't use it.**
 </Callout>
+
+<DecisionFlow caption="The golden rule, step by step. Use it with every fact, figure or quote you don't know.">
+<Decision
+  question="Can you verify it in a reliable source?"
+  no="Don't use it."
+/>
+<Decision
+  question="Is it correct and right for your students?"
+  yes="Use it in your material."
+  no="Fix it or ask for a change, and review it again."
+/>
+</DecisionFlow>
 
 ## Checklist
 
@@ -81,6 +97,18 @@ Be suspicious and check more carefully when you see:
 - **Answers that change** if you ask the same question again.
 - **Claims that contradict** what you know about your subject.
 - **Images with errors**: garbled text, strange hands, wrong maps or flags.
+
+<AnnotatedAnswer
+  label="AI answer · made-up example"
+  notes={[
+    'Contradicts what you know: plants make their own food from light, water and carbon dioxide.',
+    "A reference that doesn't show up when you search for it: it may be made up.",
+    'A very precise figure with no source: check it before you use it.',
+  ]}
+  caption="Three warning signs in a single answer. Each one is a reason to check before you use the text."
+>
+<Flag n={1}>Plants take their food from the soil</Flag> through their roots. <Flag n={2}>According to Gómez (2019)</Flag>, <Flag n={3}>97.3%</Flag> of their weight comes from minerals in the earth.
+</AnnotatedAnswer>
 
 <Callout type="consejo">
 Ask the AI: *"List the claims in this material that I should verify and tell me where I can do it"*. It will serve as a guide, but remember: **you do the verifying**, in reliable sources.

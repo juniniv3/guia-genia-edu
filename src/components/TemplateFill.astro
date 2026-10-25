@@ -1,0 +1,125 @@
+---
+/** A prompt template with its [placeholders], and below it the same text filled in with a class's details. */
+import Figure from './Figure.astro';
+
+interface Props {
+  /** Headings of the two versions, e.g. "Plantilla" and "Tu versión". */
+  templateLabel: string;
+  filledLabel: string;
+  /** The template; every [placeholder] is filled with the next entry of `values`. */
+  template: string;
+  values: string[];
+  caption?: string;
+}
+
+const { templateLabel, filledLabel, template, values, caption } = Astro.props;
+
+// "grado [grado] ([edad] años)" → text, slot 0, text, slot 1, text
+let next = 0;
+const parts: { text: string; slot?: number }[] = template
+  .split(/(\[[^\]]+\])/)
+  .filter(Boolean)
+  .map((text) => (/^\[.+\]$/.test(text) ? { text, slot: next++ } : { text }));
+---
+
+<Figure caption={caption}>
+  <div class="fill">
+    <div class="fill__block">
+      <p class="fill__label">{templateLabel}</p>
+      <p class="fill__text">
+        {parts.map((part) => (part.slot === undefined ? part.text : <span class="fill__slot">{part.text}</span>))}
+      </p>
+    </div>
+    <svg class="fill__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 3v17M6 14l6 6 6-6"></path>
+    </svg>
+    <div class="fill__block fill__block--filled">
+      <p class="fill__label">{filledLabel}</p>
+      <p class="fill__text">
+        {
+          parts.map((part) =>
+            part.slot === undefined ? part.text : <mark class="fill__value">{values[part.slot] ?? part.text}</mark>,
+          )
+        }
+      </p>
+    </div>
+  </div>
+</Figure>
+
+<style>
+  .fill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .fill__block {
+    width: 100%;
+    padding: 0.75rem 1rem 0.85rem;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+  }
+
+  .fill__block--filled {
+    border: 2px solid var(--primary);
+    background: var(--surface);
+  }
+
+  .fill__label {
+    margin: 0 0 0.3rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .fill__block--filled .fill__label {
+    color: var(--primary);
+  }
+
+  .fill__text {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.9;
+  }
+
+  .fill__slot,
+  .fill__value {
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    font-weight: 700;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  .fill__slot {
+    background: var(--surface);
+    box-shadow: inset 0 0 0 1.5px var(--accent);
+    color: var(--accent);
+  }
+
+  .fill__value {
+    background: var(--primary-soft);
+    color: var(--primary-strong);
+  }
+
+  .fill__arrow {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media print {
+    .fill__slot,
+    .fill__value {
+      print-color-adjust: exact;
+    }
+  }
+</style>

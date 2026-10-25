@@ -1,0 +1,69 @@
+---
+/**
+ * The six-step creation cycle of Step 5 as a closed loop of CycleStep cards: 2 columns × 3 rows on phones,
+ * 3 columns × 2 rows when there's room. A legend says which icon is the teacher and which the AI.
+ */
+import AiIcon from './AiIcon.astro';
+import Figure from './Figure.astro';
+import PersonIcon from './PersonIcon.astro';
+
+interface Props {
+  /** Legend labels, e.g. "Tu criterio" and "Participa la IA". */
+  teacherLabel: string;
+  aiLabel: string;
+  caption?: string;
+}
+
+const { teacherLabel, aiLabel, caption } = Astro.props;
+---
+
+<Figure caption={caption}>
+  <div class="cycle">
+    <ol class="cycle__steps"><slot /></ol>
+    <p class="cycle__legend">
+      <span><PersonIcon size={22} />{teacherLabel}</span>
+      <span><AiIcon size={22} />{aiLabel}</span>
+    </p>
+  </div>
+</Figure>
+
+<style>
+  .cycle__steps {
+    --gap: 2.25rem;
+    --arrow: 1.4rem;
+    --arrow-offset: calc((var(--gap) - var(--arrow)) / 2);
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap);
+    max-width: 24rem;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    counter-reset: cycle-step;
+  }
+
+  .cycle__legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem 1.2rem;
+    margin: 1rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .cycle__legend > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  @container (min-width: 36rem) {
+    .cycle__steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: none;
+    }
+  }
+</style>

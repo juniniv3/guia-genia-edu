@@ -67,6 +67,9 @@ export const es = {
   summary: 'En resumen',
   figure: {
     replay: 'Ver de nuevo',
+    yes: 'Sí',
+    no: 'No',
+    continue: 'sigue con la siguiente pregunta',
   },
   home: {
     description:

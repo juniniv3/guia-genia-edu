@@ -1,0 +1,189 @@
+---
+/** Several versions of a material, each with more or less support, all pointing at the same objective. */
+import Figure from './Figure.astro';
+
+interface Props {
+  /** `support` is how much help the version gives, from 1 (least) to 3 (most). */
+  versions: { title: string; text: string; support: 1 | 2 | 3 }[];
+  /** Label next to the support dots, e.g. "Apoyos". */
+  supportLabel: string;
+  /** Heading of the shared goal, e.g. "Mismo objetivo". */
+  goalLabel: string;
+  goal: string;
+  caption?: string;
+}
+
+const { versions, supportLabel, goalLabel, goal, caption } = Astro.props;
+---
+
+<Figure caption={caption}>
+  <div class="same-goal">
+    <ol class="same-goal__versions">
+      {
+        versions.map(({ title, text, support }) => (
+          <li class="same-goal__version">
+            <div class="same-goal__card">
+              <span class="same-goal__title">{title}</span>
+              <span class="same-goal__text">{text}</span>
+              <span class="same-goal__support">
+                <span aria-hidden="true">{supportLabel}</span>
+                <span class="same-goal__dots" aria-hidden="true">
+                  {[1, 2, 3].map((n) => (
+                    <span class:list={['same-goal__dot', { 'same-goal__dot--on': n <= support }]} />
+                  ))}
+                </span>
+                <span class="visually-hidden">
+                  {supportLabel}: {support}/3
+                </span>
+              </span>
+            </div>
+            <svg class="same-goal__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 3v17M6 14l6 6 6-6" />
+            </svg>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="same-goal__goal">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="9"></circle>
+        <circle cx="12" cy="12" r="5"></circle>
+        <circle cx="12" cy="12" r="1.5"></circle>
+      </svg>
+      <span><strong class="same-goal__label">{goalLabel}</strong>{goal}</span>
+    </p>
+  </div>
+</Figure>
+
+<style>
+  .same-goal__versions {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .same-goal__version {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+
+  .same-goal__card {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    width: 100%;
+    padding: 0.6rem 0.5rem 0.7rem;
+    border-top: 4px solid var(--primary);
+    border-radius: var(--radius-sm);
+    background: var(--primary-soft);
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .same-goal__title {
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-wrap: balance;
+  }
+
+  @container (max-width: 30rem) {
+    .same-goal__card {
+      padding-inline: 0.35rem;
+    }
+
+    .same-goal__title {
+      font-size: 0.84rem;
+    }
+  }
+
+  .same-goal__text {
+    flex: 1;
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
+  }
+
+  .same-goal__support {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.15rem 0.35rem;
+    margin-top: 0.2rem;
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .same-goal__dots {
+    display: inline-flex;
+    gap: 0.2rem;
+  }
+
+  .same-goal__dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border: 1.5px solid var(--primary);
+    border-radius: 50%;
+  }
+
+  .same-goal__dot--on {
+    background: var(--primary);
+  }
+
+  .same-goal__arrow {
+    width: 1.4rem;
+    height: 1.4rem;
+    margin: 0.3rem 0;
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .same-goal__goal {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    line-height: 1.4;
+  }
+
+  .same-goal__goal svg {
+    flex-shrink: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 2;
+  }
+
+  .same-goal__label {
+    display: block;
+    color: var(--primary);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  @media print {
+    .same-goal__card,
+    .same-goal__dot--on {
+      print-color-adjust: exact;
+    }
+  }
+</style>

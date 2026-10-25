@@ -5,7 +5,7 @@ description: Principios prácticos para proteger a tus estudiantes, ser transpar
 summary: Privacidad, transparencia, sesgos y tu papel como docente.
 order: 7
 section: ruta
-readingMinutes: 8
+readingMinutes: 9
 sources:
   - UNESCO (2024). Guía para el uso de IA generativa en educación e investigación
   - UNESCO (2024). Marco de competencias en IA para docentes
@@ -17,6 +17,8 @@ sources:
 
 import BeforeAfter from '../../../components/BeforeAfter.astro';
 import Callout from '../../../components/Callout.astro';
+import DataToNeeds from '../../../components/DataToNeeds.astro';
+import Matrix from '../../../components/Matrix.astro';
 import PromptExample from '../../../components/PromptExample.astro';
 import Resumen from '../../../components/Resumen.astro';
 
@@ -47,6 +49,17 @@ Juan Pérez, de 6B, tiene TDAH y sacó 2.0 en matemáticas. Hazle un taller.
 Crea un taller de matemáticas para un estudiante de grado 6 que necesita instrucciones cortas, pausas frecuentes y apoyo visual para mantener la atención.
 </PromptExample>
 </BeforeAfter>
+
+<DataToNeeds
+  fromLabel="En lugar de"
+  toLabel="Escribe"
+  pairs={[
+    { from: 'Juan Pérez, de 6B', to: 'un estudiante de grado 6' },
+    { from: 'tiene TDAH', to: 'necesita instrucciones cortas, pausas frecuentes y apoyo visual' },
+    { from: 'sacó 2.0 en matemáticas', to: 'necesita reforzar el tema con más ejemplos' },
+  ]}
+  caption="Cambia cada dato personal por la necesidad que hay detrás: la IA no necesita saber quién es, sino qué necesita."
+/>
 
 ### 2. Sé transparente
 
@@ -98,6 +111,25 @@ La UNESCO publicó en 2024 un **Marco de competencias en IA para docentes**. Org
 5. La IA para el desarrollo profesional.
 
 Cada dimensión tiene tres niveles de progresión: **adquirir, profundizar y crear**. Esta guía te ayuda a dar los primeros pasos, sobre todo en la ética y en la pedagogía con IA.
+
+<Matrix
+  colsLabel="Niveles de progresión"
+  cols={['Adquirir', 'Profundizar', 'Crear']}
+  rowsLabel="Dimensiones"
+  rows={[
+    'Mentalidad centrada en el ser humano',
+    'Ética de la IA',
+    'Fundamentos y aplicaciones de la IA',
+    'Pedagogía con IA',
+    'IA para el desarrollo profesional',
+  ]}
+  marks={[
+    { row: 2, col: 1, text: 'Esta guía' },
+    { row: 4, col: 1, text: 'Esta guía' },
+  ]}
+  progress
+  caption="El marco de la UNESCO cruza cinco dimensiones con tres niveles. Esta guía te ayuda a dar los primeros pasos, sobre todo en ética y en pedagogía con IA."
+/>
 
 <Resumen>
 - **El ser humano en el centro:** la IA asiste, tú decides.

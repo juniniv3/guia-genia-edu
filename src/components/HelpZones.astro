@@ -1,0 +1,179 @@
+---
+/**
+ * The zone of proximal development as three rings (alone → with help → not yet), with a numbered legend. The middle
+ * ring, where the right help works, is highlighted. The text sits in the legend, so it wraps in any language.
+ */
+import Figure from './Figure.astro';
+
+interface Props {
+  /** The three zones, from the inner ring outwards, each with a title and a short note. */
+  zones: [Zone, Zone, Zone];
+  caption?: string;
+}
+
+interface Zone {
+  title: string;
+  note: string;
+}
+
+const { zones, caption } = Astro.props;
+---
+
+<Figure caption={caption}>
+  <div class="zones">
+    <svg class="zones__rings" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+      <circle class="zones__ring zones__ring--3" cx="100" cy="100" r="96"></circle>
+      <circle class="zones__ring zones__ring--2" cx="100" cy="100" r="66"></circle>
+      <circle class="zones__ring zones__ring--1" cx="100" cy="100" r="34"></circle>
+      <g class="zones__badge zones__badge--1"><circle cx="100" cy="100" r="11"></circle><text x="100" y="104.5">1</text></g>
+      <g class="zones__badge zones__badge--2"><circle cx="100" cy="50" r="11"></circle><text x="100" y="54.5">2</text></g>
+      <g class="zones__badge zones__badge--3"><circle cx="100" cy="19" r="11"></circle><text x="100" y="23.5">3</text></g>
+    </svg>
+    <ol class="zones__legend">
+      {
+        zones.map(({ title, note }, i) => (
+          <li class:list={['zones__item', `zones__item--${i + 1}`]}>
+            <span class="zones__num" aria-hidden="true">
+              {i + 1}
+            </span>
+            <span>
+              <strong class="zones__title">{title}</strong>
+              <span class="zones__note">{note}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</Figure>
+
+<style>
+  .zones {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .zones__rings {
+    width: min(100%, 13rem);
+    height: auto;
+  }
+
+  .zones__ring--3 {
+    fill: var(--cuidado-bg);
+    stroke: var(--cuidado);
+    stroke-dasharray: 5 4;
+    stroke-width: 1.5;
+  }
+
+  .zones__ring--2 {
+    fill: var(--primary-soft);
+    stroke: var(--primary);
+    stroke-width: 3;
+  }
+
+  .zones__ring--1 {
+    fill: var(--surface-2);
+    stroke: var(--text-muted);
+    stroke-width: 1.5;
+  }
+
+  .zones__badge circle {
+    fill: var(--tone);
+  }
+
+  .zones__badge text {
+    fill: var(--surface);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 800;
+    text-anchor: middle;
+  }
+
+  .zones__badge--1,
+  .zones__item--1 {
+    --tone: var(--text-muted);
+  }
+
+  .zones__badge--2,
+  .zones__item--2 {
+    --tone: var(--primary);
+  }
+
+  .zones__badge--3,
+  .zones__item--3 {
+    --tone: var(--cuidado);
+  }
+
+  .zones__legend {
+    display: grid;
+    gap: 0.4rem;
+    width: 100%;
+    max-width: 24rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .zones__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0.45rem 0.6rem;
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    line-height: 1.4;
+  }
+
+  .zones__item--2 {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+  }
+
+  .zones__num {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-top: 0.05rem;
+    border-radius: 50%;
+    background: var(--tone);
+    color: var(--surface);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .zones__title {
+    display: block;
+    font-size: 0.95rem;
+  }
+
+  .zones__note {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  @container (min-width: 32rem) {
+    .zones {
+      flex-direction: row;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .zones__rings {
+      flex-shrink: 0;
+      width: 12rem;
+    }
+  }
+
+  @media print {
+    .zones__rings,
+    .zones__item,
+    .zones__num {
+      print-color-adjust: exact;
+    }
+  }
+</style>

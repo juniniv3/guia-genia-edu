@@ -1,0 +1,180 @@
+---
+/** Privacy, made concrete: each piece of personal data, crossed out, next to the need to describe instead. */
+import Figure from './Figure.astro';
+
+interface Props {
+  /** Column headings, e.g. "En lugar de" and "Escribe". */
+  fromLabel: string;
+  toLabel: string;
+  pairs: { from: string; to: string }[];
+  caption?: string;
+}
+
+const { fromLabel, toLabel, pairs, caption } = Astro.props;
+const cross = 'M18 6 6 18M6 6l12 12';
+const check = 'M20 6 9 17l-5-5';
+---
+
+<Figure caption={caption}>
+  <div class="needs">
+    <p class="needs__head" aria-hidden="true">
+      <span class="needs__head--from">{fromLabel}</span>
+      <span></span>
+      <span class="needs__head--to">{toLabel}</span>
+    </p>
+    <ul class="needs__pairs">
+      {
+        pairs.map(({ from, to }) => (
+          <li class="needs__pair">
+            <span class="needs__from">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d={cross} />
+              </svg>
+              <span class="visually-hidden">{fromLabel}:</span>
+              <del>{from}</del>
+            </span>
+            <svg class="needs__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M3 12h17M14 6l6 6-6 6" />
+            </svg>
+            <span class="needs__to">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d={check} />
+              </svg>
+              <span class="visually-hidden">{toLabel}:</span>
+              {to}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Figure>
+
+<style>
+  .needs__head,
+  .needs__pair {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .needs__head {
+    margin: 0 0 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .needs__head--from {
+    color: var(--cuidado);
+  }
+
+  .needs__head--to {
+    color: var(--consejo);
+  }
+
+  .needs__pairs {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .needs__pair {
+    margin: 0;
+  }
+
+  .needs__from,
+  .needs__to {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    height: 100%;
+    padding: 0.5rem 0.65rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .needs__from {
+    background: var(--cuidado-bg);
+    color: var(--text-muted);
+  }
+
+  .needs__from del {
+    text-decoration-color: var(--cuidado);
+    text-decoration-thickness: 1.5px;
+  }
+
+  .needs__to {
+    background: var(--consejo-bg);
+    font-weight: 600;
+  }
+
+  .needs svg {
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .needs__from svg,
+  .needs__to svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    margin-top: 0.15rem;
+  }
+
+  .needs__from svg {
+    color: var(--cuidado);
+  }
+
+  .needs__to svg {
+    color: var(--consejo);
+  }
+
+  .needs__arrow {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--text-muted);
+  }
+
+  @container (max-width: 30rem) {
+    .needs__head {
+      display: none;
+    }
+
+    .needs__pair {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center;
+      gap: 0.2rem;
+    }
+
+    .needs__from,
+    .needs__to {
+      width: 100%;
+    }
+
+    .needs__arrow {
+      width: 1.2rem;
+      height: 1.2rem;
+      transform: rotate(90deg);
+    }
+
+    .needs__pairs {
+      gap: 0.9rem;
+    }
+  }
+
+  @media print {
+    .needs__from,
+    .needs__to {
+      print-color-adjust: exact;
+    }
+  }
+</style>

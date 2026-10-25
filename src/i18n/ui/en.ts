@@ -66,6 +66,9 @@ export const en: Dictionary = {
   summary: 'In summary',
   figure: {
     replay: 'Play again',
+    yes: 'Yes',
+    no: 'No',
+    continue: 'go on to the next question',
   },
   home: {
     description:
