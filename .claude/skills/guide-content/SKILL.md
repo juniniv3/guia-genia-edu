@@ -114,7 +114,7 @@ Actúa como docente de matemáticas de primaria…
 
 ## 4b. Figures (diagrams)
 
-Figures are diagrams drawn in HTML and CSS with the site's colors, so they follow light/dark mode, wrap on phones and print with the module. All their text comes from props, so each language file writes its own. Keep labels to a few words. Every figure takes an optional `caption`, shown below it. Step 4 (`escribir-prompts.mdx`) uses all of them.
+Figures are diagrams drawn in HTML and CSS with the site's colors, so they follow light/dark mode, wrap on phones and print with the module. All their text comes from props, so each language file writes its own. Keep labels to a few words. Every figure takes an optional `caption`, shown below it. Step 4 (`escribir-prompts.mdx`) uses the first four below, Step 1 (`que-es-la-ia-generativa.mdx`) the rest.
 
 **AiAssumes**: a vague prompt and what the AI has to guess around it.
 
@@ -151,6 +151,50 @@ Objetivo: que reconozcan fracciones equivalentes.
 ```mdx
 <ClearFramework beforeLabel="Antes de enviarlo" before={['Conciso', 'Lógico', 'Explícito']} afterLabel="Después de leer la respuesta" after={['Adaptativo', 'Reflexivo']} caption="…" />
 ```
+
+**PromptFormats**: one prompt in, new content out in several formats. `icon` is `texto`, `imagen`, `audio`, `video` or `codigo` and stays in Spanish in every language.
+
+```mdx
+<PromptFormats
+  label="Tu prompt"
+  prompt="Explica el ciclo del agua para estudiantes de grado 3."
+  ai="IA"
+  formats={[
+    { icon: 'texto', name: 'Texto', example: 'una explicación' },
+    { icon: 'imagen', name: 'Imagen', example: 'un diagrama' },
+  ]}
+  caption="…"
+/>
+```
+
+**NextWord** (animated): a sentence, the candidate next words and a bar for how well each fits (`fit`, 0–100). The best one is chosen and typed into the sentence. Say in the caption that it's illustrative.
+
+```mdx
+<NextWord text="Las plantas fabrican su propio" options={[{ word: 'alimento', fit: 85 }, { word: 'abono', fit: 30 }]} chosenLabel="Encaja mejor" caption="Ejemplo ilustrativo. …" />
+```
+
+**RoleFlow** + **RoleStep**: who does what, in order. `who` is `docente` or `ia` (it sets the icon and color); `title` is what the reader sees.
+
+```mdx
+<RoleFlow caption="…">
+<RoleStep who="docente" title="Tú">
+Decides qué enseñar, para quién y para qué.
+</RoleStep>
+<RoleStep who="ia" title="La IA">
+Redacta un borrador en segundos.
+</RoleStep>
+</RoleFlow>
+```
+
+**AnnotatedAnswer** + **Flag**: an AI answer with problems marked in the text, explained by the numbered `notes`. Say in `label` that it's a made-up example, and make sure each note states the correct fact (verified).
+
+```mdx
+<AnnotatedAnswer label="Respuesta de la IA · ejemplo inventado" notes={['Falso: …', 'Cifra inventada: …']} caption="…">
+El río Magdalena es el más importante de Colombia. <Flag n={1}>Nace en la Sierra Nevada de Santa Marta</Flag> y desemboca…
+</AnnotatedAnswer>
+```
+
+**Animation.** Animate a figure only when the motion is the lesson (NextWord shows an answer being built word by word). An animation plays once when the figure scrolls into view, lasts under 5 seconds, has a replay button ("Ver de nuevo", from `figure.replay` in `src/i18n/ui/`), and shows its finished state without JavaScript, with reduced motion and in print. Use CSS keyframes and a small `<script>` in the component, not an animation library.
 
 Use at most one figure per `##` section, next to the text it illustrates, never between a sentence ending in ":" and its list. A new kind of diagram is a new component in `src/components/` built on `Figure.astro` (code work, not content work).
 

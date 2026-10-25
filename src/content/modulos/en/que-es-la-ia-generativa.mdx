@@ -5,7 +5,7 @@ description: Understand in plain words what it is, how it works and what it can 
 summary: What it is, how it works and what its limits are.
 order: 1
 section: ruta
-readingMinutes: 6
+readingMinutes: 7
 sources:
   - Sánchez Mendiola and Carbajal Degante (2023)
   - García-Peñalvo, Llorens-Largo and Vidal (2024)
@@ -14,12 +14,32 @@ sources:
   - Díaz Vera et al. (2024); Trillos Miranda (2025)
 ---
 
+import AnnotatedAnswer from '../../../components/AnnotatedAnswer.astro';
 import Callout from '../../../components/Callout.astro';
+import Flag from '../../../components/Flag.astro';
+import NextWord from '../../../components/NextWord.astro';
+import PromptFormats from '../../../components/PromptFormats.astro';
 import Resumen from '../../../components/Resumen.astro';
+import RoleFlow from '../../../components/RoleFlow.astro';
+import RoleStep from '../../../components/RoleStep.astro';
 
 ## In a nutshell
 
 **Generative artificial intelligence** (GenAI) is a type of artificial intelligence that **creates new content**: text, images, audio, video or code. It does this from an instruction that you write. That instruction is called a **prompt**.
+
+<PromptFormats
+  label="Your prompt"
+  prompt="Explain the water cycle to grade 3 students."
+  ai="AI"
+  formats={[
+    { icon: 'texto', name: 'Text', example: 'an explanation' },
+    { icon: 'imagen', name: 'Image', example: 'a diagram' },
+    { icon: 'audio', name: 'Audio', example: 'a narration' },
+    { icon: 'video', name: 'Video', example: 'an animation' },
+    { icon: 'codigo', name: 'Code', example: 'a simulation' },
+  ]}
+  caption="From the same instruction, AI can create new content in different formats, depending on the tool."
+/>
 
 Some well-known tools are ChatGPT, Gemini, Copilot and Claude.
 
@@ -30,6 +50,17 @@ Generative AI doesn't "look up" a stored answer: it **builds** one every time yo
 ## How does it work? An analogy
 
 Think of the autocomplete on your phone's keyboard: it suggests the next word based on what you've already typed. Generative AI does something similar, but on an enormous scale. It learned patterns from millions of texts and images and uses them to build the answer that seems to fit your instruction best.
+
+<NextWord
+  text="Plants make their own"
+  options={[
+    { word: 'food', fit: 85 },
+    { word: 'fertilizer', fit: 30 },
+    { word: 'color', fit: 12 },
+  ]}
+  chosenLabel="Fits best"
+  caption="Illustrative example. At each step, the AI picks a word that fits what came before, and that's how it builds the whole answer. Fitting doesn't mean it's true."
+/>
 
 Two important ideas follow from this:
 
@@ -51,6 +82,18 @@ Some tools only work with text. Others, called **multimodal**, understand and pr
 Think of AI as an **assistant that writes drafts very quickly**. The teaching design (what to teach, to whom and why) is still yours. AI doesn't replace your judgment: it amplifies it.
 </Callout>
 
+<RoleFlow caption="The AI drafts; you bring the teaching judgment at the start and at the end.">
+<RoleStep who="docente" title="You">
+Decide what to teach, to whom and why.
+</RoleStep>
+<RoleStep who="ia" title="The AI">
+Writes a draft in seconds.
+</RoleStep>
+<RoleStep who="docente" title="You">
+Review it, adapt it and decide whether it works for your class.
+</RoleStep>
+</RoleFlow>
+
 ## What generative AI doesn't do well
 
 - **It can make up information.** This is called a *hallucination*: facts, dates, quotes or references that sound real but don't exist.
@@ -58,6 +101,17 @@ Think of AI as an **assistant that writes drafts very quickly**. The teaching de
 - **It doesn't know your students.** It doesn't know their grade, their context, their interests or their difficulties. If you don't tell it, it guesses.
 - **Its information may be out of date**, because it learned from data up to a certain date (unless the tool searches the internet).
 - **It personalizes superficially if no one guides it.** Without a teacher's mediation, "adaptation" usually stops at making the text easier or harder.
+
+<AnnotatedAnswer
+  label="AI answer · made-up example"
+  notes={[
+    'False: it starts in the Colombian Massif, at the Laguna de la Magdalena.',
+    'Invented figure: it sounds precise, but it has no source.',
+  ]}
+  caption="This is what a hallucination looks like: the text sounds sure of itself, but it mixes real facts with false ones. Step 6 shows you how to check it."
+>
+The Magdalena is Colombia's most important river. <Flag n={1}>It starts in the Sierra Nevada de Santa Marta</Flag> and flows into the Caribbean Sea at Bocas de Ceniza. <Flag n={2}>It carries 85% of the country's fresh water.</Flag>
+</AnnotatedAnswer>
 
 ## Myths and realities
 

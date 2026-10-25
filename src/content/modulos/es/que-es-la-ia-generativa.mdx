@@ -5,7 +5,7 @@ description: Entiende en palabras sencillas qué es, cómo funciona y qué puede
 summary: Qué es, cómo funciona y cuáles son sus límites.
 order: 1
 section: ruta
-readingMinutes: 6
+readingMinutes: 7
 sources:
   - Sánchez Mendiola y Carbajal Degante (2023)
   - García-Peñalvo, Llorens-Largo y Vidal (2024)
@@ -14,12 +14,32 @@ sources:
   - Díaz Vera et al. (2024); Trillos Miranda (2025)
 ---
 
+import AnnotatedAnswer from '../../../components/AnnotatedAnswer.astro';
 import Callout from '../../../components/Callout.astro';
+import Flag from '../../../components/Flag.astro';
+import NextWord from '../../../components/NextWord.astro';
+import PromptFormats from '../../../components/PromptFormats.astro';
 import Resumen from '../../../components/Resumen.astro';
+import RoleFlow from '../../../components/RoleFlow.astro';
+import RoleStep from '../../../components/RoleStep.astro';
 
 ## En pocas palabras
 
 La **inteligencia artificial generativa** (IAG) es un tipo de inteligencia artificial que **crea contenido nuevo**: textos, imágenes, audio, video o código. Lo hace a partir de una instrucción que tú le escribes. A esa instrucción se le llama **prompt**.
+
+<PromptFormats
+  label="Tu prompt"
+  prompt="Explica el ciclo del agua para estudiantes de grado 3."
+  ai="IA"
+  formats={[
+    { icon: 'texto', name: 'Texto', example: 'una explicación' },
+    { icon: 'imagen', name: 'Imagen', example: 'un diagrama' },
+    { icon: 'audio', name: 'Audio', example: 'una narración' },
+    { icon: 'video', name: 'Video', example: 'una animación' },
+    { icon: 'codigo', name: 'Código', example: 'una simulación' },
+  ]}
+  caption="A partir de una misma instrucción, la IA puede crear contenido nuevo en distintos formatos, según la herramienta."
+/>
 
 Algunas herramientas conocidas son ChatGPT, Gemini, Copilot y Claude.
 
@@ -30,6 +50,17 @@ La IA generativa no "busca" una respuesta guardada: la **construye** cada vez qu
 ## ¿Cómo funciona? Una analogía
 
 Piensa en el autocompletar del teclado de tu celular: te sugiere la siguiente palabra según lo que ya escribiste. La IA generativa hace algo parecido, pero a una escala enorme. Aprendió patrones a partir de millones de textos e imágenes y, con ellos, va construyendo la respuesta que parece encajar mejor con tu instrucción.
+
+<NextWord
+  text="Las plantas fabrican su propio"
+  options={[
+    { word: 'alimento', fit: 85 },
+    { word: 'abono', fit: 30 },
+    { word: 'color', fit: 12 },
+  ]}
+  chosenLabel="Encaja mejor"
+  caption="Ejemplo ilustrativo. En cada paso, la IA elige una palabra que encaje con lo anterior, y así construye toda la respuesta. Que encaje no significa que sea verdad."
+/>
 
 De esto se desprenden dos ideas importantes:
 
@@ -51,6 +82,18 @@ Algunas herramientas solo trabajan con texto. Otras, llamadas **multimodales**, 
 Piensa en la IA como un **asistente que redacta borradores muy rápido**. El diseño pedagógico (qué enseñar, para quién y para qué) sigue siendo tuyo. La IA no reemplaza tu criterio: lo amplifica.
 </Callout>
 
+<RoleFlow caption="La IA redacta; tú pones el criterio pedagógico al principio y al final.">
+<RoleStep who="docente" title="Tú">
+Decides qué enseñar, para quién y para qué.
+</RoleStep>
+<RoleStep who="ia" title="La IA">
+Redacta un borrador en segundos.
+</RoleStep>
+<RoleStep who="docente" title="Tú">
+Revisas, adaptas y decides si sirve para tu clase.
+</RoleStep>
+</RoleFlow>
+
 ## Lo que la IA generativa no hace bien
 
 - **Puede inventar información.** A esto se le llama *alucinación*: datos, fechas, citas o referencias que suenan reales pero no existen.
@@ -58,6 +101,17 @@ Piensa en la IA como un **asistente que redacta borradores muy rápido**. El dis
 - **No conoce a tus estudiantes.** No sabe su grado, su contexto, sus intereses ni sus dificultades. Si no se lo dices, lo supone.
 - **Su información puede estar desactualizada**, porque aprendió con datos hasta una fecha determinada (salvo que la herramienta busque en internet).
 - **Personaliza de forma superficial si nadie la orienta.** Sin la mediación de un docente, la "adaptación" suele quedarse en hacer el texto más fácil o más difícil.
+
+<AnnotatedAnswer
+  label="Respuesta de la IA · ejemplo inventado"
+  notes={[
+    'Falso: nace en el Macizo Colombiano, en la laguna de la Magdalena.',
+    'Cifra inventada: suena precisa, pero no tiene fuente.',
+  ]}
+  caption="Así se ve una alucinación: el texto suena seguro, pero mezcla datos reales con datos falsos. En el Paso 6 verás cómo revisarlo."
+>
+El río Magdalena es el más importante de Colombia. <Flag n={1}>Nace en la Sierra Nevada de Santa Marta</Flag> y desemboca en el mar Caribe, en Bocas de Ceniza. <Flag n={2}>Por él corre el 85 % del agua dulce del país.</Flag>
+</AnnotatedAnswer>
 
 ## Mitos y realidades
 

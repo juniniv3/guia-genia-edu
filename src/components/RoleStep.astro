@@ -1,0 +1,106 @@
+---
+/** One card of a RoleFlow: who acts (the teacher or the AI) and what they do, with an arrow from the previous card. */
+import AiIcon from './AiIcon.astro';
+
+interface Props {
+  /** `docente` or `ia`; stays in Spanish in every language, like Callout's `type`. */
+  who: 'docente' | 'ia';
+  /** Who, as the reader sees it: "Tú", "La IA". */
+  title: string;
+}
+
+const { who, title } = Astro.props;
+---
+
+<li class:list={['role', `role--${who}`]}>
+  <svg class="role__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path d="M3 12h17M14 6l6 6-6 6"></path>
+  </svg>
+  {
+    who === 'ia' ? (
+      <AiIcon size={48} />
+    ) : (
+      <svg class="role__person" viewBox="0 0 64 64" width="48" height="48" aria-hidden="true" focusable="false">
+        <circle cx="32" cy="20" r="11" />
+        <path d="M12 56a20 20 0 0 1 40 0Z" />
+      </svg>
+    )
+  }
+  <span class="role__title">{title}</span>
+  <div class="role__text"><slot /></div>
+</li>
+
+<style>
+  .role {
+    --tone: var(--accent);
+    --tone-bg: var(--accent-soft);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 1rem 0.9rem 1.1rem;
+    border-top: 4px solid var(--tone);
+    border-radius: var(--radius-sm);
+    background: var(--tone-bg);
+    line-height: 1.45;
+    text-align: center;
+  }
+
+  .role--ia {
+    --tone: var(--primary);
+    --tone-bg: var(--primary-soft);
+  }
+
+  .role__person {
+    flex-shrink: 0;
+    fill: var(--accent);
+  }
+
+  .role__title {
+    color: var(--tone);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .role__text {
+    font-size: 0.95rem;
+  }
+
+  .role__text :global(p) {
+    margin: 0;
+  }
+
+  /* The arrow sits in the gap before the card, pointing at it: down when stacked, right when side by side. */
+  .role__arrow {
+    position: absolute;
+    bottom: calc(100% + (var(--gap) - 1.5rem) / 2);
+    left: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transform: translateX(-50%) rotate(90deg);
+  }
+
+  .role:first-child .role__arrow {
+    display: none;
+  }
+
+  @container (min-width: 34rem) {
+    .role__arrow {
+      top: 50%;
+      right: calc(100% + (var(--gap) - 1.5rem) / 2);
+      bottom: auto;
+      left: auto;
+      transform: translateY(-50%);
+    }
+  }
+</style>
