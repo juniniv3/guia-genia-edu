@@ -5,7 +5,7 @@ description: Los seis ingredientes de un buen prompt educativo, ejemplos de ante
 summary: Los seis ingredientes de un buen prompt y cómo mejorarlo.
 order: 4
 section: ruta
-readingMinutes: 10
+readingMinutes: 8
 sources:
   - White et al. (2023). Catálogo de patrones de prompts
   - Lo (2023). Marco CLEAR
@@ -89,6 +89,42 @@ Básate solo en el texto que te doy.
 </BeforeAfter>
 
 Fíjate en la última instrucción: **"básate solo en el texto que te doy"**. Cuando le das a la IA el material original, se reduce el riesgo de que invente detalles.
+
+### Ejemplo 3: ciencias naturales, secundaria
+
+<BeforeAfter>
+<PromptExample variant="weak">
+Hazme un quiz de fotosíntesis.
+</PromptExample>
+<PromptExample variant="strong">
+Actúa como docente de ciencias naturales de grado 7.
+Mis estudiantes tienen 12 y 13 años. Muchos creen que las plantas sacan su alimento del suelo.
+Objetivo: comprobar si entienden que la planta fabrica su alimento con luz, agua y dióxido de carbono.
+Crea un quiz de 6 preguntas de selección múltiple con 4 opciones cada una. Las opciones incorrectas deben reflejar errores comunes de los estudiantes, como el que te mencioné.
+Formato: primero las preguntas para imprimir. Después, en una sección aparte para mí, la respuesta correcta y qué error revela cada opción incorrecta.
+Usa lenguaje sencillo. Al final, haz una lista de las afirmaciones científicas que debo verificar.
+</PromptExample>
+</BeforeAfter>
+
+Aquí el prompt aprovecha lo que **tú ya sabes de tu grupo**: el error que más se repite. Así, cada respuesta incorrecta te dice qué idea hay que trabajar, y la lista final te recuerda revisar los datos antes de usar el quiz.
+
+### Ejemplo 4: ciencias sociales, media
+
+<BeforeAfter>
+<PromptExample variant="weak">
+Hazme una rúbrica para un debate.
+</PromptExample>
+<PromptExample variant="strong">
+Eres docente de ciencias sociales de grado 10.
+Mis estudiantes van a debatir en equipos sobre el uso del agua en Santander: qué debe tener prioridad, el consumo de las familias, la agricultura o la minería.
+Objetivo: que argumenten con evidencias y respondan con respeto a la postura contraria.
+Crea una rúbrica con 4 criterios: uso de evidencias, claridad del argumento, respuesta a la contraparte y respeto en el diálogo.
+Formato: una tabla con 4 niveles (superior, alto, básico y bajo). Describe en cada casilla lo que se observa, no solo "bien" o "regular".
+Escríbela en un lenguaje que mis estudiantes entiendan, porque se la voy a entregar antes del debate.
+</PromptExample>
+</BeforeAfter>
+
+La clave está en pedir que **cada nivel describa lo que se observa**. Una rúbrica que solo dice "excelente" o "regular" no le sirve a nadie. Y como dijiste que la vas a compartir, la IA ajusta el lenguaje a tus estudiantes y no a otros docentes.
 
 ## El marco CLEAR: cinco cualidades de un buen prompt
 

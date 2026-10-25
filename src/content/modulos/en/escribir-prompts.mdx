@@ -5,7 +5,7 @@ description: The six ingredients of a good educational prompt, before-and-after 
 summary: The six ingredients of a good prompt and how to improve it.
 order: 4
 section: ruta
-readingMinutes: 10
+readingMinutes: 8
 sources:
   - White et al. (2023). A prompt pattern catalog
   - Lo (2023). The CLEAR path
@@ -89,6 +89,42 @@ Base your questions only on the text I give you.
 </BeforeAfter>
 
 Notice the last instruction: **"base your questions only on the text I give you"**. When you give the AI the original material, you reduce the risk of it making up details.
+
+### Example 3: natural sciences, secondary school
+
+<BeforeAfter>
+<PromptExample variant="weak">
+Make me a quiz on photosynthesis.
+</PromptExample>
+<PromptExample variant="strong">
+Act as a grade 7 natural sciences teacher.
+My students are 12 and 13 years old. Many believe plants get their food from the soil.
+Objective: check whether they understand that plants make their own food from light, water and carbon dioxide.
+Create a 6-question multiple-choice quiz with 4 options each. The wrong options should reflect common student mistakes, like the one I mentioned.
+Format: first the questions, ready to print. Then, in a separate section for me, the correct answer and what mistake each wrong option reveals.
+Use simple language. At the end, list the scientific claims I should verify.
+</PromptExample>
+</BeforeAfter>
+
+Here the prompt uses **what you already know about your class**: the mistake that keeps coming up. That way, every wrong answer tells you which idea needs more work, and the final list reminds you to check the facts before you use the quiz.
+
+### Example 4: social studies, upper secondary
+
+<BeforeAfter>
+<PromptExample variant="weak">
+Make me a rubric for a debate.
+</PromptExample>
+<PromptExample variant="strong">
+You are a grade 10 social studies teacher.
+My students will debate in teams about water use in Santander: what should come first, household use, farming or mining.
+Objective: that they argue with evidence and respond respectfully to the opposing side.
+Create a rubric with 4 criteria: use of evidence, clarity of the argument, response to the other side and respect in the dialogue.
+Format: a table with 4 levels (superior, high, basic and low). In each cell, describe what you can observe, not just "good" or "fair".
+Write it in language my students can understand, because I'll give it to them before the debate.
+</PromptExample>
+</BeforeAfter>
+
+The key is asking for **each level to describe what you can observe**. A rubric that only says "excellent" or "fair" doesn't help anyone. And because you said you'll share it, the AI pitches the language to your students instead of to other teachers.
 
 ## The CLEAR framework: five qualities of a good prompt
 
