@@ -63,6 +63,8 @@ export const es = {
     neutral: 'Prompt',
     weak: 'Prompt débil',
     strong: 'Prompt mejorado',
+    copy: 'Copiar',
+    copied: '¡Copiado!',
   },
   summary: 'En resumen',
   figure: {

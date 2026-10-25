@@ -8,25 +8,51 @@ interface Props {
   /** Heading above the prompt, e.g. "Prompt mejorado" or "Plantilla". */
   label?: string;
   variant?: Variant;
+  /** A "Copiar" button that copies the prompt as plain text (src/lib/copy.ts): the prompt library's templates. */
+  copy?: boolean;
 }
 
-const defaultLabels = getTranslations(toLocale(Astro.currentLocale)).prompt;
-const { variant = 'neutral', label } = Astro.props;
+const t = getTranslations(toLocale(Astro.currentLocale)).prompt;
+const { variant = 'neutral', label, copy = false } = Astro.props;
 ---
 
 <figure class:list={['prompt', `prompt--${variant}`]}>
   <figcaption class="prompt__label">
     {variant === 'weak' && <span aria-hidden="true">✗</span>}
     {variant === 'strong' && <span aria-hidden="true">✓</span>}
-    {label ?? defaultLabels[variant]}
+    {label ?? t[variant]}
   </figcaption>
-  <div class="prompt__body"><slot /></div>
+  {
+    copy && (
+      <>
+        <button type="button" class="prompt__copy no-print" data-copy data-label-copied={t.copied} hidden>
+          <svg class="prompt__copy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="9" y="9" width="12" height="12" rx="2" />
+            <path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" />
+          </svg>
+          <svg class="prompt__copied-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+          <span data-label>{t.copy}</span>
+        </button>
+        <span class="visually-hidden" aria-live="polite" data-copy-status />
+      </>
+    )
+  }
+  <div class="prompt__body" data-prompt-body><slot /></div>
 </figure>
+
+<script>
+  import { setupCopyButtons } from '../lib/copy';
+
+  setupCopyButtons();
+</script>
 
 <style>
   .prompt {
     --tone: var(--primary);
 
+    position: relative;
     margin: 1.25rem 0;
     overflow: hidden;
     border: 1px solid var(--border);
@@ -77,6 +103,57 @@ const { variant = 'neutral', label } = Astro.props;
 
   .prompt__body > :global(:last-child) {
     margin-bottom: 0;
+  }
+
+  /* In the label bar, on the right. */
+  .prompt__copy {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.15rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--primary);
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .prompt__copy:hover {
+    background: var(--primary-soft);
+  }
+
+  .prompt__copy[hidden] {
+    display: none;
+  }
+
+  .prompt__copy svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .prompt__copied-icon,
+  .prompt__copy[data-copied] .prompt__copy-icon {
+    display: none;
+  }
+
+  .prompt__copy[data-copied] {
+    border-color: var(--consejo);
+    color: var(--consejo);
+  }
+
+  .prompt__copy[data-copied] .prompt__copied-icon {
+    display: block;
   }
 
   @media print {
