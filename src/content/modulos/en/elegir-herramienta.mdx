@@ -16,6 +16,7 @@ import Callout from '../../../components/Callout.astro';
 import Decision from '../../../components/Decision.astro';
 import DecisionFlow from '../../../components/DecisionFlow.astro';
 import Resumen from '../../../components/Resumen.astro';
+import ToolPicker from '../../../components/ToolPicker.astro';
 import ToolTest from '../../../components/ToolTest.astro';
 
 ## Start with the right question
@@ -52,6 +53,16 @@ The question isn't "which AI is the best?", but: **what material do I need to cr
 ## The best-known tools
 
 These four tools are general-purpose: they work for almost any subject and level.
+
+<ToolPicker
+  tools={[
+    { brand: 'chatgpt', name: 'ChatGPT', need: 'I want activity ideas for my class.' },
+    { brand: 'gemini', name: 'Gemini', need: 'My school uses Google Workspace.' },
+    { brand: 'copilot', name: 'Copilot', need: 'My school uses Microsoft 365.' },
+    { brand: 'claude', name: 'Claude', need: 'I need to analyze a long document, just for me.' },
+  ]}
+  caption="Illustrative example: the right tool depends on what you need. All four work for almost anything; check the six criteria before choosing."
+/>
 
 | Tool | Company | Minimum age* | Useful for | Keep in mind |
 | --- | --- | --- | --- | --- |

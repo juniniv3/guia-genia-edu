@@ -16,6 +16,7 @@ import Callout from '../../../components/Callout.astro';
 import Decision from '../../../components/Decision.astro';
 import DecisionFlow from '../../../components/DecisionFlow.astro';
 import Resumen from '../../../components/Resumen.astro';
+import ToolPicker from '../../../components/ToolPicker.astro';
 import ToolTest from '../../../components/ToolTest.astro';
 
 ## Empieza por la pregunta correcta
@@ -52,6 +53,16 @@ La pregunta no es "¿cuál es la mejor IA?", sino: **¿qué material necesito cr
 ## Las herramientas más conocidas
 
 Estas cuatro herramientas son de uso general: sirven para casi cualquier materia y nivel.
+
+<ToolPicker
+  tools={[
+    { brand: 'chatgpt', name: 'ChatGPT', need: 'Quiero ideas de actividades para mi clase.' },
+    { brand: 'gemini', name: 'Gemini', need: 'Mi colegio usa Google Workspace.' },
+    { brand: 'copilot', name: 'Copilot', need: 'Mi colegio usa Microsoft 365.' },
+    { brand: 'claude', name: 'Claude', need: 'Necesito analizar un documento largo, solo para mí.' },
+  ]}
+  caption="Ejemplo ilustrativo: la herramienta adecuada depende de lo que necesitas. Las cuatro sirven para casi todo; revisa los seis criterios antes de elegir."
+/>
 
 | Herramienta | Empresa | Edad mínima* | Útil para | Ten en cuenta |
 | --- | --- | --- | --- | --- |

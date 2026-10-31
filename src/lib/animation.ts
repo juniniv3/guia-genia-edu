@@ -5,8 +5,9 @@
  *
  * The figure's `[data-replay]` button (AnimationButton.astro) replays it. With `pausable`, the button pauses and resumes
  * it while it plays, and turns into a replay button when the animation of its `[data-clock]` element, which lasts the
- * whole timeline, ends. With `loop`, the figure starts again each time the clock ends, so the button only pauses and
- * resumes. The button's labels come from its `data-label-*` attributes.
+ * whole timeline, ends. With `loop`, the figure starts again each time the clock ends (after `onLoop`, which can change
+ * what the next loop shows), so the button only pauses and resumes. The button's labels come from its `data-label-*`
+ * attributes.
  */
 
 export interface PlayOnViewOptions {
@@ -18,13 +19,15 @@ export interface PlayOnViewOptions {
   loop?: boolean;
   /** Clicking or tapping the figure itself also pauses and resumes it (with `pausable`). */
   pauseOnClick?: boolean;
+  /** With `loop`: runs when a loop ends, just before the next one starts. */
+  onLoop?: (figure: HTMLElement) => void;
 }
 
 type ButtonState = 'pause' | 'resume' | 'replay';
 
 export function playOnView(
   selector: string,
-  { threshold = 0.5, pausable = false, loop = false, pauseOnClick = false }: PlayOnViewOptions = {},
+  { threshold = 0.5, pausable = false, loop = false, pauseOnClick = false, onLoop }: PlayOnViewOptions = {},
 ): void {
   if (typeof IntersectionObserver === 'undefined' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -57,6 +60,7 @@ export function playOnView(
     const clock = figure.querySelector('[data-clock]');
     if (loop) {
       clock?.addEventListener('animationend', () => {
+        onLoop?.(figure);
         restart(figure);
         hold();
       });
