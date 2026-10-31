@@ -1,0 +1,404 @@
+---
+/**
+ * Diagram for "the right tool depends on your need": a teacher's need appears, a highlight scans the tools and stops
+ * on the one that fits it, then the next need. It loops (a need every 3.25 s) and pauses on click or tap, like the
+ * home scene. Without JavaScript, with reduced motion and in print it shows each tool with the need it fits.
+ * The tiles use each tool's recognizable color, not its logo.
+ */
+import AnimationButton from './AnimationButton.astro';
+import Figure from './Figure.astro';
+import PersonIcon from './PersonIcon.astro';
+
+type Brand = 'chatgpt' | 'gemini' | 'copilot' | 'claude';
+
+interface Props {
+  /** In the order they're picked. `brand` stays in English in every language and only sets the tile's color. */
+  tools: { brand: Brand; name: string; need: string }[];
+  caption?: string;
+}
+
+const { tools, caption } = Astro.props;
+---
+
+<Figure caption={caption}>
+  <div class="picker" data-tool-picker>
+    <div class="picker__ask" aria-hidden="true">
+      <PersonIcon size={36} />
+      <p class="picker__bubble picker__anim" data-ask>{tools[0]?.need}</p>
+    </div>
+    <ul class="picker__tools">
+      {
+        tools.map(({ brand, name, need }, i) => (
+          <li
+            class:list={['picker__tool', 'picker__anim', `picker__tool--${brand}`]}
+            style={`--i: ${i}`}
+            data-active={i === 0 ? '' : undefined}>
+            <span class="picker__icon picker__anim" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path class="picker__glyph" d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-6l-4.5 4v-4H7a3 3 0 0 1-3-3Z" />
+                <circle class="picker__dot" cx="8.5" cy="10" r="1.3" />
+                <circle class="picker__dot" cx="12" cy="10" r="1.3" />
+                <circle class="picker__dot" cx="15.5" cy="10" r="1.3" />
+              </svg>
+              <span class="picker__scan picker__anim" />
+            </span>
+            <span class="picker__name">{name}</span>
+            <span class="picker__need">{need}</span>
+            <span class="picker__ring picker__anim" aria-hidden="true" />
+            <span class="picker__check picker__anim" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+    <span class="picker__clock picker__anim" data-clock aria-hidden="true"></span>
+    <AnimationButton pausable discreet />
+  </div>
+</Figure>
+
+<script>
+  import { playOnView } from '../lib/animation';
+
+  /** Each loop asks the next need and picks the tool that fits it. */
+  function nextNeed(picker: HTMLElement) {
+    const tools = [...picker.querySelectorAll<HTMLElement>('.picker__tool')];
+    const current = tools.findIndex((tool) => tool.hasAttribute('data-active'));
+    const next = tools[(current + 1) % tools.length];
+    const ask = picker.querySelector('[data-ask]');
+    const need = next?.querySelector('.picker__need')?.textContent;
+    tools[current]?.removeAttribute('data-active');
+    next?.setAttribute('data-active', '');
+    if (ask && need) ask.textContent = need;
+  }
+
+  playOnView('[data-tool-picker]', { threshold: 0.4, pausable: true, loop: true, pauseOnClick: true, onLoop: nextNeed });
+</script>
+
+<style>
+  .picker {
+    position: relative;
+  }
+
+  .picker.is-armed {
+    cursor: pointer;
+  }
+
+  /* The need, as the teacher says it: only while animating (see the @media screen block). */
+  .picker__ask {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .picker__bubble {
+    min-height: 3.1em;
+    max-width: 22rem;
+    margin: 0;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 1.1rem 1.1rem 1.1rem 0.3rem;
+    background: var(--surface-2);
+    font-weight: 700;
+    line-height: 1.35;
+    display: flex;
+    align-items: center;
+  }
+
+  .picker__tools {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .picker__tool {
+    --tile: #1f1f1f;
+    --tile-dot: #1f1f1f;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    margin: 0;
+    padding: 0.8rem 0.5rem 0.75rem;
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+    text-align: center;
+  }
+
+  /* Each tool's recognizable color (not its logo). */
+  .picker__tool--gemini {
+    --tile: linear-gradient(135deg, #4285f4, #9b72cb 60%, #d96570);
+    --tile-dot: #5b6fe0;
+  }
+
+  .picker__tool--copilot {
+    --tile: linear-gradient(135deg, #1e9df0, #8b5cf6 45%, #ec6a9c 75%, #f6b23e);
+    --tile-dot: #6b6be8;
+  }
+
+  .picker__tool--claude {
+    --tile: #d97757;
+    --tile-dot: #c4613f;
+  }
+
+  .picker__icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 0.95rem;
+    background: var(--tile);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 18%);
+  }
+
+  .picker__icon svg {
+    width: 62%;
+    height: 62%;
+  }
+
+  .picker__glyph {
+    fill: #ffffff;
+  }
+
+  .picker__dot {
+    fill: var(--tile-dot);
+  }
+
+  .picker__name {
+    font-size: 0.95rem;
+    font-weight: 800;
+  }
+
+  .picker__need {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .picker__scan,
+  .picker__ring,
+  .picker__check {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .picker__scan {
+    inset: 0;
+    border-radius: inherit;
+    background: rgb(255 255 255 / 55%);
+  }
+
+  .picker__ring {
+    inset: 0;
+    border: 3px solid var(--primary);
+    border-radius: inherit;
+  }
+
+  .picker__check {
+    top: -0.55rem;
+    right: -0.55rem;
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--consejo);
+  }
+
+  .picker__check svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: var(--surface);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @container (min-width: 32rem) {
+    .picker__tools {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* While animating, the bubble says the need and the per-tool lines are only for screen readers. */
+  @media screen {
+    .picker.is-armed .picker__ask {
+      display: flex;
+    }
+
+    .picker.is-armed .picker__need {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
+  /*
+   * One need per loop, 3.25 s (the clock): the bubble fades in, a flash scans the tools one by one (0.35–1.2 s), the
+   * tool that fits lifts with its ring and ✓ while the others' icons dim (1.4–3 s), and everything resets. playOnView
+   * (src/lib/animation.ts) then moves `data-active` to the next tool and starts again.
+   */
+  .picker.is-armed .picker__clock {
+    animation: picker-clock 3.25s linear;
+  }
+
+  .picker.is-armed .picker__bubble {
+    animation: picker-ask 3.25s ease-in-out;
+  }
+
+  .picker.is-armed .picker__scan {
+    animation: picker-scan 0.34s ease-in-out calc(0.35s + var(--i) * 0.17s) backwards;
+  }
+
+  .picker.is-armed .picker__tool[data-active] {
+    animation: picker-lift 3.25s ease-out;
+  }
+
+  .picker.is-armed .picker__tool[data-active] .picker__ring {
+    animation: picker-show 3.25s linear;
+  }
+
+  .picker.is-armed .picker__tool[data-active] .picker__check {
+    animation: picker-check 3.25s ease-out;
+  }
+
+  .picker.is-armed .picker__tool:not([data-active]) .picker__icon {
+    animation: picker-dim 3.25s ease-in-out;
+  }
+
+  /* After every `animation` above, so these win over the play state the shorthands reset. */
+  .picker.is-armed .picker__anim {
+    animation-play-state: paused;
+  }
+
+  .picker.is-playing .picker__anim {
+    animation-play-state: running;
+  }
+
+  .picker.is-paused .picker__anim {
+    animation-play-state: paused;
+  }
+
+  @keyframes picker-clock {
+    from,
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes picker-ask {
+    0% {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+
+    10%,
+    90% {
+      opacity: 1;
+      transform: none;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes picker-scan {
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes picker-lift {
+    0%,
+    40%,
+    100% {
+      transform: none;
+    }
+
+    48%,
+    90% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes picker-show {
+    0%,
+    42%,
+    100% {
+      opacity: 0;
+    }
+
+    48%,
+    90% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes picker-check {
+    0%,
+    44% {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    52% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    56%,
+    90% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes picker-dim {
+    0%,
+    42%,
+    100% {
+      opacity: 1;
+    }
+
+    48%,
+    90% {
+      opacity: 0.35;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .picker * {
+      animation: none !important;
+    }
+  }
+
+  @media print {
+    .picker * {
+      animation: none !important;
+    }
+
+    .picker__icon {
+      print-color-adjust: exact;
+    }
+  }
+</style>

@@ -45,6 +45,7 @@ src/
     Matrix, HelpZones, SameGoal, DecisionFlow + Decision, ToolTest, CreationCycle + CycleStep, DataToNeeds, TemplateFill
                          Diagrams for Steps 2, 3, 5–8; PersonIcon is the shared teacher
     TeacherAiScene       Home hero: animated teacher + AI scene ("ask, draft, review"); loops, pauses on click/tap
+    ToolPicker           Step 3: a need, then the tool that fits it (brand-color tiles, no logos); loops like the hero
     AnimationButton      Replay / pause button under an animated figure (driven by lib/animation.ts)
   lib/
     url.ts               withBase() / stripBase(): add or remove the deploy base

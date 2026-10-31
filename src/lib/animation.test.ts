@@ -141,6 +141,20 @@ describe('playOnView', () => {
     expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument();
   });
 
+  it('lets a looping figure change what the next loop shows, before it starts', () => {
+    const { figure, clock } = renderFigure(true);
+    const restarts = vi.spyOn(figure, 'getBoundingClientRect');
+    // Returns how many restarts had happened when it ran: one fewer than the loops so far.
+    const onLoop = vi.fn((element: HTMLElement) => (element === figure ? restarts.mock.calls.length : -1));
+    playOnView('[data-figure]', { pausable: true, loop: true, onLoop });
+    observer().show(figure);
+
+    fireEvent.animationEnd(clock);
+    fireEvent.animationEnd(clock);
+    expect(onLoop).toHaveNthReturnedWith(1, 0);
+    expect(onLoop).toHaveNthReturnedWith(2, 1);
+  });
+
   it('holds a looping figure while it is out of view, unless the reader paused it', () => {
     const { figure } = renderFigure(true);
     playOnView('[data-figure]', { pausable: true, loop: true });
