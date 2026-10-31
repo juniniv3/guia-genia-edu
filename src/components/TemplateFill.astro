@@ -1,5 +1,6 @@
 ---
 /** A prompt template with its [placeholders], and below it the same text filled in with a class's details. */
+import { splitTemplate } from '../lib/template';
 import Figure from './Figure.astro';
 
 interface Props {
@@ -13,13 +14,7 @@ interface Props {
 }
 
 const { templateLabel, filledLabel, template, values, caption } = Astro.props;
-
-// "grado [grado] ([edad] años)" → text, slot 0, text, slot 1, text
-let next = 0;
-const parts: { text: string; slot?: number }[] = template
-  .split(/(\[[^\]]+\])/)
-  .filter(Boolean)
-  .map((text) => (/^\[.+\]$/.test(text) ? { text, slot: next++ } : { text }));
+const parts = splitTemplate(template);
 ---
 
 <Figure caption={caption}>

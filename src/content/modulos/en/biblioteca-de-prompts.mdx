@@ -18,12 +18,28 @@ import Matrix from '../../../components/Matrix.astro';
 import PromptExample from '../../../components/PromptExample.astro';
 import Resumen from '../../../components/Resumen.astro';
 import TemplateFill from '../../../components/TemplateFill.astro';
+import TemplateLibrary from '../../../components/TemplateLibrary.astro';
 
 ## How to use this library
 
 1. **Choose** the template that looks most like what you need.
 2. **Copy** the text and **replace** everything in `[square brackets]` with the details of your class.
 3. **Review** the result with the checklist from Step 6 and **adjust** it by continuing the conversation with the AI.
+
+<TemplateLibrary
+  steps={['Choose', 'Copy and replace', 'Review']}
+  templates={['Reading at three levels', 'Graded exercises', 'Quiz', 'Rubric']}
+  template="Act as a [subject] teacher. My students are in grade [grade]. Write a text about [topic] at three levels…"
+  values={['social studies', '6', 'the natural regions of Colombia']}
+  checks={['Is it accurate?', 'Does it fit my group?', 'Does it protect privacy?']}
+  caption="Illustrative example: you choose a template, copy it, change what's in brackets and review the result with the checklist from Step 6."
+/>
+
+<Callout type="cuidado">
+Remember: in the brackets, describe the **group** or its **needs**, never a student's personal data.
+</Callout>
+
+## Which template fits you?
 
 Each template shows **what it adapts** (content, process or product) and **based on what** (readiness, interests or learning profile), so you can connect each example with what you saw in Step 2.
 
@@ -44,10 +60,6 @@ Each template shows **what it adapts** (content, process or product) and **based
   ]}
   caption="The numbers are this page's templates, placed on the matrix from Step 2. Template 6 (the rubric) works for any product."
 />
-
-<Callout type="cuidado">
-Remember: in the brackets, describe the **group** or its **needs**, never a student's personal data.
-</Callout>
 
 ## To get started: let the AI ask you
 

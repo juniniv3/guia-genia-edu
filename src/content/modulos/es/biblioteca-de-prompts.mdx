@@ -18,12 +18,28 @@ import Matrix from '../../../components/Matrix.astro';
 import PromptExample from '../../../components/PromptExample.astro';
 import Resumen from '../../../components/Resumen.astro';
 import TemplateFill from '../../../components/TemplateFill.astro';
+import TemplateLibrary from '../../../components/TemplateLibrary.astro';
 
 ## Cómo usar esta biblioteca
 
 1. **Elige** la plantilla que se parece a lo que necesitas.
 2. **Copia** el texto y **reemplaza** todo lo que está entre `[corchetes]` con los datos de tu clase.
 3. **Revisa** el resultado con la lista de verificación del Paso 6 y **ajusta** conversando con la IA.
+
+<TemplateLibrary
+  steps={['Elige', 'Copia y reemplaza', 'Revisa']}
+  templates={['Lectura en tres niveles', 'Ejercicios graduados', 'Cuestionario', 'Rúbrica']}
+  template="Actúa como docente de [área]. Mis estudiantes son de grado [grado]. Escribe un texto sobre [tema] en tres niveles…"
+  values={['ciencias sociales', '6', 'las regiones naturales de Colombia']}
+  checks={['¿Es correcto?', '¿Se ajusta a mi grupo?', '¿Cuida la privacidad?']}
+  caption="Ejemplo ilustrativo: eliges una plantilla, la copias, cambias lo que está entre corchetes y revisas el resultado con la lista del Paso 6."
+/>
+
+<Callout type="cuidado">
+Recuerda: en los corchetes describe al **grupo** o sus **necesidades**, nunca datos personales de un estudiante.
+</Callout>
+
+## ¿Qué plantilla me sirve?
 
 Cada plantilla indica **qué adapta** (contenido, proceso o producto) y **según qué** (preparación, intereses o perfil), para que relaciones cada ejemplo con lo que viste en el Paso 2.
 
@@ -44,10 +60,6 @@ Cada plantilla indica **qué adapta** (contenido, proceso o producto) y **según
   ]}
   caption="Los números son las plantillas de esta página, ubicadas en la matriz del Paso 2. La 6 (rúbrica) sirve para cualquier producto."
 />
-
-<Callout type="cuidado">
-Recuerda: en los corchetes describe al **grupo** o sus **necesidades**, nunca datos personales de un estudiante.
-</Callout>
 
 ## Para empezar: que la IA te pregunte
 

@@ -1,0 +1,591 @@
+---
+/**
+ * Diagram for "how to use the prompt library": choose a template from the shelf, copy it and replace its
+ * [placeholders] with a class's details, then review the result. Animated: plays once when it scrolls into view
+ * (about 7 s, so it can be paused) and can be replayed. Without JavaScript, with reduced motion and in print it
+ * shows the finished state: the chosen template, filled in and reviewed.
+ */
+import { toLocale } from '../i18n/locales';
+import { getTranslations } from '../i18n/ui';
+import { splitTemplate } from '../lib/template';
+import AnimationButton from './AnimationButton.astro';
+import Figure from './Figure.astro';
+
+interface Props {
+  /** The three stages, e.g. "Elige", "Copia y reemplaza", "Revisa"; they're numbered 1–3. */
+  steps: string[];
+  /** Titles of the templates on the shelf (3–4 fit best). */
+  templates: string[];
+  /** Which template is picked, counted from 0. */
+  chosen?: number;
+  /** The start of the chosen template; every [placeholder] is filled with the next entry of `values`. */
+  template: string;
+  values: string[];
+  /** A few short review questions (from the Paso 6 checklist), ticked one by one. */
+  checks: string[];
+  caption?: string;
+}
+
+const { steps, templates, chosen = 0, template, values, checks, caption } = Astro.props;
+const t = getTranslations(toLocale(Astro.currentLocale)).prompt;
+const parts = splitTemplate(template);
+const arrow = 'M3 12h17M14 6l6 6-6 6';
+const check = 'M20 6 9 17l-5-5';
+---
+
+<Figure caption={caption}>
+  <div class="library" data-template-library>
+    <div class="library__flow">
+      <div class="library__stage">
+        <p class="library__step library__step--choose library__anim"><span class="library__num">1</span>{steps[0]}</p>
+        <ul class="library__shelf">
+          {
+            templates.map((title, i) => (
+              <li
+                class:list={['library__card', 'library__anim', { 'library__card--chosen': i === chosen }]}
+                style={`--i: ${i}`}>
+                <span class="library__lines" aria-hidden="true">
+                  <span />
+                  <span />
+                </span>
+                <span class="library__title">{title}</span>
+                {i === chosen && (
+                  <span class="library__badge library__anim" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path d={check} />
+                    </svg>
+                  </span>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <svg class="library__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path class="library__draw library__draw--fill library__anim" d={arrow} pathLength="1"></path>
+      </svg>
+      <div class="library__stage library__stage--fill">
+        <p class="library__step library__step--fill library__anim"><span class="library__num">2</span>{steps[1]}</p>
+        <div class="library__prompt library__anim">
+          <div class="library__head">
+            <span class="library__name">{templates[chosen]}</span>
+            <span class="library__copy library__anim" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="9" y="9" width="12" height="12" rx="2"></rect>
+                <path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"></path>
+              </svg>
+              {t.copy}
+            </span>
+          </div>
+          <p class="library__text">
+            {
+              parts.map((part) =>
+                part.slot === undefined ? (
+                  part.text
+                ) : (
+                  <>
+                    <span class="library__slot library__anim" style={`--k: ${part.slot}`} aria-hidden="true">
+                      {part.text}
+                    </span>
+                    <mark class="library__value library__anim" style={`--k: ${part.slot}`}>
+                      {values[part.slot] ?? part.text}
+                    </mark>
+                  </>
+                ),
+              )
+            }
+          </p>
+        </div>
+      </div>
+      <svg class="library__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path class="library__draw library__draw--review library__anim" d={arrow} pathLength="1"></path>
+      </svg>
+      <div class="library__stage">
+        <p class="library__step library__step--review library__anim"><span class="library__num">3</span>{steps[2]}</p>
+        <ul class="library__checks library__anim">
+          {
+            checks.map((question, i) => (
+              <li class="library__check" style={`--i: ${i}`}>
+                <span class="library__tick library__anim" aria-hidden="true">
+                  <svg class="library__mark library__anim" viewBox="0 0 24 24" focusable="false">
+                    <path d={check} />
+                  </svg>
+                </span>
+                {question}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+    <span class="library__clock library__anim" data-clock aria-hidden="true"></span>
+    <AnimationButton pausable />
+  </div>
+</Figure>
+
+<script>
+  import { playOnView } from '../lib/animation';
+
+  playOnView('[data-template-library]', { threshold: 0.4, pausable: true });
+</script>
+
+<style>
+  .library__flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .library__stage {
+    width: 100%;
+    max-width: 22rem;
+  }
+
+  .library__step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .library__num {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--on-primary);
+    font-size: 0.78rem;
+  }
+
+  /* 1. The shelf: small template cards, two lines of "text" and a title each. */
+  .library__shelf {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .library__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0.5rem 0.6rem 0.55rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+  }
+
+  .library__card--chosen {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+  }
+
+  .library__lines {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .library__lines > span {
+    height: 0.25rem;
+    border-radius: 999px;
+    background: var(--border);
+  }
+
+  .library__lines > span + span {
+    width: 60%;
+  }
+
+  .library__title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .library__card--chosen .library__title {
+    color: var(--primary-strong);
+  }
+
+  .library__badge {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    display: grid;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: var(--primary);
+  }
+
+  .library__badge svg,
+  .library__mark {
+    width: 0.85rem;
+    height: 0.85rem;
+    fill: none;
+    stroke: var(--surface);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .library__arrow {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-dasharray: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.5;
+    transform: rotate(90deg);
+  }
+
+  /* 2. The chosen template, like a prompt card, with its [placeholders] filled in. */
+  .library__prompt {
+    overflow: hidden;
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+  }
+
+  .library__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.35rem 0.5rem 0.35rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+
+  .library__name {
+    min-width: 0;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .library__copy {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.1rem 0.55rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--primary);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .library__copy svg {
+    width: 0.85rem;
+    height: 0.85rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .library__text {
+    margin: 0;
+    padding: 0.6rem 0.75rem 0.7rem;
+    font-size: 0.88rem;
+    line-height: 1.85;
+  }
+
+  .library__slot,
+  .library__value {
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    font-weight: 700;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* The [placeholder] only shows while the animation replaces it; the finished state shows the value. */
+  .library__slot {
+    display: none;
+    background: var(--surface);
+    box-shadow: inset 0 0 0 1.5px var(--accent);
+    color: var(--accent);
+  }
+
+  .library__value {
+    background: var(--primary-soft);
+    color: var(--primary-strong);
+  }
+
+  /* 3. The review questions, ticked. */
+  .library__checks {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .library__check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .library__tick {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid var(--consejo);
+    border-radius: 4px;
+    background: var(--consejo);
+  }
+
+  /* Wide enough: shelf → template → review from left to right, the shelf as one column, the stages' headings aligned. */
+  @container (min-width: 38rem) {
+    .library__flow {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+
+    .library__stage {
+      flex: 1 1 0;
+      max-width: none;
+    }
+
+    .library__stage--fill {
+      flex-grow: 1.7;
+    }
+
+    .library__shelf {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .library__arrow {
+      align-self: center;
+      transform: none;
+    }
+  }
+
+  /*
+   * Animation, 7 s (the clock): the shelf fills and one template is picked (0–1.7 s); it is copied and each
+   * [placeholder] shrinks away as its value grows in, in place, so the text keeps wrapping (1.7–4.9 s); then the
+   * review questions are ticked one by one and the template's border turns ready (4.9–6.9 s). `is-armed` (set by
+   * playOnView, src/lib/animation.ts) shows the placeholders and applies the animations paused at their first frame;
+   * `is-playing` runs them and `is-paused` holds them. Fill mode `backwards` only, so once it ends every element is
+   * back to its normal, finished style.
+   */
+  .library.is-armed .library__clock {
+    animation: library-clock 7s linear;
+  }
+
+  .library.is-armed .library__step--choose {
+    animation: library-appear 0.4s ease-out 0.1s backwards;
+  }
+
+  .library.is-armed .library__card {
+    animation: library-appear 0.4s ease-out calc(0.2s + var(--i) * 0.12s) backwards;
+  }
+
+  .library.is-armed .library__card--chosen {
+    animation:
+      library-appear 0.4s ease-out calc(0.2s + var(--i) * 0.12s) backwards,
+      library-pick 0.45s ease-out 1.1s backwards;
+  }
+
+  .library.is-armed .library__badge {
+    animation: library-pop 0.4s ease-out 1.3s backwards;
+  }
+
+  .library.is-armed .library__draw--fill {
+    animation: library-draw 0.4s ease-out 1.7s backwards;
+  }
+
+  .library.is-armed .library__step--fill {
+    animation: library-appear 0.4s ease-out 1.9s backwards;
+  }
+
+  .library.is-armed .library__prompt {
+    animation:
+      library-appear 0.4s ease-out 2s backwards,
+      library-ready 0.4s ease-out 6.5s backwards;
+  }
+
+  .library.is-armed .library__copy {
+    animation: library-press 0.5s ease-in-out 2.5s backwards;
+  }
+
+  .library.is-armed .library__slot {
+    display: inline;
+    font-size: 0;
+    opacity: 0;
+    animation: library-out 0.3s ease-in calc(3s + var(--k) * 0.55s) backwards;
+  }
+
+  .library.is-armed .library__value {
+    animation: library-in 0.35s ease-out calc(3.25s + var(--k) * 0.55s) backwards;
+  }
+
+  .library.is-armed .library__draw--review {
+    animation: library-draw 0.4s ease-out 4.9s backwards;
+  }
+
+  .library.is-armed .library__step--review {
+    animation: library-appear 0.4s ease-out 5.1s backwards;
+  }
+
+  .library.is-armed .library__checks {
+    animation: library-appear 0.4s ease-out 5.2s backwards;
+  }
+
+  .library.is-armed .library__tick {
+    animation: library-check 0.3s ease-out calc(5.6s + var(--i) * 0.35s) backwards;
+  }
+
+  .library.is-armed .library__mark {
+    animation: library-pop 0.35s ease-out calc(5.6s + var(--i) * 0.35s) backwards;
+  }
+
+  /*
+   * After every `animation` above, all with the same specificity (one class per animated element), so these win over
+   * the play state the shorthands reset.
+   */
+  .library.is-armed .library__anim {
+    animation-play-state: paused;
+  }
+
+  .library.is-playing .library__anim {
+    animation-play-state: running;
+  }
+
+  .library.is-paused .library__anim {
+    animation-play-state: paused;
+  }
+
+  @keyframes library-clock {
+    from,
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes library-appear {
+    from {
+      opacity: 0;
+      transform: translateY(0.4rem);
+    }
+  }
+
+  @keyframes library-pick {
+    from {
+      border-color: var(--border);
+      background-color: var(--surface-2);
+    }
+
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes library-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+
+    70% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+
+  @keyframes library-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+  }
+
+  @keyframes library-press {
+    40% {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      transform: scale(0.92);
+    }
+  }
+
+  @keyframes library-out {
+    from {
+      font-size: 1em;
+      opacity: 1;
+    }
+
+    to {
+      font-size: 0;
+      opacity: 0;
+    }
+  }
+
+  @keyframes library-in {
+    from {
+      font-size: 0;
+      opacity: 0;
+    }
+  }
+
+  @keyframes library-ready {
+    from {
+      border-color: var(--border);
+    }
+  }
+
+  @keyframes library-check {
+    from {
+      border-color: var(--border);
+      background-color: transparent;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .library :global(*) {
+      animation: none !important;
+    }
+  }
+
+  @media print {
+    .library :global(*) {
+      animation: none !important;
+    }
+
+    .library__card--chosen,
+    .library__num,
+    .library__badge,
+    .library__value,
+    .library__tick {
+      print-color-adjust: exact;
+    }
+  }
+</style>
