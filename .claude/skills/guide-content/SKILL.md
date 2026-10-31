@@ -114,7 +114,7 @@ Actúa como docente de matemáticas de primaria…
 
 ## 4b. Figures (diagrams)
 
-Figures are diagrams drawn in HTML and CSS with the site's colors, so they follow light/dark mode, wrap on phones and print with the module. All their text comes from props, so each language file writes its own. Keep labels to a few words. Every figure takes an optional `caption`, shown below it. Step 4 (`escribir-prompts.mdx`) uses the first four below and Step 1 the next four; every other step uses the rest. Look at how a step's MDX uses a figure before reusing it elsewhere.
+Figures are diagrams drawn in HTML and CSS with the site's colors, so they follow light/dark mode, wrap on phones and print with the module. All their text comes from props, so each language file writes its own. Keep labels to a few words. Every figure takes an optional `caption`, shown below it. Step 4 (`escribir-prompts.mdx`) uses the first four below and Step 1 the next five; every other step uses the rest. Look at how a step's MDX uses a figure before reusing it elsewhere.
 
 **AiAssumes**: a vague prompt and what the AI has to guess around it.
 
@@ -150,6 +150,26 @@ Objetivo: que reconozcan fracciones equivalentes.
 
 ```mdx
 <ClearFramework beforeLabel="Antes de enviarlo" before={['Conciso', 'Lógico', 'Explícito']} afterLabel="Después de leer la respuesta" after={['Adaptativo', 'Reflexivo']} caption="…" />
+```
+
+**LearnFromExamples** (animated): how AI learns. Photos of different cats, each tagged by a person (`label`), go into the AI. It finds what they have in common (`pattern`; the photos highlight ears, whiskers and tail), then recognizes a new cat (`input`). `picture` is `naranja`, `gris`, `negro`, `blanco` or `siames` (a different cat and pose each, drawn in `CatPhoto.astro`) and stays in Spanish in every language; `alt` describes the photo for screen readers. Use each picture once. Say in the caption that it's illustrative.
+
+```mdx
+<LearnFromExamples
+  examplesLabel="Aprende de ejemplos"
+  examples={[
+    { picture: 'naranja', alt: 'Gato naranja atigrado, sentado' },
+    { picture: 'gris', alt: 'Gato gris acostado' },
+  ]}
+  label="Gato"
+  ai="IA"
+  patternLabel="Lo que tienen en común"
+  pattern={['Orejas en punta', 'Bigotes', 'Cola']}
+  newLabel="Foto nueva"
+  input={{ picture: 'siames', alt: 'Gato siamés jugando con un ovillo de lana' }}
+  answer="Es un gato"
+  caption="Ejemplo ilustrativo. …"
+/>
 ```
 
 **PromptFormats**: one prompt in, new content out in several formats. `icon` is `texto`, `imagen`, `audio`, `video` or `codigo` and stays in Spanish in every language.
@@ -239,7 +259,7 @@ El río Magdalena es el más importante de Colombia. <Flag n={1}>Nace en la Sier
 <ToolPicker tools={[{ brand: 'gemini', name: 'Gemini', need: 'Mi colegio usa Google Workspace.' }]} caption="Ejemplo ilustrativo: …" />
 ```
 
-**Animation.** Animate a figure only when the motion is the lesson (NextWord shows an answer being built word by word; the home page's TeacherAiScene tells the guide's "ask, draft, review" story). An animation plays once when it scrolls into view and shows its finished state without JavaScript, with reduced motion and in print. Use CSS keyframes and `playOnView()` from `src/lib/animation.ts`, not an animation library, with an `<AnimationButton />` under the figure: a replay button ("Ver de nuevo"), or, if the animation lasts more than 5 seconds, `<AnimationButton pausable />` ("Pausar" / "Continuar" while it plays) plus a `[data-clock]` element whose animation lasts the whole timeline, so the button knows when it ends. With `loop`, the animation starts again each time the clock ends (after `onLoop`, which can change what the next loop shows, as ToolPicker does) and holds while it's out of view; a looping animation must always be pausable (WCAG 2.2.2), so the home scene uses `<AnimationButton pausable discreet />` (it only appears when a keyboard user tabs to it) and `pauseOnClick` (clicking or tapping the scene pauses it). The labels are `figure.*` in `src/i18n/ui/`.
+**Animation.** Animate a figure only when the motion is the lesson (LearnFromExamples shows the AI finding what different cats have in common; NextWord shows an answer being built word by word; the home page's TeacherAiScene tells the guide's "ask, draft, review" story). An animation plays once when it scrolls into view and shows its finished state without JavaScript, with reduced motion and in print. Use CSS keyframes and `playOnView()` from `src/lib/animation.ts`, not an animation library, with an `<AnimationButton />` under the figure: a replay button ("Ver de nuevo"), or, if the animation lasts more than 5 seconds, `<AnimationButton pausable />` ("Pausar" / "Continuar" while it plays) plus a `[data-clock]` element whose animation lasts the whole timeline, so the button knows when it ends. With `loop`, the animation starts again each time the clock ends (after `onLoop`, which can change what the next loop shows, as ToolPicker does) and holds while it's out of view; a looping animation must always be pausable (WCAG 2.2.2), so the home scene uses `<AnimationButton pausable discreet />` (it only appears when a keyboard user tabs to it) and `pauseOnClick` (clicking or tapping the scene pauses it). The labels are `figure.*` in `src/i18n/ui/`.
 
 Use at most one figure per `##` section, next to the text it illustrates, never between a sentence ending in ":" and its list. A new kind of diagram is a new component in `src/components/` built on `Figure.astro` (code work, not content work).
 

@@ -1,0 +1,389 @@
+---
+/**
+ * Diagram for "AI learns from examples": photos of different cats, each labeled by a person, go into the AI, which
+ * finds what they have in common and recognizes a cat it has never seen. Animated: plays once when it scrolls into
+ * view and can be replayed. Without JavaScript, with reduced motion and in print it shows the finished state.
+ */
+import type { ComponentProps } from 'astro/types';
+import AiIcon from './AiIcon.astro';
+import AnimationButton from './AnimationButton.astro';
+import CatPhoto from './CatPhoto.astro';
+import Figure from './Figure.astro';
+
+type Photo = ComponentProps<typeof CatPhoto>;
+
+interface Props {
+  /** Heading over the examples, e.g. "Aprende de ejemplos". */
+  examplesLabel: string;
+  /** The photos the AI learns from; use a different `picture` for each. */
+  examples: Photo[];
+  /** The tag a person gave every example, e.g. "Gato". */
+  label: string;
+  /** Label under the AI icon ("IA", "AI"). */
+  ai: string;
+  /** Heading over what the AI finds, e.g. "Lo que tienen en común". */
+  patternLabel: string;
+  /** What every example has in common, a few words each; the photos highlight ears, whiskers and tail. */
+  pattern: string[];
+  /** Heading over the new photo, e.g. "Foto nueva". */
+  newLabel: string;
+  /** A cat that isn't among the examples. */
+  input: Photo;
+  /** What the AI answers for it, e.g. "Es un gato". */
+  answer: string;
+  caption?: string;
+}
+
+const { examplesLabel, examples, label, ai, patternLabel, pattern, newLabel, input, answer, caption } = Astro.props;
+const arrow = 'M3 12h17M14 6l6 6-6 6';
+---
+
+<Figure caption={caption}>
+  <div class="learn" data-learn>
+    <div class="learn__flow">
+      <div class="learn__group">
+        <p class="learn__label">{examplesLabel}</p>
+        <ul class="learn__examples">
+          {
+            examples.map((photo, i) => (
+              <li class="learn__photo learn__example" style={`--i: ${i}`}>
+                <CatPhoto {...photo} />
+                <span class="learn__tag">{label}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <svg class="learn__arrow learn__arrow--in" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d={arrow} pathLength="1"></path>
+      </svg>
+      <div class="learn__ai">
+        <span class="learn__robot"><AiIcon size={56} /></span>
+        <span class="learn__ai-name">{ai}</span>
+        <div class="learn__pattern">
+          <p class="learn__label">{patternLabel}</p>
+          <ul class="learn__traits">
+            {
+              pattern.map((trait, i) => (
+                <li class="learn__trait" style={`--i: ${i}`}>
+                  {trait}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      <svg class="learn__arrow learn__arrow--out" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d={arrow} pathLength="1"></path>
+      </svg>
+      <div class="learn__group learn__group--new">
+        <p class="learn__label">{newLabel}</p>
+        <div class="learn__photo learn__case">
+          <CatPhoto {...input} />
+          <span class="learn__tag learn__answer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+            {answer}
+          </span>
+        </div>
+      </div>
+    </div>
+    <AnimationButton />
+  </div>
+</Figure>
+
+<script>
+  import { playOnView } from '../lib/animation';
+
+  playOnView('[data-learn]');
+</script>
+
+<style>
+  .learn {
+    /* The highlight on the cats' ears, whiskers and tail: fixed, like the photos' own colors. */
+    --learn-feature: #0d9488;
+  }
+
+  .learn__flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .learn__group {
+    width: 100%;
+    max-width: 20rem;
+  }
+
+  .learn__group--new {
+    max-width: 10rem;
+  }
+
+  .learn__label {
+    margin: 0 0 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .learn__examples {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* A photo with its tag on the bottom edge. */
+  .learn__photo {
+    position: relative;
+    margin: 0 0 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  .learn__photo :global(.cat-photo) {
+    border-radius: calc(var(--radius-sm) - 1px);
+  }
+
+  .learn__case {
+    border: 2px solid var(--primary);
+  }
+
+  .learn__tag {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.1rem 0.55rem;
+    border: 1px solid var(--primary);
+    border-radius: 999px;
+    background: var(--primary-soft);
+    color: var(--primary-strong);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transform: translate(-50%, 50%);
+  }
+
+  .learn__answer svg {
+    width: 0.9rem;
+    height: 0.9rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .learn__arrow {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-dasharray: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.5;
+    transform: rotate(90deg);
+  }
+
+  .learn__ai {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .learn__robot {
+    display: block;
+    line-height: 0;
+  }
+
+  .learn__ai-name {
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+  }
+
+  .learn__pattern {
+    margin-top: 0.4rem;
+  }
+
+  .learn__traits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .learn__trait {
+    margin: 0;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: var(--surface-2);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  /* Wide enough: examples → AI → new photo from left to right. */
+  @container (min-width: 36rem) {
+    .learn__flow {
+      flex-direction: row;
+      gap: 0.75rem;
+    }
+
+    .learn__group {
+      flex: 1.6 1 0;
+      max-width: none;
+    }
+
+    .learn__group--new {
+      flex: 1 1 0;
+    }
+
+    .learn__ai {
+      flex: 0 1 8.5rem;
+    }
+
+    .learn__traits {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .learn__arrow {
+      transform: none;
+    }
+  }
+
+  /*
+   * Animation, about 4 s: the photos appear, the AI takes them in and finds what they have in common (ears, whiskers
+   * and tail light up on every cat while the traits appear), then the new photo appears, the AI looks at it and its
+   * answer pops in. `is-armed` (set by the script) applies it paused at its first frame; `is-playing` runs it. Fill
+   * mode `backwards` only, so once it ends every element is back to its normal, finished style.
+   */
+  .learn.is-armed .learn__example {
+    animation: learn-appear 0.4s ease-out calc(0.1s + var(--i) * 0.15s) backwards paused;
+  }
+
+  .learn.is-armed .learn__arrow--in path {
+    animation: learn-draw 0.4s ease-out 0.9s backwards paused;
+  }
+
+  .learn.is-armed .learn__robot {
+    animation:
+      learn-think 0.9s ease-in-out 1.3s backwards paused,
+      learn-think 0.6s ease-in-out 2.8s backwards paused;
+  }
+
+  .learn.is-armed .learn__example :global(.cat-feature) {
+    animation: learn-feature 1.1s ease-in-out 1.3s backwards paused;
+  }
+
+  .learn.is-armed .learn__pattern {
+    animation: learn-appear 0.35s ease-out 1.4s backwards paused;
+  }
+
+  .learn.is-armed .learn__trait {
+    animation: learn-appear 0.35s ease-out calc(1.6s + var(--i) * 0.2s) backwards paused;
+  }
+
+  .learn.is-armed .learn__group--new {
+    animation: learn-appear 0.4s ease-out 2.4s backwards paused;
+  }
+
+  .learn.is-armed .learn__case :global(.cat-feature) {
+    animation: learn-feature 0.8s ease-in-out 2.8s backwards paused;
+  }
+
+  .learn.is-armed .learn__arrow--out path {
+    animation: learn-draw 0.4s ease-out 3.3s backwards paused;
+  }
+
+  .learn.is-armed .learn__answer {
+    animation: learn-pop 0.45s ease-out 3.6s backwards paused;
+  }
+
+  .learn.is-playing .learn__example,
+  .learn.is-playing .learn__arrow--in path,
+  .learn.is-playing .learn__robot,
+  .learn.is-playing .learn__example :global(.cat-feature),
+  .learn.is-playing .learn__pattern,
+  .learn.is-playing .learn__trait,
+  .learn.is-playing .learn__group--new,
+  .learn.is-playing .learn__case :global(.cat-feature),
+  .learn.is-playing .learn__arrow--out path,
+  .learn.is-playing .learn__answer {
+    animation-play-state: running;
+  }
+
+  @keyframes learn-appear {
+    from {
+      opacity: 0;
+      transform: translateY(0.4rem);
+    }
+  }
+
+  @keyframes learn-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+  }
+
+  @keyframes learn-think {
+    50% {
+      transform: scale(1.12);
+    }
+  }
+
+  @keyframes learn-feature {
+    25%,
+    75% {
+      stroke: var(--learn-feature);
+    }
+  }
+
+  /* The tag is centered with a transform, so the pop keeps it. */
+  @keyframes learn-pop {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 50%) scale(0.3);
+    }
+
+    70% {
+      opacity: 1;
+      transform: translate(-50%, 50%) scale(1.12);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .learn :global(*) {
+      animation: none !important;
+    }
+  }
+
+  @media print {
+    .learn :global(*) {
+      animation: none !important;
+    }
+
+    .learn__photo :global(.cat-photo) {
+      print-color-adjust: exact;
+    }
+  }
+</style>
