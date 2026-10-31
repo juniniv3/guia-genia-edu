@@ -47,6 +47,7 @@ src/
     LearnFromExamples    Step 1: the AI learns from cat photos (CatPhoto, flat drawings) and recognizes a new cat; plays once
     TeacherAiScene       Home hero: animated teacher + AI scene ("ask, draft, review"); loops, pauses on click/tap
     ToolPicker           Step 3: a need, then the tool that fits it (brand-color tiles, no logos); loops like the hero
+    TemplateLibrary      Step 8: choose a template, fill its [brackets], review it; plays once, pausable
     AnimationButton      Replay / pause button under an animated figure (driven by lib/animation.ts)
   lib/
     url.ts               withBase() / stripBase(): add or remove the deploy base
@@ -55,6 +56,7 @@ src/
     site.ts              Site name
     animation.ts         playOnView(): plays a figure's CSS animation once in view; replay and pause button
     copy.ts              The "Copiar" button of prompt cards (PromptExample `copy`): copies the prompt as plain text
+    template.ts          splitTemplate(): a prompt template's text and [placeholder] slots (TemplateFill, TemplateLibrary)
   styles/global.css      Design tokens (light/dark), prose, task-list and print styles
 ```
 
