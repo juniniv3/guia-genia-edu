@@ -94,7 +94,7 @@ const t = getTranslations(toLocale(Astro.currentLocale)).home;
             </g>
           </g>
         </g>
-        <path class="scene__robot-face scene__robot-unsure scene__anim" d="M389,146 q10,-7 20,0 t20,0"></path>
+        <path class="scene__robot-face scene__robot-smile scene__anim" d="M395,145 q15,9 30,0"></path>
         <path class="scene__robot-face scene__robot-happy scene__anim" d="M381,128 q9,-10 18,0 M421,128 q9,-10 18,0 M392,142 q18,15 36,0"
         ></path>
       </g>
@@ -463,7 +463,7 @@ const t = getTranslations(toLocale(Astro.currentLocale)).home;
   .scene__arm-type,
   .scene__highlight,
   .scene__robot-eyes,
-  .scene__robot-unsure {
+  .scene__robot-smile {
     opacity: 0;
   }
 
@@ -578,7 +578,7 @@ const t = getTranslations(toLocale(Astro.currentLocale)).home;
   }
 
   .scene.is-armed .scene__robot-eyes,
-  .scene.is-armed .scene__robot-unsure {
+  .scene.is-armed .scene__robot-smile {
     animation: scene-visible 5.5s step-end;
   }
 
