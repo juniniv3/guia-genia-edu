@@ -1,12 +1,13 @@
 ---
 title: ¿Qué es la IA generativa?
 navTitle: Qué es la IA generativa
-description: Entiende en palabras sencillas qué es, cómo funciona y qué puede (y no puede) hacer por ti como docente.
-summary: Qué es, cómo funciona y cuáles son sus límites.
+description: Entiende en palabras sencillas qué es la inteligencia artificial, cómo funciona la IA generativa y qué puede (y no puede) hacer por ti como docente.
+summary: Qué es la IA, cómo funciona la generativa y cuáles son sus límites.
 order: 1
 section: ruta
-readingMinutes: 7
+readingMinutes: 8
 sources:
+  - OCDE (2024). Explanatory memorandum on the updated OECD definition of an AI system
   - Sánchez Mendiola y Carbajal Degante (2023)
   - García-Peñalvo, Llorens-Largo y Vidal (2024)
   - UNESCO (2024). Guía para el uso de IA generativa en educación e investigación
@@ -17,15 +18,42 @@ sources:
 import AnnotatedAnswer from '../../../components/AnnotatedAnswer.astro';
 import Callout from '../../../components/Callout.astro';
 import Flag from '../../../components/Flag.astro';
+import LearnFromExamples from '../../../components/LearnFromExamples.astro';
 import NextWord from '../../../components/NextWord.astro';
 import PromptFormats from '../../../components/PromptFormats.astro';
 import Resumen from '../../../components/Resumen.astro';
 import RoleFlow from '../../../components/RoleFlow.astro';
 import RoleStep from '../../../components/RoleStep.astro';
 
-## En pocas palabras
+## ¿Qué es la inteligencia artificial?
 
-La **inteligencia artificial generativa** (IAG) es un tipo de inteligencia artificial que **crea contenido nuevo**: textos, imágenes, audio, video o código. Lo hace a partir de una instrucción que tú le escribes. A esa instrucción se le llama **prompt**.
+Antes de hablar de la IA generativa, conviene saber qué es la **inteligencia artificial** (IA) en general. Según la OCDE (2024), la IA es un sistema informático que, a partir de la información que recibe, **infiere** (deduce) cómo producir resultados: predicciones, recomendaciones, decisiones o contenidos.
+
+Dicho de forma sencilla: nadie le escribe a la IA todas las reglas paso a paso. En cambio, **aprende patrones a partir de muchos ejemplos** y luego los usa con casos que nunca ha visto. A esto se le llama **aprendizaje automático**.
+
+<LearnFromExamples
+  examplesLabel="Aprende de ejemplos"
+  examples={[
+    { picture: 'naranja', alt: 'Gato naranja atigrado, sentado' },
+    { picture: 'gris', alt: 'Gato gris acostado' },
+    { picture: 'negro', alt: 'Gato negro caminando' },
+    { picture: 'blanco', alt: 'Gato blanco con manchas, dormido' },
+  ]}
+  label="Gato"
+  ai="IA"
+  patternLabel="Lo que tienen en común"
+  pattern={['Orejas en punta', 'Bigotes', 'Cola']}
+  newLabel="Foto nueva"
+  input={{ picture: 'siames', alt: 'Gato siamés jugando con un ovillo de lana' }}
+  answer="Es un gato"
+  caption="Ejemplo ilustrativo. Para reconocer un gato, la IA primero se entrena con muchas fotos de gatos distintos. Nadie le explica qué es un gato: ella misma encuentra lo que tienen en común y así reconoce uno que nunca había visto."
+/>
+
+Seguramente ya usas la IA todos los días, aunque no la llames así: la galería del celular que encuentra tus fotos de gatos o de la playa, el filtro de spam de tu correo, el mapa que te sugiere la ruta con menos tráfico o la plataforma de videos que te recomienda qué ver.
+
+## La IA generativa, en pocas palabras
+
+La IA de los ejemplos anteriores reconoce, predice o recomienda. La **inteligencia artificial generativa** (IAG) es un tipo de IA que va un paso más allá: **crea contenido nuevo**, como textos, imágenes, audio, video o código. Lo hace a partir de una instrucción que tú le escribes. A esa instrucción se le llama **prompt**.
 
 <PromptFormats
   label="Tu prompt"
@@ -128,6 +156,7 @@ El río Magdalena es el más importante de Colombia. <Flag n={1}>Nace en la Sier
 Las investigaciones muestran que la principal barrera para usar la IA en educación no es la tecnología, sino la **falta de formación** y de **orientaciones pedagógicas claras**. Muchos docentes la usan de forma intuitiva, "probando a ver qué sale". Esta guía te propone una ruta ordenada para usarla con intención pedagógica, de manera crítica y responsable.
 
 <Resumen>
+- La **inteligencia artificial** aprende patrones a partir de muchos ejemplos para predecir, recomendar o decidir.
 - La IA generativa **crea contenido nuevo** a partir de tus instrucciones (prompts).
 - Es rápida y versátil, pero **puede inventar, tener sesgos y desconocer tu contexto**.
 - Su valor pedagógico **depende de ti**: de cómo le pides y de cómo revisas lo que produce.

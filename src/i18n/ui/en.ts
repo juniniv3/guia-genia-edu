@@ -109,7 +109,7 @@ export const en: Dictionary = {
       `About ${minutes} minutes of reading in total. Follow it in order or go straight to the step you need.`,
     outcomesTitle: 'By the end, you’ll be able to…',
     outcomes: [
-      'Understand what generative AI is, what it can do for you and what its limits are.',
+      'Understand what AI is and, above all, generative AI: what it can do for you and what its limits are.',
       'Recognize when a material is truly adaptive and what you can adapt.',
       'Write clear prompts with six basic ingredients.',
       'Follow a creation cycle: plan, ask, review, adjust, apply and reflect.',

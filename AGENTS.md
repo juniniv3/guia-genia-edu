@@ -44,6 +44,7 @@ src/
     PromptFormats, NextWord, RoleFlow + RoleStep, AnnotatedAnswer + Flag        More diagrams (Step 1); AiIcon is the shared robot
     Matrix, HelpZones, SameGoal, DecisionFlow + Decision, ToolTest, CreationCycle + CycleStep, DataToNeeds, TemplateFill
                          Diagrams for Steps 2, 3, 5–8; PersonIcon is the shared teacher
+    LearnFromExamples    Step 1: the AI learns from cat photos (CatPhoto, flat drawings) and recognizes a new cat; plays once
     TeacherAiScene       Home hero: animated teacher + AI scene ("ask, draft, review"); loops, pauses on click/tap
     ToolPicker           Step 3: a need, then the tool that fits it (brand-color tiles, no logos); loops like the hero
     AnimationButton      Replay / pause button under an animated figure (driven by lib/animation.ts)

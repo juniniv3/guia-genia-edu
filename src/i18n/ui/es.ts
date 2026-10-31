@@ -110,7 +110,7 @@ export const es = {
       `Unos ${minutes} minutos de lectura en total. Puedes seguirla en orden o ir directo al paso que necesites.`,
     outcomesTitle: 'Al terminar podrás…',
     outcomes: [
-      'Entender qué es la IA generativa, qué puede hacer por ti y cuáles son sus límites.',
+      'Entender qué es la IA y, en especial, la generativa: qué puede hacer por ti y cuáles son sus límites.',
       'Reconocer cuándo un material es realmente adaptativo y qué puedes adaptar.',
       'Escribir prompts claros con seis ingredientes básicos.',
       'Seguir un ciclo de creación: planear, pedir, revisar, ajustar, aplicar y reflexionar.',

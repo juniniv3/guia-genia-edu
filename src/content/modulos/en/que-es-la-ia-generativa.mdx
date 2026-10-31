@@ -1,12 +1,13 @@
 ---
 title: What is generative AI?
 navTitle: What generative AI is
-description: Understand in plain words what it is, how it works and what it can (and can't) do for you as a teacher.
-summary: What it is, how it works and what its limits are.
+description: Understand in plain words what artificial intelligence is, how generative AI works and what it can (and can't) do for you as a teacher.
+summary: What AI is, how generative AI works and what its limits are.
 order: 1
 section: ruta
-readingMinutes: 7
+readingMinutes: 8
 sources:
+  - OECD (2024). Explanatory memorandum on the updated OECD definition of an AI system
   - Sánchez Mendiola and Carbajal Degante (2023)
   - García-Peñalvo, Llorens-Largo and Vidal (2024)
   - UNESCO (2024). Guidance for generative AI in education and research (Spanish edition)
@@ -17,15 +18,42 @@ sources:
 import AnnotatedAnswer from '../../../components/AnnotatedAnswer.astro';
 import Callout from '../../../components/Callout.astro';
 import Flag from '../../../components/Flag.astro';
+import LearnFromExamples from '../../../components/LearnFromExamples.astro';
 import NextWord from '../../../components/NextWord.astro';
 import PromptFormats from '../../../components/PromptFormats.astro';
 import Resumen from '../../../components/Resumen.astro';
 import RoleFlow from '../../../components/RoleFlow.astro';
 import RoleStep from '../../../components/RoleStep.astro';
 
-## In a nutshell
+## What is artificial intelligence?
 
-**Generative artificial intelligence** (GenAI) is a type of artificial intelligence that **creates new content**: text, images, audio, video or code. It does this from an instruction that you write. That instruction is called a **prompt**.
+Before talking about generative AI, it helps to know what **artificial intelligence** (AI) is in general. According to the OECD (2024), AI is a computer system that, from the information it receives, **infers** (works out) how to produce outputs: predictions, recommendations, decisions or content.
+
+Put simply: nobody writes down every rule for the AI step by step. Instead, it **learns patterns from many examples** and then uses them on cases it has never seen. This is called **machine learning**.
+
+<LearnFromExamples
+  examplesLabel="Learns from examples"
+  examples={[
+    { picture: 'naranja', alt: 'Orange tabby cat, sitting' },
+    { picture: 'gris', alt: 'Gray cat lying down' },
+    { picture: 'negro', alt: 'Black cat walking' },
+    { picture: 'blanco', alt: 'White cat with patches, asleep' },
+  ]}
+  label="Cat"
+  ai="AI"
+  patternLabel="What they have in common"
+  pattern={['Pointy ears', 'Whiskers', 'Tail']}
+  newLabel="New photo"
+  input={{ picture: 'siames', alt: 'Siamese cat playing with a ball of yarn' }}
+  answer="It's a cat"
+  caption="Illustrative example. To recognize a cat, the AI is first trained on many photos of different cats. Nobody explains what a cat is: it finds what they have in common on its own and so recognizes one it has never seen."
+/>
+
+You probably already use AI every day, even if you don't call it that: your phone's photo gallery that finds your pictures of cats or the beach, your email's spam filter, the map that suggests the route with the least traffic, or the video platform that recommends what to watch next.
+
+## Generative AI in a nutshell
+
+The AI in the examples above recognizes, predicts or recommends. **Generative artificial intelligence** (GenAI) is a type of AI that goes one step further: it **creates new content**, such as text, images, audio, video or code. It does this from an instruction that you write. That instruction is called a **prompt**.
 
 <PromptFormats
   label="Your prompt"
@@ -128,6 +156,7 @@ The Magdalena is Colombia's most important river. <Flag n={1}>It starts in the S
 Research shows that the main barrier to using AI in education isn't the technology, but the **lack of training** and of **clear pedagogical guidance**. Many teachers use it intuitively, "trying it and seeing what comes out". This guide offers you an orderly path for using it with pedagogical intent, critically and responsibly.
 
 <Resumen>
+- **Artificial intelligence** learns patterns from many examples to predict, recommend or decide.
 - Generative AI **creates new content** from your instructions (prompts).
 - It's fast and versatile, but **it can make things up, carry biases and ignore your context**.
 - Its teaching value **depends on you**: on how you ask and how you review what it produces.
